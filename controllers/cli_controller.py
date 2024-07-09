@@ -1,6 +1,5 @@
 # Command Line Interface controllers
-# Having these in a seperate file follows seperation 
-# of concern 
+# seperate file follows seperation of concerns (SoC)
 
 from flask import Blueprint
 
