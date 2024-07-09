@@ -5,7 +5,7 @@ from init import db, ma
 # create model class extended from the sqlalchemy model class 
 class User(db.Model):
     # name of the table
-    __table__ = "users"
+    __tablename__ = "users"
 
     # attributes of the table 
     # id column - integer data value and primary key of "users" table
@@ -15,7 +15,7 @@ class User(db.Model):
     # email column - string data value, cannot be null and must be unique
     email = db.Column(db.String, nullable=False, unique=True)
     # password column - string data value and cannot be null
-    password = db.Column(db.String)
+    password = db.Column(db.String, nullable=False)
     # is_admin column - boolean value and cannot be null
     is_admin = db.Column(db.Boolean, default=False)
 
