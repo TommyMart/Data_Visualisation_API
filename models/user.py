@@ -21,7 +21,7 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean, default=False)
 
     # connects the two variables user and post from posts.py
-    # connects to the Post model and user field
+    # connects to the Post model and user field, provided by sqlalchemy
     posts = db.relationship("Post", back_populates="user")
 
 
@@ -35,7 +35,7 @@ class UserSchema(ma.Schema):
 
 
     class Meta:
-        fields = ("id", "name", "email", "password", "is_admin")
+        fields = ("id", "name", "email", "password", "is_admin", "posts")
 
 
 # user_schema object set to call UserSchema class

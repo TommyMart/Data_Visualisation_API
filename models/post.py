@@ -8,16 +8,16 @@ class Post(db.Model):
     __tablename__ = "posts"
 
     # table attributes
-    id = db.Column(db.Integer, primary_key=True),
-    title = db.Column(db.String, nullable=False),
-    content = db.Column(db.String),
-    image_url = db.Column(db.String),
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    content = db.Column(db.String)
+    image_url = db.Column(db.String)
     date = db.Column(db.Date)
-    location = db.Column(db.String),
+    location = db.Column(db.String)
 
     # foreign key referencing the id value from the users table in the DB, 
     # it cannot be nullable because a post must be created by a user
-    user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     # access users.id information from users accessed using foreign key
     # with sqlalchemy. Must use model name to back_populate variable name
