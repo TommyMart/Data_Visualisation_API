@@ -18,9 +18,9 @@ class Comment(db.Model):
     # post_id foreign key references id attribute from posts table 
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
 
-    # Get the data of the user who made the comment
-    # links to User model to the comments field of the user model,
-    # that is made in the user model
+    # Gain access to the entire model's data instead of just the id foriegn key
+    # Who made the post, who commented on the post etc. must be done on the other
+    # side to create the connection
     user = db.relationship("User", back_populates="comments")
     # A post can now have a comments field
     post = db.relationship("Post", back_populates="comments")

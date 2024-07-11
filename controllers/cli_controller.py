@@ -2,7 +2,7 @@
 # seperate file follows seperation of concerns (SoC)
 
 # Built-in Python Libraries
-from datetime import date
+from datetime import datetime
 
 # External Libraries
 from flask import Blueprint
@@ -56,14 +56,14 @@ def seed_tables():
         Post(
             title = "post 1",
             content = "this is post 1",
-            date = date.today(),
+            date = datetime.now(),
             location = "Adelaide",
             user = users[0] # user_id 1, users index 0
         ),
         Post(
             title = "post 2",
             content = "this is post 2",
-            date = date.today(),
+            date = datetime.now(),
             location = "Sydney",
             user = users[1] # user_id 2, users index 1
             # user_id = users[0].id
@@ -72,6 +72,30 @@ def seed_tables():
 
     # add posts to session
     db.session.add_all(posts)
+
+    comments = [
+        # Create instance of the Comment model
+        Comment (
+            content = "comment 1",
+            timestamp = datetime.now(),
+            user = users[1],
+            post = posts[0]
+        ),
+        Comment (
+            content = "comment 2",
+            timestamp = datetime.now(),
+            user = users[0],
+            post = posts[1]
+        ),
+        Comment (
+            content = "comment 3",
+            timestamp = datetime.now(),
+            user = users[1],
+            post = posts[1]
+        )
+    ]
+
+    db.session.add_all(comments)
 
     # commit users and posts to session
     db.session.commit()
