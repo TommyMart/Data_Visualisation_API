@@ -8,22 +8,22 @@ class Comment(db.Model):
     __tablename__ = "comments"
 
     # Define attributes of the table and their datatypes
-    id = db.Column(db.integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String, nullable=False)
-    timestamp = db.Colum(db.Date)
+    timestamp = db.Column(db.Date)
 
     # foreign keys
     # user_id foreign key references id attribute from users table 
-    user_id = db.Column(db.Integer, db.Foreign_key("users.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     # post_id foreign key references id attribute from posts table 
-    post_id = db.Column(db.Integer, db.Foreign_key("posts.id"), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
 
     # Get the data of the user who made the comment
     # links to User model to the comments field of the user model,
     # that is made in the user model
     user = db.relationship("User", back_populates="comments")
     # A post can now have a comments field
-    post = db.relationship("User", back_populates="comments")
+    post = db.relationship("Post", back_populates="comments")
 
 class CommentSchema(ma.Schema):
     user = fields.Nested("UserSchema", only=["name", "email"])
@@ -32,7 +32,7 @@ class CommentSchema(ma.Schema):
     post = fields.Nested("PostSchema", exclude=["comments"])
 
     class Meta:
-        fields = ("id", "content", "timestamp", "user", "post")
+        fields = ("id", "content", "timestamp", "user", "comments")
 
 comment_schema =  CommentSchema()
 comments_schema = CommentSchema(many=True)

@@ -11,6 +11,7 @@ from flask import Blueprint
 from init import db, bcrypt
 from models.user import User
 from models.post import Post
+from models.comment import Comment
 
 # blueprint is a built-in class provided by flask
 # define the blueprint named "db" 

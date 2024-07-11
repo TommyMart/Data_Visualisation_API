@@ -45,10 +45,10 @@ class PostSchema(ma.Schema):
     class Meta:
         # can access users.id via user object foreign key
         fields = ( "id", "title", "content", "image_url", "date", "location", "user", "comments" )
-
+        # Marshmallow keeps the order when . dump
+        ordered =  True
 
 # schema for one post
 post_schema = PostSchema()
 # schema for a list of post objects
 posts_schema = PostSchema(many=True)
-

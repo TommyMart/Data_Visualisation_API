@@ -12,6 +12,9 @@ from init import db, ma, bcrypt, jwt
 def create_app():
     app = Flask(__name__)
 
+    # Telling flask to not sort using their own config, return what
+    # you get from marshmallow
+    app.json.sort_keys = False
     # Connection string or DB URI - Universal Resource Indicator
     # Get private DB URI and JWT strings from .env file using os 
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
