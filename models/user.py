@@ -13,15 +13,18 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # name column - string data value 
     name = db.Column(db.String)
-    # email column - string data value, cannot be null and must be unique
-    email = db.Column(db.String, nullable=False, unique=True)
+    user_name = db.Column(db.String)
     # password column - string data value and cannot be null
     password = db.Column(db.String, nullable=False)
+    # email column - string data value, cannot be null and must be unique
+    email = db.Column(db.String, nullable=False, unique=True)
+    dob = db.Column(db.Date)
     # is_admin column - boolean value and cannot be null
     is_admin = db.Column(db.Boolean, default=False)
 
     # connects the two variables user and post from posts.py
     # connects to the Post model and user field, provided by sqlalchemy
+    # a user can have 0 or multple posts
     posts = db.relationship("Post", back_populates="user")
 
 

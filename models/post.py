@@ -11,9 +11,9 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     content = db.Column(db.String)
-    image_url = db.Column(db.String)
     date = db.Column(db.Date)
     location = db.Column(db.String)
+    image_url = db.Column(db.String)
 
     # foreign key referencing the id value from the users table in the DB, 
     # it cannot be nullable because a post must be created by a user
@@ -22,6 +22,7 @@ class Post(db.Model):
     # access users.id information from users accessed using foreign key
     # with sqlalchemy. Must use model name to back_populate variable name
     # user is now a nested object inside posts, not a column attribute of the table 
+    # allow us to fetch all the posts made by a user
     user = db.relationship("User", back_populates="posts")
 
 
@@ -31,6 +32,7 @@ class PostSchema(ma.Schema):
     # such as the user object so we must tell it that user is a nested field
     # it has the same object as the UserSchema model, we only need name and id
     # to populate who the post is by and link to user profile via users.id
+    # a post only has a single user so it is not fields.List
     user = fields.Nested("UserSchema", only=["id", "name"])
 
     class Meta:
