@@ -49,6 +49,7 @@ def register_user():
         # respond back to the user/frontend 
         return user_schema.dump(user), 201
     
+    # error messages 
     except IntegrityError as err:
         if err.orig.pgcode == errorcodes.NOT_NULL_VIOLATION:
             # not null violation

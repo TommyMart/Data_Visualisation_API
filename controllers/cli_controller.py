@@ -1,10 +1,16 @@
 # Command Line Interface controllers
 # seperate file follows seperation of concerns (SoC)
 
+# Built-in Python Libraries
+from datetime import date
+
+# External Libraries
 from flask import Blueprint
 
+# Imports from local files
 from init import db, bcrypt
 from models.user import User
+from models.post import Post
 
 # blueprint is a built-in class provided by flask
 # define the blueprint named "db" 
@@ -40,9 +46,33 @@ def seed_tables():
         )
     ]
 
+
     # add users to session
     db.session.add_all(users)
-    # commit users to session
+
+    # create post data to seed tables for testing
+    posts = [
+        Post(
+            title = "post 1",
+            content = "this is post 1",
+            date = date.today(),
+            location = "Adelaide",
+            user = users[0] # user_id 1, users index 0
+        ),
+        Post(
+            title = "post 2",
+            content = "this is post 2",
+            date = date.today(),
+            location = "Sydney",
+            user = users[1] # user_id 2, users index 1
+            # user_id = users[0].id
+        )
+    ]
+
+    # add posts to session
+    db.session.add_all(posts)
+
+    # commit users and posts to session
     db.session.commit()
 
     print("Tables seeded")
