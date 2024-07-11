@@ -81,7 +81,7 @@ def update_post(post_id):
     # get the card from the DB, post_id is id passed in route
     stmt = db.select(Post).filter_by(id=post_id)
     post = db.session.scalar(stmt)
-    # if card
+    # if a card exists 
     if post:
         # update the fields as required
         # if the frontend has provided a title in payload,

@@ -22,9 +22,12 @@ class Post(db.Model):
     # access users.id information from users accessed using foreign key
     # with sqlalchemy. Must use model name to back_populate variable name
     # user is now a nested object inside posts, not a column attribute of the table 
-    # allow us to fetch all the posts made by a user
+    # A user can have multiple 'posts' 
     user = db.relationship("User", back_populates="posts")
-
+    # A post can have multiple comments that we can fetch
+    # When deleting a post, delete all the comments as well (cascade = all, delete)
+    # A single comment will belong to a single card
+    comments = db.relationship("Comment", back_populates="post", cascade="all, delete")
 
 class PostSchema(ma.Schema):
 
@@ -34,10 +37,14 @@ class PostSchema(ma.Schema):
     # to populate who the post is by and link to user profile via users.id
     # a post only has a single user so it is not fields.List
     user = fields.Nested("UserSchema", only=["id", "name"])
+    # A single card can have multiple comments so is a list
+    # We don't need the card information again because we on the post
+    
+    comments = fields.List(fields.Nested("CommentSchema", exclude=["post"]))
 
     class Meta:
         # can access users.id via user object foreign key
-        fields = ( "id", "title", "content", "image_url", "date", "location", "user" )
+        fields = ( "id", "title", "content", "image_url", "date", "location", "user", "comments" )
 
 
 # schema for one post

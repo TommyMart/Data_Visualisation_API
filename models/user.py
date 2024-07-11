@@ -24,8 +24,10 @@ class User(db.Model):
 
     # connects the two variables user and post from posts.py
     # connects to the Post model and user field, provided by sqlalchemy
-    # a user can have 0 or multple posts
+    # a user can have 0 or multple posts 
     posts = db.relationship("Post", back_populates="user")
+    # Link with the comments field from the Comment model
+    comments = db.relationship("Comment", back_populates="user")
 
 
 # schema instance from marshmallow - convert db objects to python objects
@@ -35,10 +37,12 @@ class UserSchema(ma.Schema):
     # a user can have zero or more posts so it is a list, each object in 
     # the field is a nested object. Use PostSchema to serialise and deserialise,
     posts = fields.List(fields.Nested("PostSchema", exclude=["user"]))
+    # A single user can make multiple comments (list)
+    comments = fields.List(fields.Nested("CommentSchema", exclude=["user"]))
 
-
+    # Payload includes Posts and Comments dictionaries 
     class Meta:
-        fields = ("id", "name", "email", "password", "is_admin", "posts")
+        fields = ("id", "name", "email", "password", "is_admin", "posts", "comments")
 
 
 # user_schema object set to call UserSchema class
