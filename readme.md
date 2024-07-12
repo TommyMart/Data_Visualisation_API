@@ -12,8 +12,8 @@
 
 Initiated board and added all tasks.
 
-<img src="DOCS/trello_day1.png" alt="drawing" width="200px"/>
-![Trello Board Day 1](DOCS/trello_day1.png)
+<img src="DOCS/trello_day1.png" alt="drawing" width="60%"/>
+
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
