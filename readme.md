@@ -6,6 +6,14 @@
 
 ### R2. Describe the way tasks are allocated and tracked in your project.
 
+##### Trello Board 
+
+* 12th July '24
+
+Initiated board and added all tasks.
+
+![Trello Board Day 1](DOCS/trello_day1.png)
+
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
 *bcrypt
@@ -46,6 +54,8 @@ There were a few different database management systems (DBMS), both free and pai
 As you can probably see by the name, most of the databases listed above use the SQL language, to create, populate, retrieve, delete and update the data stored in their database. In each case of these different databases that use the SQL language, their basic syntax may differ slightly. 
 
 For this question we will be discussing the pro and cons of PostgreSQL, because it was used for this app's underlying database system. 
+
+![Image of PostgreSQL logo](/DOCS/0_vwcP0i8cGx1TKAte.png)
 
 PostgreSQL was one of the first DBMS’s to be created and is still used frequently for web databases found in industry today. It is a free, open-source database, that allows users to control structured and unstructured data. It is a highly flexible database and is used across many industries and scenarios. It is an object relational database, which means that it includes both relational and object-orientated databases. It also can communicate with other modern frameworks such as Ruby on Rails, Node.js or Django. (Object-Relational Database Management System n.d.). A postgreSQL environment can be hosted virtually, physically and in the cloud, and can be used on most operating systems and platforms (such as Linux) (Arsenault 2017). 
 
