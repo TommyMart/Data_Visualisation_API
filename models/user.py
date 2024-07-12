@@ -3,6 +3,8 @@
 from init import db, ma
 from marshmallow import fields
 
+from models.like import Like
+
 # create model class extended from the sqlalchemy model class 
 class User(db.Model):
     # name of the table
@@ -28,6 +30,8 @@ class User(db.Model):
     posts = db.relationship("Post", back_populates="user")
     # Link with the comments field from the Comment model
     comments = db.relationship("Comment", back_populates="user")
+    # Link with the likes field from the Comment model
+    likes = db.relationship("Like", back_populates="user")
 
 
 # schema instance from marshmallow - convert db objects to python objects
@@ -39,10 +43,12 @@ class UserSchema(ma.Schema):
     posts = fields.List(fields.Nested("PostSchema", exclude=["user"]))
     # A single user can make multiple comments (list)
     comments = fields.List(fields.Nested("CommentSchema", exclude=["user"]))
+    # A single user can make multiple likes (list)
+    likes = fields.List(fields.Nested("LikeSchema", exclude=["user"]))
 
     # Payload includes Posts and Comments dictionaries 
     class Meta:
-        fields = ("id", "name", "email", "password", "is_admin", "posts", "comments")
+        fields = ("id", "name", "email", "password", "is_admin", "posts", "comments", "likes")
 
 
 # user_schema object set to call UserSchema class

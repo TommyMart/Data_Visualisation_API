@@ -12,6 +12,7 @@ from init import db, bcrypt
 from models.user import User
 from models.post import Post
 from models.comment import Comment
+from models.like import Like
 
 # blueprint is a built-in class provided by flask
 # define the blueprint named "db" 
@@ -96,6 +97,20 @@ def seed_tables():
     ]
 
     db.session.add_all(comments)
+
+    likes = [
+        # Create instance of the Comment model
+        Like(
+            user = users[1],
+            post = posts[0]
+        ),
+        Like(
+            user = users[0],
+            post = posts[1]
+        )
+    ]
+
+    db.session.add_all(likes)
 
     # commit users and posts to session
     db.session.commit()
