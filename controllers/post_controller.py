@@ -4,9 +4,13 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from init import db
+from controllers.comment_controller import comments_bp
 from models.post import Post, post_schema, posts_schema
 
+
 posts_bp = Blueprint("posts", __name__, url_prefix="/posts")
+# Register the comments blueprint to the posts blueprint 
+posts_bp.register_blueprint(comments_bp)
 
 # /cards/ - GET - fetch all posts
 @posts_bp.route("/")

@@ -2,7 +2,7 @@
 # seperate file follows seperation of concerns (SoC)
 
 # Built-in Python Libraries
-from datetime import datetime
+from datetime import datetime, date
 
 # External Libraries
 from flask import Blueprint
@@ -56,14 +56,14 @@ def seed_tables():
         Post(
             title = "post 1",
             content = "this is post 1",
-            date = datetime.now(),
+            date = date.today(),
             location = "Adelaide",
             user = users[0] # user_id 1, users index 0
         ),
         Post(
             title = "post 2",
             content = "this is post 2",
-            date = datetime.now(),
+            date = date.today(),
             location = "Sydney",
             user = users[1] # user_id 2, users index 1
             # user_id = users[0].id

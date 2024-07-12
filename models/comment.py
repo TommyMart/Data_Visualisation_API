@@ -32,7 +32,7 @@ class CommentSchema(ma.Schema):
     post = fields.Nested("PostSchema", exclude=["comments"])
 
     class Meta:
-        fields = ("id", "content", "timestamp", "user", "comments")
+        fields = ("id", "content", "timestamp", "user", "post")
 
 comment_schema =  CommentSchema()
 comments_schema = CommentSchema(many=True)

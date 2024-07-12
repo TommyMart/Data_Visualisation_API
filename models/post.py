@@ -29,6 +29,30 @@ class Post(db.Model):
     # A single comment will belong to a single card
     comments = db.relationship("Comment", back_populates="post", cascade="all, delete")
 
+# payload will look like below
+    # { 
+    #     id: 1,
+    #     title: Post 1,
+    #     content: "Post content",
+    #     date: "...",
+    #     user_id: 1,
+    #     user: {
+    #         id: 1,
+    #         name: "User 1",
+    #         email: "user1@email.com"
+    # },
+    #     comments: [
+    #       {
+    #           id: 1,
+    #           comment: "comment 1"
+    #       },
+    #       {
+    #           id: 2,
+    #           comment: "comment 2"
+    #       }
+    #       ]
+    # }
+        
 class PostSchema(ma.Schema):
 
     # marshmallow does not know how to serialise/deserialise nested objects
