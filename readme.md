@@ -12,30 +12,31 @@
 
 Initiated board and added all tasks.
 
+<img src="DOCS/trello_day1.png" alt="drawing" width="200px"/>
 ![Trello Board Day 1](DOCS/trello_day1.png)
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
-*bcrypt
-*blinker
-*click
-*Flask
-*Flask-Bcrypt
-*Flask-JWT-Extended
-*flask-marshmallow
-*Flask-SQLAlchemy
-*itsdangerous
-*Jinja2
-*MarkupSafe
-*marshmallow
-*marshmallow-sqlalchemy
-*packaging
-*psycopg2-binary
-*PyJWT
-*python-dotenv
-*SQLAlchemy
-*typing_extensions
-*Werkzeug
+* bcrypt
+* blinker
+* click
+* Flask
+* Flask-Bcrypt
+* Flask-JWT-Extended
+* flask-marshmallow
+* Flask-SQLAlchemy
+* itsdangerous
+* Jinja2
+* MarkupSafe
+* marshmallow
+* marshmallow-sqlalchemy
+* packaging
+* psycopg2-binary
+* PyJWT
+* python-dotenv
+* SQLAlchemy
+* typing_extensions
+* Werkzeug
 
 ### R4. Explain the benefits and drawbacks of this app’s underlying database system.
 
@@ -55,7 +56,7 @@ As you can probably see by the name, most of the databases listed above use the 
 
 For this question we will be discussing the pro and cons of PostgreSQL, because it was used for this app's underlying database system. 
 
-<center>![Image of PostgreSQL logo](/DOCS/0_vwcP0i8cGx1TKAte.png)</center>
+![Image of PostgreSQL logo](/DOCS/0_vwcP0i8cGx1TKAte.png)
 
 PostgreSQL was one of the first DBMS’s to be created and is still used frequently for web databases found in industry today. It is a free, open-source database, that allows users to control structured and unstructured data. It is a highly flexible database and is used across many industries and scenarios. It is an object relational database, which means that it includes both relational and object-orientated databases. It also can communicate with other modern frameworks such as Ruby on Rails, Node.js or Django. (Object-Relational Database Management System n.d.). A postgreSQL environment can be hosted virtually, physically and in the cloud, and can be used on most operating systems and platforms (such as Linux) (Arsenault 2017). 
 
@@ -79,7 +80,7 @@ PostgreSQL was one of the first DBMS’s to be created and is still used frequen
 * Postbird
 * OmniDB
 * Navicat
-•	The database system can store and handle large amounts of data.
+* The database system can store and handle large amounts of data.
 
  
 (PostgreSQL: a closer look at the object-relational database management system n.d.)
@@ -108,7 +109,7 @@ Talk in database terms, normalisation, relations - one to many etc,
 Submitted on the 12th of July for approval.
 ![Draft ERD image](DOCS/music_socialmedia.drawio.png)
 
-
+<br>
 
 ##### Unnormalised Events Table 
 ![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
