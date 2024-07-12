@@ -55,7 +55,7 @@ As you can probably see by the name, most of the databases listed above use the 
 
 For this question we will be discussing the pro and cons of PostgreSQL, because it was used for this app's underlying database system. 
 
-![Image of PostgreSQL logo](/DOCS/0_vwcP0i8cGx1TKAte.png)
+<center>![Image of PostgreSQL logo](/DOCS/0_vwcP0i8cGx1TKAte.png)</center>
 
 PostgreSQL was one of the first DBMS’s to be created and is still used frequently for web databases found in industry today. It is a free, open-source database, that allows users to control structured and unstructured data. It is a highly flexible database and is used across many industries and scenarios. It is an object relational database, which means that it includes both relational and object-orientated databases. It also can communicate with other modern frameworks such as Ruby on Rails, Node.js or Django. (Object-Relational Database Management System n.d.). A postgreSQL environment can be hosted virtually, physically and in the cloud, and can be used on most operating systems and platforms (such as Linux) (Arsenault 2017). 
 
@@ -103,6 +103,16 @@ SQLAlchemy Object Relational Mapping system
 ### R6. Design an entity relationship diagram (ERD) for this app’s database, and explain how the relations between the diagrammed models will aid the database design.
 
 Talk in database terms, normalisation, relations - one to many etc, 
+
+##### Initial Draft ERD 
+Submitted on the 12th of July for approval.
+![Draft ERD image](DOCS/music_socialmedia.drawio.png)
+
+
+
+##### Unnormalised Events Table 
+![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
+
 ### R7. Explain the implemented models and their relationships, including how the relationships aid the database implementation.
 
 SQLAlchemy terms - back populates, cascade
