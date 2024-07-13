@@ -28,6 +28,7 @@ class Post(db.Model):
     # When deleting a post, delete all the comments as well (cascade = all, delete)
     # A single comment will belong to a single card
     comments = db.relationship("Comment", back_populates="post", cascade="all, delete")
+    likes = db.relationship("Like", back_populates="post", cascade="all, delete")
 
 # payload will look like below
     # { 
@@ -65,10 +66,11 @@ class PostSchema(ma.Schema):
     # We don't need the card information again because we on the post
     
     comments = fields.List(fields.Nested("CommentSchema", exclude=["post"]))
+    likes = fields.List(fields.Nested("LikeSchema", exclude=["post"]))
 
     class Meta:
         # can access users.id via user object foreign key
-        fields = ( "id", "title", "content", "image_url", "date", "location", "user", "comments" )
+        fields = ( "id", "title", "content", "image_url", "date", "location", "user", "comments", "likes" )
         # Marshmallow keeps the order when . dump
         ordered =  True
 
