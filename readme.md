@@ -20,12 +20,13 @@ The problem this application solves is to provide an event goer with the ability
 
 For this assignment the app will only handle the API routes and payloads, but the finished product will include AI suggested dinner locations, transport, and more. Which will be used to ultimaetly leverage revenue for the app. Plus in app api routes to all major ticketing services for users to purchase from. 
 
+---
 
 ### R2. Describe the way tasks are allocated and tracked in your project.
 
 For this project tasks were allocated and tracked using Atlassian's project management tool 'Trello'. 
 
-<img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Trello_logo.svg/1280px-Trello_logo.svg.png" alt="Trello Logo" width="50%"/>
+<img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Trello_logo.svg/1280px-Trello_logo.svg.png" alt="Trello Logo" width="30%"/>
 
 Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
 
@@ -35,26 +36,27 @@ Initiated board and populated all cards with required functionality.
 
 <img src="DOCS/trello_day1.png" alt="drawing" width="60%"/>
 
+---
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
 #### Marshmallow
-<img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="50%"/>
+<img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
 
 #### Bcrypt
-<img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="50%"/>
+<img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="30%"/>
 
 Used for the hashing of passwords. 
 
 #### Psycopg2-binary
-<img src="https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png" alt="Psycopg2 logo" width="50%"/>
+<img src="https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png" alt="Psycopg2 logo" width="30%"/>
 
 #### JWT Web Token
-<img src="https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png" alt="JWT Web Token logo" width="50%"/>
+<img src="https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png" alt="JWT Web Token logo" width="30%"/>
 
 #### .Env
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHaNT3Fi8RMNUpPDk-Zddeo2FTvDN3Sye5AA&s" alt=".Env logo" width="50%"/>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHaNT3Fi8RMNUpPDk-Zddeo2FTvDN3Sye5AA&s" alt=".Env logo" width="30%"/>
 
 
 
@@ -77,6 +79,8 @@ Used for the hashing of passwords.
 * SQLAlchemy
 * typing_extensions
 * Werkzeug
+
+---
 
 ### R4. Explain the benefits and drawbacks of this app’s underlying database system.
 
@@ -136,6 +140,7 @@ PostgreSQL was one of the first DBMS’s to be created and is still used frequen
 
 Given these pros and cons, postgrSQL is an ideal database system for those with a limited budget, who may want to scale at some point in the future, value being able to choose their interface, or, for those who want to use the JSON. 
 
+---
 
 ### R5. Explain the features, purpose and functionalities of the object-relational mapping system (ORM) used in this app.
 
@@ -143,7 +148,7 @@ The Object Relational Mapping system or ORM used for this application is SQLAlch
 
 <img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="70%"/>
 
-
+---
 
 ### R6. Design an entity relationship diagram (ERD) for this app’s database, and explain how the relations between the diagrammed models will aid the database design.
 
@@ -158,10 +163,14 @@ Submitted on the 12th of July for approval.
 ##### Unnormalised Events Table 
 ![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
 
+---
+
 ### R7. Explain the implemented models and their relationships, including how the relationships aid the database implementation.
 
 SQLAlchemy terms - back populates, cascade
 Reasoning behind any changes to the ERD
+
+---
 
 ### R8. Explain how to use this application’s API endpoints. Each endpoint should be explained, including the following data for each endpoint:
 
