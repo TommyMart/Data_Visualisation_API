@@ -7,18 +7,18 @@ from init import db
 from models.like import Like, like_schema, likes_schema
 from models.post import Post 
 
-# a comment cannot exist without a card, it belongs to a card, so can
+# a like cannot exist without a post, it belongs to a post, so we can
 # register Blueprint to posts_bp (posts blueprint), and therefore it will
-# take on its "/posts" url_prefix, so we don't need /posts.
-# /<int:post_id>/comments
+# take on its "/posts" url_prefix, so we don't need to include "/posts".
+# /<int:post_id>/likes
 likes_bp = Blueprint("likes", __name__, url_prefix="/<int:post_id>/likes")
 
-# no need to create a fetch all comments route because it would have no purpose,
-# we only want all the comments linked to one post, which we get when fetching posts.
+# no need to create a fetch all likes route because it would have no purpose,
+# we only want all the likes linked to one post, which we get when fetching posts.
 
 
 
-# Create comment route
+# Create like route
 @likes_bp.route("/", methods=["POST"])
 @jwt_required()
 def create_comment(post_id):
@@ -29,7 +29,7 @@ def create_comment(post_id):
     post = db.session.scalar(stmt)
     # if card exists
     if post:
-        # Create an instance of the Comment model
+        # Create an instance of the Like model
         like = Like(
             # already passed post_id
             post = post,
