@@ -4,6 +4,13 @@
 
 ## Event Ticketing & Communication RESTful API Application
 
+The main tech-stack used for this application includes:
+
+* Python
+* Flask
+* PostgrsSQL
+* SQLAlchemy
+
 ![Flask, Postgres and SQLAlechemy logos](https://miro.medium.com/v2/resize:fill:320:214/1*DmGeEpZpQgApXWuINqHghQ.png)
 ---
 
@@ -16,9 +23,11 @@ For this assignment the app will only handle the API routes and payloads, but th
 
 ### R2. Describe the way tasks are allocated and tracked in your project.
 
-##### Trello Board 
+For this project tasks were allocated and tracked using Atlassian's project management tool 'Trello'. 
 
-Public link to [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
+![Trello Logo](https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Trello_logo.svg/1280px-Trello_logo.svg.png)
+
+Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
 
 * 12th July '24
 
@@ -29,15 +38,25 @@ Initiated board and populated all cards with required functionality.
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
-##### Marshmallow
+#### Marshmallow
 ![Marshmallow logo](https://avatars.githubusercontent.com/u/10334301?v=4)
+
+#### Bcrypt
+![Bcrypt logo](https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167)
+
+Used for the hashing of passwords. 
+
+#### Psycopg2-binary
+![Psycopg2 logo](https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png)
+
+#### JWT Web Token
+![JWT logo](https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png)
 
 
 
 * bcrypt
 * blinker
 * click
-* Flask
 * Flask-Bcrypt
 * Flask-JWT-Extended
 * flask-marshmallow
