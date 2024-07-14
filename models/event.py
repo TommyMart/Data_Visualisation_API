@@ -26,7 +26,7 @@ class EventSchema(ma.Schema):
 
     # define a schema - structure of the DB
     class Meta:
-        fields = ( "title", "description", "date", "ticket_price", "event_admin_id", "user" )
+        fields = ( "id", "title", "description", "date", "ticket_price", "event_admin_id", "user" )
 
 event_schema = EventSchema()
 events_schema = EventSchema(many=True)

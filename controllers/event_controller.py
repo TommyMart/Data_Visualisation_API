@@ -74,7 +74,7 @@ def delete_event(event_id):
         return {"error": f"Event with id {event_id} not found"}, 404
     
 # /events/<int:event_id> - PUT or PATCH - update an event data
-@events_bp.route("/int:event_id", methods=["PUT", "PATCH"])
+@events_bp.route("/<int:event_id>", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_event(event_id):
     body_data = request.get_json()
