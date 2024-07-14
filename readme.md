@@ -1,21 +1,38 @@
 # T2A2: API Webserver
 
+## Work in Progress
+
 ## Event Ticketing & Communication RESTful API Application
 
+![Flask, Postgres and SQLAlechemy logos](https://miro.medium.com/v2/resize:fill:320:214/1*DmGeEpZpQgApXWuINqHghQ.png)
+---
+
 ### R1. Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
+
+The problem this application solves is to provide an event goer with the ability to purchase tickets and communicate with friends surrounding everything related to the event. The app will allow users to make posts related to events to gage whether their friends are interested in attending. If so, a user will be able to purchase tickets in app including seating arrangements next to their friends. The app will also provide a private messaging platform for friends to organise all aspects surrounding the event, such as dinner, transport, and flights and accommodation for interstate or international events. 
+
+For this assignment the app will only handle the API routes and payloads, but the finished product will include AI suggested dinner locations, transport, and more. Which will be used to ultimaetly leverage revenue for the app. Plus in app api routes to all major ticketing services for users to purchase from. 
+
 
 ### R2. Describe the way tasks are allocated and tracked in your project.
 
 ##### Trello Board 
 
+Public link to [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
+
 * 12th July '24
 
-Initiated board and added all tasks.
+Initiated board and populated all cards with required functionality.
 
 <img src="DOCS/trello_day1.png" alt="drawing" width="60%"/>
 
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
+
+##### Marshmallow
+![Marshmallow logo](https://avatars.githubusercontent.com/u/10334301?v=4)
+
+
 
 * bcrypt
 * blinker
