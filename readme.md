@@ -43,6 +43,8 @@ Initiated board and populated all cards with required functionality.
 
 #### Bcrypt
 ![Bcrypt logo](https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167)
+<img src="[DOCS/trello_day1.png](https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167)" alt="Bcrypt logo" width="40%"/>
+
 
 Used for the hashing of passwords. 
 
