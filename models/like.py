@@ -33,6 +33,7 @@ class LikeSchema(ma.Schema):
     # likes
     post = fields.Nested("PostSchema", only=["title"])
 
+    # define a schema - structure of the DB
     class Meta:
         fields = ("id", "user", "post")
 
