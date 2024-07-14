@@ -25,7 +25,7 @@ For this assignment the app will only handle the API routes and payloads, but th
 
 For this project tasks were allocated and tracked using Atlassian's project management tool 'Trello'. 
 
-![Trello Logo](https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Trello_logo.svg/1280px-Trello_logo.svg.png)
+<img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Trello_logo.svg/1280px-Trello_logo.svg.png" alt="Trello Logo" width="50%"/>
 
 Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
 
@@ -39,20 +39,22 @@ Initiated board and populated all cards with required functionality.
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
 #### Marshmallow
-![Marshmallow logo](https://avatars.githubusercontent.com/u/10334301?v=4)
+<img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="50%"/>
 
 #### Bcrypt
-![Bcrypt logo](https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167)
-<img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="40%"/>
-
+<img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="50%"/>
 
 Used for the hashing of passwords. 
 
 #### Psycopg2-binary
-![Psycopg2 logo](https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png)
+<img src="https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png" alt="Psycopg2 logo" width="50%"/>
 
 #### JWT Web Token
-![JWT logo](https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png)
+<img src="https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png" alt="JWT Web Token logo" width="50%"/>
+
+#### .Env
+
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHaNT3Fi8RMNUpPDk-Zddeo2FTvDN3Sye5AA&s" alt=".Env logo" width="50%"/>
 
 
 
@@ -137,7 +139,11 @@ Given these pros and cons, postgrSQL is an ideal database system for those with 
 
 ### R5. Explain the features, purpose and functionalities of the object-relational mapping system (ORM) used in this app.
 
-SQLAlchemy Object Relational Mapping system
+The Object Relational Mapping system or ORM used for this application is SQLAlchemy. 
+
+<img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="70%"/>
+
+
 
 ### R6. Design an entity relationship diagram (ERD) for this app’s database, and explain how the relations between the diagrammed models will aid the database design.
 
