@@ -16,6 +16,7 @@ from models.comment import Comment
 from models.like import Like
 from models.event import Event
 from models.attending import Attending
+from models.invoice import Invoice
 
 # blueprint is a built-in class provided by flask
 # define the blueprint named "db" 
@@ -154,6 +155,17 @@ def seed_tables():
     ]
 
     db.session.add_all(attending)
+
+    invoice = [
+        Invoice(
+            total_cost = 12.00,
+            event_id = 1,
+            timestamp = datetime.now(),
+            attendee_id = 1
+        )
+    ]
+
+    db.session.add_all(invoice)
 
     # commit all seeded data to session
     db.session.commit()

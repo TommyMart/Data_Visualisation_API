@@ -4,13 +4,30 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.attending import Attending, attending_schema, attendings_schema
 from models.event import Event
+from controllers.invoice_controller import invoice_bp
 
 from init import db
 
 attending_bp = Blueprint("attending", __name__, url_prefix="/<int:event_id>/attending")
+attending_bp.register_blueprint(invoice_bp)
 
 # no need to fetch all attending all events, only fetch all attending a specific event
 # we can get all attending event by fetching an event
+
+# /<int:event_id>/attending - GET - fetch all attending an event
+@attending_bp.route("/")
+@jwt_required()
+def fetch_event_attendees(event_id):
+    stmt = db.select(Attending).filter_by(event_id=event_id).order_by(Attending.timestamp.desc())
+    attendees = db.session.scalars(stmt)
+
+    if attendees:
+
+        return attendings_schema.dump(attendees)
+    
+    else: 
+        return {"error": f"No attendees found for event with id '{event_id}"}, 404
+
 
 # /<int:event_id>/attending - POST - attending an event
 @attending_bp.route("/", methods=["POST"])
