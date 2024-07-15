@@ -5,8 +5,10 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from init import db
 from models.event import Event, event_schema, events_schema
+from controllers.attending_controller import attending_bp
 
 events_bp = Blueprint("events", __name__, url_prefix="/events")
+events_bp.register_blueprint(attending_bp)
 
 # /events/ - GET - fetch all events
 @events_bp.route("/")

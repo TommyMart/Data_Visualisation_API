@@ -14,11 +14,12 @@ from models.post import Post
 comments_bp = Blueprint("comments", __name__, url_prefix="/<int:post_id>/comments")
 
 # no need to create a fetch all comments route because it would have no purpose,
-# we only want all the comments linked to one post, which we get when fetching posts.
+# we only want all the comments linked to one post, which we get when fetching posts,
+# which we get when fetching a Post. 
 
 
 
-# Create comment route
+# Create comment route on a Post
 @comments_bp.route("/", methods=["POST"])
 @jwt_required()
 def create_comment(post_id):

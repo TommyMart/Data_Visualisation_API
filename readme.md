@@ -34,7 +34,13 @@ Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeG
 
 Initiated board and populated all cards with required functionality.
 
-<img src="DOCS/trello_day1.png" alt="drawing" width="60%"/>
+<img src="DOCS/trello_day1.png" alt="Trello day 1" width="60%"/>
+
+* 15th July '24 update
+
+Completed readme requirements 1 and 2, plus models and route controllers for Users, Posts and Comments. 
+
+<img src="DOCS/trello_15:7.png" alt="Trello 15th July" width="60%"/>
 
 ---
 
