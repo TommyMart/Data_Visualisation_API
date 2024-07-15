@@ -39,7 +39,7 @@ def get_single_post(post_id):
 # a new post
 @jwt_required()
 def new_post():
-    # get the data from teh body of the request
+    # get the data from th body of the request
     body_data = request.get_json()
     # create a new Post model instance
     # new post = Post model instance

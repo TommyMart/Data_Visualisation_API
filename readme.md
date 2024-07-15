@@ -40,21 +40,21 @@ Initiated board and populated all cards with required functionality.
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
-#### Marshmallow
+### Marshmallow
 <img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
 
-#### Bcrypt
+### Bcrypt
 <img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="30%"/>
 
 Used for the hashing of passwords. 
 
-#### Psycopg2-binary
+### Psycopg2-binary
 <img src="https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png" alt="Psycopg2 logo" width="30%"/>
 
 #### JWT Web Token
 <img src="https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png" alt="JWT Web Token logo" width="30%"/>
 
-#### .Env
+### .Env
 
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHaNT3Fi8RMNUpPDk-Zddeo2FTvDN3Sye5AA&s" alt=".Env logo" width="30%"/>
 
@@ -104,7 +104,7 @@ For this question we will be discussing the pro and cons of PostgreSQL, because 
 
 PostgreSQL was one of the first DBMS’s to be created and is still used frequently for web databases found in industry today. It is a free, open-source database, that allows users to control structured and unstructured data. It is a highly flexible database and is used across many industries and scenarios. It is an object relational database, which means that it includes both relational and object-orientated databases. It also can communicate with other modern frameworks such as Ruby on Rails, Node.js or Django. (Object-Relational Database Management System n.d.). A postgreSQL environment can be hosted virtually, physically and in the cloud, and can be used on most operating systems and platforms (such as Linux) (Arsenault 2017). 
 
-##### PROS
+#### Pro's
 
 * The engine of the database system is scalable. 
 * The software is open source.
@@ -117,20 +117,20 @@ PostgreSQL was one of the first DBMS’s to be created and is still used frequen
 * The software uses around only 20 MB. 
 * The database is accessible via the terminal.
 * There are many Graphical User Interfaces (GUI) that aid in the ease of interaction with the database system. Some of these include:
-* pgAdmin
-* DataGrip
-* TablePlus
-* DBeaver
-* Postbird
-* OmniDB
-* Navicat
+    - pgAdmin
+    - DataGrip
+    - TablePlus
+    - DBeaver
+    - Postbird
+    - OmniDB
+    - Navicat
 * The database system can store and handle large amounts of data.
 
  
 (PostgreSQL: a closer look at the object-relational database management system n.d.)
 
 
-##### CONS 
+#### Con's
 
 * Documentation can be more difficult to find than some other competing database systems and expandable documentation is often only in English.
 * The configuration method can be confusing to some. 
@@ -154,13 +154,13 @@ The Object Relational Mapping system or ORM used for this application is SQLAlch
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
-##### Initial Draft ERD 
+#### Initial Draft ERD 
 Submitted on the 12th of July for approval.
 ![Draft ERD image](DOCS/music_socialmedia.drawio.png)
 
 <br>
 
-##### Unnormalised Events Table 
+#### Example of an unnormalised Events Table.
 ![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
 
 ---
