@@ -3,6 +3,7 @@
 
 # Built-in Python Libraries
 from datetime import datetime, date
+import click
 
 # External Libraries
 from flask import Blueprint
@@ -14,6 +15,7 @@ from models.post import Post
 from models.comment import Comment
 from models.like import Like
 from models.event import Event
+from models.attending import Attending
 
 # blueprint is a built-in class provided by flask
 # define the blueprint named "db" 
@@ -30,6 +32,23 @@ def create_tables():
 def drop_tables():
     db.drop_all()
     print("Tables dropped")
+
+# cli to count all tickets sold to an event
+# to call this cli command please write 'flask db total_count <int:event_id>' 
+# for example, 'flask db total_count 2' for event with id 2
+@db_commands.cli.command("total_count")
+@click.argument("event_id", type=int)
+def count_attending(event_id):
+    try:
+        # Query to sum total_tickets for the specified event_id
+        total_tickets_sold = db.session.query(db.func.sum(Attending.total_tickets)).filter_by(event_id=event_id).scalar()
+        
+        if total_tickets_sold is None:
+            total_tickets_sold = 0
+        
+        click.echo(f"Total tickets sold for Event ID {event_id}: {total_tickets_sold}")
+    except Exception as e:
+        click.echo(f"Error: {str(e)}")
 
 # cli to seed all the tables in the db
 @db_commands.cli.command("seed") 
@@ -124,6 +143,17 @@ def seed_tables():
     ]
 
     db.session.add_all(events)
+
+    attending = [
+        Attending(
+            total_tickets = 2,
+            timestamp = datetime.now(),
+            event_id = 1,
+            attending_id = 1
+        )
+    ]
+
+    db.session.add_all(attending)
 
     # commit all seeded data to session
     db.session.commit()

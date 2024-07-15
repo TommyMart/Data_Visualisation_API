@@ -33,6 +33,7 @@ class User(db.Model):
     # Link with the likes field from the Comment model
     likes = db.relationship("Like", back_populates="user")
     events = db.relationship("Event", back_populates="user")
+    attending = db.relationship("Attending", back_populates="user")
 
 # schema instance from marshmallow - convert db objects to python objects
 # and python objects to db objects
@@ -46,10 +47,11 @@ class UserSchema(ma.Schema):
     # A single user can make multiple likes (list)
     likes = fields.List(fields.Nested("LikeSchema", exclude=["user"]))
     events = fields.List(fields.Nested("EventSchema", exclude=["user"]))
+    attending = fields.Nested("AttendingSchema", exclude=["user"])
 
     # Payload includes Posts and Comments dictionaries 
     class Meta:
-        fields = ("id", "name", "email", "password", "is_admin", "posts", "comments", "likes", "events")
+        fields = ("id", "name", "email", "password", "is_admin", "posts", "comments", "likes", "events", "attending")
 
 
 # user_schema object set to call UserSchema class
