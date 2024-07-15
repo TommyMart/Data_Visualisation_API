@@ -117,13 +117,13 @@ PostgreSQL was one of the first DBMS’s to be created and is still used frequen
 * The software uses around only 20 MB. 
 * The database is accessible via the terminal.
 * There are many Graphical User Interfaces (GUI) that aid in the ease of interaction with the database system. Some of these include:
-    * pgAdmin
-    * DataGrip
-    * TablePlus
-    * DBeaver
-    * Postbird
-    * OmniDB
-    * Navicat
+    - pgAdmin
+    - DataGrip
+    - TablePlus
+    - DBeaver
+    - Postbird
+    - OmniDB
+    - Navicat
 * The database system can store and handle large amounts of data.
 
  

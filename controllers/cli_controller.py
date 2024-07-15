@@ -13,6 +13,7 @@ from models.user import User
 from models.post import Post
 from models.comment import Comment
 from models.like import Like
+from models.event import Event
 
 # blueprint is a built-in class provided by flask
 # define the blueprint named "db" 
@@ -112,7 +113,20 @@ def seed_tables():
 
     db.session.add_all(likes)
 
-    # commit users and posts to session
-    db.session.commit()
+    events = [
+        Event(
+            title = "Event 1",
+            description = "This is event 1",
+            date = "01/02/2024",
+            event_admin_id = 2,
+            user = users[1]
+        )
+    ]
 
+    db.session.add_all(events)
+
+    # commit all seeded data to session
+    db.session.commit()
+    
+    # print tables seeded so we know the tables were seeded correctly
     print("Tables seeded")
