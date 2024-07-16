@@ -88,7 +88,7 @@ def delete_attending(attending_id):
 @attending_bp.route("/<int:attending_id>", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_attending(attending_id):
-    body_data = request.get_json()
+    body_data = attending_schema.load(request.get_json(), partial=True)
     stmt = db.session(Attending).filter_by(id=attending_id)
     attending = db.session.scalar(stmt)
 

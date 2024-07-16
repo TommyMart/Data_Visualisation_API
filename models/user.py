@@ -2,9 +2,11 @@
 
 from init import db, ma
 from marshmallow import fields
+from marshmallow.validate import Regexp, Length, And
 
 from models.like import Like
 
+# TABLE
 # create model class extended from the sqlalchemy model class 
 class User(db.Model):
     # name of the table
@@ -14,8 +16,8 @@ class User(db.Model):
     # id column - integer data value and primary key of "users" table
     id = db.Column(db.Integer, primary_key=True)
     # name column - string data value 
-    name = db.Column(db.String)
-    user_name = db.Column(db.String)
+    name = db.Column(db.String, nullable=False)
+    user_name = db.Column(db.String, nullable=False)
     # password column - string data value and cannot be null
     password = db.Column(db.String, nullable=False)
     # email column - string data value, cannot be null and must be unique
@@ -49,9 +51,27 @@ class UserSchema(ma.Schema):
     events = fields.List(fields.Nested("EventSchema", exclude=["user"]))
     attending = fields.Nested("AttendingSchema", exclude=["user"])
 
+    # VALIDATION
+    name = fields.String(required=True, validate=And(
+        Length(min=3, max=50, error="Title must be 3 and 50 characters long"),
+        Regexp(r"^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
+        ))
+    user_name = fields.String(required=True, validate=And(
+        Length(min=3, max=50, error="Title must be 3 and 50 characters long"),
+        Regexp(r"^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
+        ))
+    email = fields.String(required=True, validate=And(
+        Length(min=5, max=120, error="Title must be 5 and 120 characters long"),
+        Regexp(r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,4}$", error="Title must contain alphanumeric characters only")
+        ))
+    date = fields.String(validate=
+        Regexp(r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must written as dd/mm/yyyy only")
+        )
+
+
     # Payload includes Posts and Comments dictionaries 
     class Meta:
-        fields = ("id", "name", "email", "password", "is_admin", "posts", "comments", "likes", "events", "attending")
+        fields = ("id", "name", "user_name", "email", "dob", "password", "is_admin", "posts", "comments", "likes", "events", "attending")
 
 
 # user_schema object set to call UserSchema class

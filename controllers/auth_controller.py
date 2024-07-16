@@ -27,7 +27,10 @@ def register_user():
         # create an instance of the user model to register new data
         user = User(
             name=body_data.get("name"),
-            email=body_data.get("email")
+            user_name = body_data.get("user_name"),
+            email=body_data.get("email"),
+            dob = body_data.get("dob"),
+            is_admin = body_data.get("is_admin")
         )
         # extract the password from the body/payload
         password = body_data.get("password")

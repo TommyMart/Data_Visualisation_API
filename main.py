@@ -34,7 +34,7 @@ def create_app():
     def validation_error(err):
         return {"error": err.messages}, 400
 
-    # register blueprints into the main app instance so can use the 
+    # register blueprints into the main app instance so we can use their 
     # different entities using the 'register_blueprint' method
     from controllers.cli_controller import db_commands
     app.register_blueprint(db_commands)
