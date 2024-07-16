@@ -73,7 +73,7 @@ class PostSchema(ma.Schema):
     comments = fields.List(fields.Nested("CommentSchema", exclude=["post"]))
     likes = fields.List(fields.Nested("LikeSchema", exclude=["post"]))
 
-    # VALIDATION
+    # Validation
     title = fields.String(required=True, validate=And(
         Length(min=3, error="Title must be at least 3 characters long"),
         Regexp("^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
@@ -90,7 +90,7 @@ class PostSchema(ma.Schema):
         Length(min=5, max=150, error="URL must be between 5 and 150 characters long"),
         Regexp("https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}", error="Please enter a valid URL")
     ))
-    
+
 
     class Meta:
         

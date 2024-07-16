@@ -79,7 +79,7 @@ def delete_event(event_id):
 @events_bp.route("/<int:event_id>", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_event(event_id):
-    body_data = request.get_json()
+    body_data = event_schema.load(request.get_json())
 
     stmt = db.select(Event).filter_by(id=event_id)
     event = db.session.scalar(stmt)

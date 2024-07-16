@@ -24,7 +24,7 @@ comments_bp = Blueprint("comments", __name__, url_prefix="/<int:post_id>/comment
 @jwt_required()
 def create_comment(post_id):
     # get the comment object from the payload
-    body_data = request.get_json()
+    body_data = comment_schema.load(request.get_json())
     # fetch the post with the correct id - post_id (passed in url)
     stmt = db.select(Post).filter_by(id=post_id)
     post = db.session.scalar(stmt)
@@ -75,7 +75,7 @@ def delete_comment(post_id, comment_id):
 @jwt_required()
 def update_comment(post_id, comment_id):
     # get the values from the payload
-    body_data = request.get_json()
+    body_data = comment_schema.load(request.get_json())
     # find the comment in the DB with the id = comment_id
     stmt = db.select(Comment).filter_by(id=comment_id)
     # fetch the comment from the DB with correct id

@@ -49,20 +49,21 @@ class UserSchema(ma.Schema):
     # A single user can make multiple likes (list)
     likes = fields.List(fields.Nested("LikeSchema", exclude=["user"]))
     events = fields.List(fields.Nested("EventSchema", exclude=["user"]))
-    attending = fields.Nested("AttendingSchema", exclude=["user"])
+    attending = fields.List(fields.Nested("AttendingSchema", exclude=["user"]))
 
     # VALIDATION
+    
     name = fields.String(required=True, validate=And(
         Length(min=3, max=50, error="Title must be 3 and 50 characters long"),
         Regexp(r"^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
         ))
     user_name = fields.String(required=True, validate=And(
-        Length(min=3, max=50, error="Title must be 3 and 50 characters long"),
-        Regexp(r"^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
+        Length(min=3, max=50, error="User name must be 3 and 50 characters long"),
+        Regexp(r"^[A-Za-z0-9 ]+$", error="User name must contain alphanumeric characters only")
         ))
     email = fields.String(required=True, validate=And(
-        Length(min=5, max=120, error="Title must be 5 and 120 characters long"),
-        Regexp(r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,4}$", error="Title must contain alphanumeric characters only")
+        Length(min=5, max=120, error="Email must be 5 and 120 characters long"),
+        Regexp(r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,4}$", error="Email must contain alphanumeric characters only")
         ))
     date = fields.String(validate=
         Regexp(r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must written as dd/mm/yyyy only")

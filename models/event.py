@@ -33,14 +33,14 @@ class EventSchema(ma.Schema):
     # VALIDATION
     title = fields.String(required=True, validate=And(
         Length(min=3, max=50, error="Title must be 3 and 50 characters long"),
-        Regexp("^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
+        Regexp(r"^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
         ))
     description = fields.String(required=True, validate=And(
         Length(max=400, error="Post content must be less than 400 characters long"),
-        Regexp("^[A-Za-z0-9 ]+$", error="Post content must contain alphanumeric characters only")
+        Regexp(r"^[A-Za-z0-9 ]+$", error="Post content must contain alphanumeric characters only")
     ))
     date = fields.String(validate=
-        Regexp("^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must written as dd/mm/yyyy only")
+        Regexp(r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must written as dd/mm/yyyy only")
     )
 
     # define a schema - structure of the DB
