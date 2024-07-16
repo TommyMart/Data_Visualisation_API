@@ -40,17 +40,23 @@ For this project tasks were allocated and tracked using Atlassian's project mana
 
 Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
 
-* 12th July '24
+* Friday the 12th July '24 update
 
 Initiated board and populated all cards with required functionality.
 
 <img src="DOCS/trello_day1.png" alt="Trello day 1" width="60%"/>
 
-* 15th July '24 update
+* Monday the 15th July '24 update
 
 Completed readme requirements 1 and 2, plus models and route controllers for Users, Posts and Comments. 
 
 <img src="DOCS/trello_15:7.png" alt="Trello 15th July" width="60%"/>
+
+* Tuesday the 16th July '24 update
+
+Completed the models and route controllers for Events, Attendees and Ivoices. 
+
+<img src="DOCS/trello_16:7.png" alt="Trello 16th July" width="60%"/>
 
 ---
 

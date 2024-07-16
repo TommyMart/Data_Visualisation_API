@@ -10,6 +10,7 @@ VALID_SEAT_SECTIONS = ( "General Addmission", "Section A", "Section B", "Section
 
 # Define a maximum number of tickets per user per event_id
 MAX_TICKETS_PER_USER = 5
+MAX_TICKETS_PER_EMAIL = 5
 
 # TABLE
 class Attending(db.Model):
@@ -41,6 +42,15 @@ class AttendingSchema(ma.Schema):
     def validate_max_tickets(self, value):
         if value > MAX_TICKETS_PER_USER:
             raise ValidationError(f"Maximum {MAX_TICKETS_PER_USER} tickets allowed per user per event")
+
+    @validates("user")
+    def validate_email_tickets_limit(self, value):
+        email = value.get("email")
+        if email:
+            # Query the database to count tickets already purchased by this email
+            stmt = db.session.query(db.func.sum(Attending.total_tickets)).join(Attending.user).filter(User.email == email).scalar()
+            if stmt and stmt + value["total_tickets"] > MAX_TICKETS_PER_EMAIL:
+                raise ValidationError(f"Maximum {MAX_TICKETS_PER_EMAIL} tickets allowed per email address")
 
     @validates("seat_section")
     def limit_general_admission(self, value):

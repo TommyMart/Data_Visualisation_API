@@ -6,7 +6,6 @@ from models.attending import Attending, attending_schema, attendings_schema
 from models.event import Event
 from controllers.invoice_controller import invoice_bp
 
-
 from init import db
 
 attending_bp = Blueprint("attending", __name__, url_prefix="/<int:event_id>/attending")
