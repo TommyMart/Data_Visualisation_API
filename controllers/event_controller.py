@@ -46,7 +46,7 @@ def get_single_event(event_id):
 @jwt_required()
 def create_event():
     # get data from payload 
-    body_data = request.get_json()
+    body_data = event_schema.load(request.get_json(), partial=True)
     # create new Event Model instance
     event = Event(
         title = body_data.get("title"),

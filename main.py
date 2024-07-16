@@ -1,7 +1,9 @@
 # Create the app
 
 import os
+
 from flask import Flask
+from marshmallow.exceptions import ValidationError
 
 # Importing objects from init.py
 from init import db, ma, bcrypt, jwt
@@ -27,6 +29,10 @@ def create_app():
     ma.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
+
+    @app.errorhandler(ValidationError)
+    def validation_error(err):
+        return {"error": err.messages}, 400
 
     # register blueprints into the main app instance so can use the 
     # different entities using the 'register_blueprint' method

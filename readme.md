@@ -20,6 +20,16 @@ The problem this application solves is to provide an event goer with the ability
 
 For this assignment the app will only handle the API routes and payloads, but the finished product will include AI suggested dinner locations, transport, and more. Which will be used to ultimaetly leverage revenue for the app. Plus in app api routes to all major ticketing services for users to purchase from. 
 
+Storing info in DB
+
+Hashing passwords
+
+Validation
+
+JWT token 
+
+Bcrypt
+
 ---
 
 ### R2. Describe the way tasks are allocated and tracked in your project.
@@ -48,6 +58,8 @@ Completed readme requirements 1 and 2, plus models and route controllers for Use
 
 ### Marshmallow
 <img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
+
+serialise and deserialise, validation.
 
 ### Bcrypt
 <img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="30%"/>

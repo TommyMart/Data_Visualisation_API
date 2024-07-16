@@ -2,6 +2,7 @@
 # import sqlalchemy and marshmallow form init.py
 from init import db, ma
 from marshmallow import fields
+from marshmallow.validate import Length, And, Regexp
 
 class Post(db.Model):
     # name of the table in DB
@@ -68,8 +69,20 @@ class PostSchema(ma.Schema):
     comments = fields.List(fields.Nested("CommentSchema", exclude=["post"]))
     likes = fields.List(fields.Nested("LikeSchema", exclude=["post"]))
 
+    title = fields.String(required=True, validate=And(
+        Length(min=3, error="Title must be at least 3 characters long"),
+        Regexp("^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
+        ))
+    content = fields.String(required=True, validate=And(
+        Length(max=400, error="Post content must be less than 400 characters long"),
+        Regexp("^[A-Za-z0-9 ]+$", error="Post content must contain alphanumeric characters only")
+    ))
+   
+
+
+
     class Meta:
-        # can access users.id via user object foreign key
+        
         fields = ( "id", "title", "content", "image_url", "date", "location", "user", "comments", "likes" )
         # Marshmallow keeps the order when . dump
         ordered =  True
