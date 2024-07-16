@@ -41,3 +41,41 @@ def new_invoice(event_id, attending_id):
     db.session.commit()
 
     return invoice_schema.dump(invoice), 201
+
+# /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id> - 
+# DELETE - delete an invoice
+@invoice_bp.route("/<int:invoice_id>", methods=["DELETE"])
+@jwt_required()
+def delete_invoice(event_id, attending_id, invoice_id):
+    stmt = db.select(Invoice).filter_by(id=invoice_id)
+    invoice = db.session.scalar(stmt)
+
+    if invoice:
+        db.session.delete(invoice)
+        db.session.commit()
+        return {"message": f"Invoice '{invoice.id}' deleted successfully"}
+    else:
+        return {"error": f"Invoice with id {invoice_id} not found"}, 404
+    
+# /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id> - 
+# PUT or PATCH - update an invoice 
+@invoice_bp.route("/<int:invoice_id>", methods=["PUT", "PATCH"])
+@jwt_required()
+def update_invoice(event_id, attending_id, invoice_id):
+    body_data = request.get_json()
+
+    stmt = db.select(Invoice).filter_by(id=invoice_id)
+    invoice = db.session.scalar(stmt)
+
+    if invoice:
+        invoice.total_cost = body_data.get("total_cost") or invoice.total_cost
+        invoice.timestamp = body_data.get("timestamp") or invoice.timestamp
+        invoice.event_id = body_data.get("event_id") or invoice.event_id
+        invoice.attendee_id = body_data.get("attendee_id") or invoice.attendee_id
+        # session already added so just need to commit
+        db.session.commit()
+
+        return invoice_schema.dump(invoice)
+
+    else:
+        return {"error": f"Invoice with id '{invoice_id}' not found"}, 404

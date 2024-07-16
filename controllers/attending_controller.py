@@ -28,6 +28,17 @@ def fetch_event_attendees(event_id):
     else: 
         return {"error": f"No attendees found for event with id '{event_id}"}, 404
 
+# /<int:event_id>/attending/<int:attendee_id> - GET - fetch a specific attendee for an event
+@attending_bp.route("/<int:attendee_id>")
+@jwt_required()
+def fetch_specific_attendee(event_id, attendee_id):
+    stmt = db.select(Attending).filter_by(event_id=event_id, id=attendee_id)
+    attendee = db.session.scalar(stmt)
+
+    if attendee:
+        return attending_schema.dump(attendee)
+    else:
+        return {"error": f"No attendee found with id '{attendee_id}' for event with id '{event_id}'"}, 404
 
 # /<int:event_id>/attending - POST - attending an event
 @attending_bp.route("/", methods=["POST"])
