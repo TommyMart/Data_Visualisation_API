@@ -4,8 +4,12 @@ from marshmallow import fields, validates
 from marshmallow.validate import OneOf
 from marshmallow.exceptions import ValidationError
 
+# Constants
 # do not want the values to change so we use a tuple
 VALID_SEAT_SECTIONS = ( "General Addmission", "Section A", "Section B", "Section C", "VIP" ) 
+
+# Define a maximum number of tickets per user per event_id
+MAX_TICKETS_PER_USER = 5
 
 # TABLE
 class Attending(db.Model):
@@ -33,6 +37,11 @@ class AttendingSchema(ma.Schema):
     # Validation
     seat_section = fields.String(validate=OneOf(VALID_SEAT_SECTIONS), error="Please enter a valid seating section")
 
+    @validates("total_tickets")
+    def validate_max_tickets(self, value):
+        if value > MAX_TICKETS_PER_USER:
+            raise ValidationError(f"Maximum {MAX_TICKETS_PER_USER} tickets allowed per user per event")
+
     @validates("seat_section")
     def limit_general_admission(self, value):
         if value == VALID_SEAT_SECTIONS[0]:
@@ -43,8 +52,8 @@ class AttendingSchema(ma.Schema):
             # if exists check 
             if count > 5:
                 raise ValidationError("No more General Admission tickets available, please select a different seat section")
-        
 
+    
     @validates("seat_section")
     def limit_section_A(self, value):
         if value == VALID_SEAT_SECTIONS[1]:
@@ -90,8 +99,8 @@ class AttendingSchema(ma.Schema):
             # if exists check 
             if count > 2:
                 raise ValidationError("No more VIP tickets available, please select a different seat section")
-        
-
+    
+    
     class Meta:
         fields = ( "id", "total_tickets", "seat_section", "timestamp", "event_id", "attending_id", "user", "event", "invoice" )
 
