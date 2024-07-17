@@ -58,6 +58,13 @@ Completed the models and route controllers for Events, Attendees and Ivoices.
 
 <img src="DOCS/trello_16:7.png" alt="Trello 16th July" width="60%"/>
 
+* Wednesday the 17th July '24 update
+
+Completed the models and route controllers for likes. Completed validation and started on Authorisation.  
+
+<img src="DOCS/trello_17:7.png" alt="Trello 17th July" width="60%"/>
+
+
 ---
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
