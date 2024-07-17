@@ -9,7 +9,7 @@ from psycopg2 import errorcodes
 from flask_jwt_extended import create_access_token
 
 from init import bcrypt, db
-from models.user import User, user_schema
+from models.user import User, user_schema, UserSchema
 
 # - define the blueprint named "auth" 
 # - routes have same "auth" prefix so we can include a url_prefix 
@@ -23,7 +23,8 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 def register_user():
     try:
         # get the payload/data from the body of the request
-        body_data = request.get_json()
+        # body_data = request.get_json()
+        body_data = UserSchema().load(request.get_json())
         # create an instance of the user model to register new data
         user = User(
             name=body_data.get("name"),
@@ -87,3 +88,4 @@ def login_user():
     else:
         # respond back with an error message
         return {"error": "Invalid email or password"}, 401
+

@@ -22,7 +22,7 @@ class Invoice(db.Model):
 class InvoiceSchema(ma.Schema):
     
     event = fields.Nested("EventSchema", only=["title", "ticket_price"])
-    attending = fields.Nested("AttendingSchema", only=["seat_number", "total_tickets", "user"])
+    attending = fields.Nested("AttendingSchema", only=["seat_section", "total_tickets", "user"])
 
     # define a schema - structure of the DB
     class Meta:

@@ -48,5 +48,8 @@ def create_app():
     from controllers.event_controller import events_bp
     app.register_blueprint(events_bp)
 
+    from controllers.user_controller import user_bp
+    app.register_blueprint(user_bp)
+
     # Return the instance of the flask app
     return app

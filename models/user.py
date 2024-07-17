@@ -63,12 +63,13 @@ class UserSchema(ma.Schema):
         ))
     email = fields.String(required=True, validate=And(
         Length(min=5, max=120, error="Email must be 5 and 120 characters long"),
-        Regexp(r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,4}$", error="Email must contain alphanumeric characters only")
+        Regexp(r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,4}$", error="Invalid email format. Email must contain alphanumeric characters only")
         ))
     date = fields.String(validate=
         Regexp(r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must written as dd/mm/yyyy only")
         )
 
+    password = fields.String(required=True, validate=Regexp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", error="Password must be at least 8 characters long, have at least one letter and one number"))
 
     # Payload includes Posts and Comments dictionaries 
     class Meta:

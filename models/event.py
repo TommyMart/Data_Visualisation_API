@@ -27,13 +27,13 @@ class Event(db.Model):
 class EventSchema(ma.Schema):
     # pass event admin name and email address
     user = fields.Nested("UserSchema", only=["name", "email"])
-    attending = fields.List(fields.Nested("AttendingSchema", only=["event_id", "seat_number", "total_tickets", "user"]))
+    attending = fields.List(fields.Nested("AttendingSchema", only=["event_id", "seat_section", "total_tickets", "user"]))
     invoice = fields.List(fields.Nested("InvoiceSchema", only=["total_cost"]))
 
     # VALIDATION
     title = fields.String(required=True, validate=And(
         Length(min=3, max=50, error="Title must be 3 and 50 characters long"),
-        Regexp(r"^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
+        Regexp("^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
         ))
     description = fields.String(required=True, validate=And(
         Length(max=400, error="Post content must be less than 400 characters long"),
