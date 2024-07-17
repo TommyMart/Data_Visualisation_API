@@ -46,7 +46,7 @@ def get_single_event(event_id):
 @jwt_required()
 def create_event():
     # get data from payload 
-    body_data = request.get_json()
+    body_data = event_schema.load(request.get_json(), partial=True)
     # create new Event Model instance
     event = Event(
         title = body_data.get("title"),
@@ -79,7 +79,7 @@ def delete_event(event_id):
 @events_bp.route("/<int:event_id>", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_event(event_id):
-    body_data = request.get_json()
+    body_data = event_schema.load(request.get_json())
 
     stmt = db.select(Event).filter_by(id=event_id)
     event = db.session.scalar(stmt)

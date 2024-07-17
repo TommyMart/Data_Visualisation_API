@@ -39,8 +39,10 @@ def get_single_post(post_id):
 # a new post
 @jwt_required()
 def new_post():
+    
     # get the data from th body of the request
-    body_data = request.get_json()
+    # .load converts json to python if want validation to work
+    body_data = post_schema.load(request.get_json())
     # create a new Post model instance
     # new post = Post model instance
     post = Post(
@@ -56,6 +58,7 @@ def new_post():
     db.session.add(post)
     db.session.commit()
     # respond
+    # convert python to json
     return post_schema.dump(post)
 
 # /posts/<id> - DELETE a post, dynamic post_id
@@ -83,7 +86,9 @@ def delete_post(post_id):
 @jwt_required()
 def update_post(post_id):
     # fetch the data from the body of the request
-    body_data = request.get_json()
+    # if partical field is in payload then implement validation requirements
+    # if not, do not
+    body_data = post_schema.load(request.get_json(), partial=True)
     # get the card from the DB, post_id is id passed in route
     stmt = db.select(Post).filter_by(id=post_id)
     post = db.session.scalar(stmt)

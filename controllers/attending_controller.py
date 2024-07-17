@@ -44,7 +44,7 @@ def fetch_specific_attendee(event_id, attendee_id):
 @attending_bp.route("/", methods=["POST"])
 @jwt_required()
 def attending_event(event_id):
-    body_data = request.get_json()
+    body_data = attending_schema.load(request.get_json(), partial=True)
 
     stmt = db.select(Event).filter_by(id=event_id)
     event = db.session.scalar(stmt)
@@ -52,7 +52,7 @@ def attending_event(event_id):
     if event:
         attending = Attending(
             total_tickets = body_data.get("total_tickets"),
-            seat_number = body_data.get("seat_number"),
+            seat_section = body_data.get("seat_section"),
             timestamp = datetime.now(),
             event = event,
             attending_id = get_jwt_identity()
@@ -88,14 +88,14 @@ def delete_attending(attending_id):
 @attending_bp.route("/<int:attending_id>", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_attending(attending_id):
-    body_data = request.get_json()
+    body_data = attending_schema.load(request.get_json(), partial=True)
     stmt = db.session(Attending).filter_by(id=attending_id)
     attending = db.session.scalar(stmt)
 
     if attending:
 
         attending.total_tickets = body_data.get("total_tickets") or attending.total_tickets
-        attending.seat_number = body_data.get("seat_number") or attending.seat_number
+        attending.seat_section = body_data.get("seat_section") or attending.seat_section
         attending.time_stamp = body_data.get("time_stamp") or attending.time_stamp
     
         db.session.commit()

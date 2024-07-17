@@ -20,6 +20,16 @@ The problem this application solves is to provide an event goer with the ability
 
 For this assignment the app will only handle the API routes and payloads, but the finished product will include AI suggested dinner locations, transport, and more. Which will be used to ultimaetly leverage revenue for the app. Plus in app api routes to all major ticketing services for users to purchase from. 
 
+Storing info in DB
+
+Hashing passwords
+
+Validation
+
+JWT token 
+
+Bcrypt
+
 ---
 
 ### R2. Describe the way tasks are allocated and tracked in your project.
@@ -30,17 +40,23 @@ For this project tasks were allocated and tracked using Atlassian's project mana
 
 Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
 
-* 12th July '24
+* Friday the 12th July '24 update
 
 Initiated board and populated all cards with required functionality.
 
 <img src="DOCS/trello_day1.png" alt="Trello day 1" width="60%"/>
 
-* 15th July '24 update
+* Monday the 15th July '24 update
 
 Completed readme requirements 1 and 2, plus models and route controllers for Users, Posts and Comments. 
 
 <img src="DOCS/trello_15:7.png" alt="Trello 15th July" width="60%"/>
+
+* Tuesday the 16th July '24 update
+
+Completed the models and route controllers for Events, Attendees and Ivoices. 
+
+<img src="DOCS/trello_16:7.png" alt="Trello 16th July" width="60%"/>
 
 ---
 
@@ -48,6 +64,8 @@ Completed readme requirements 1 and 2, plus models and route controllers for Use
 
 ### Marshmallow
 <img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
+
+serialise and deserialise, validation.
 
 ### Bcrypt
 <img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="30%"/>

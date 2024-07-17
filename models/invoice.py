@@ -1,26 +1,28 @@
 from init import db, ma
 from marshmallow import fields
 
+# TABLE
 class Invoice(db.Model):
+    # Table Name
     __tablename__ = "invoices"
 
-    # attributes
+    # Table Attributes
     id = db.Column(db.Integer, primary_key=True)
     total_cost = db.Column(db.Float, default=0.00)
     timestamp = db.Column(db.Date)
-
+    # Foreign Keys
     event_id = db.Column(db.Integer, db.ForeignKey("events.id"), nullable=False)
     attendee_id = db.Column(db.Integer, db.ForeignKey("attending.id"), nullable=False)
-
+    # Relationships
     event = db.relationship("Event", back_populates="invoice")
     attending = db.relationship("Attending", back_populates="invoice")
     
 
-
+# SCHEMA
 class InvoiceSchema(ma.Schema):
     
     event = fields.Nested("EventSchema", only=["title", "ticket_price"])
-    attending = fields.Nested("AttendingSchema", only=["seat_number", "total_tickets", "user"])
+    attending = fields.Nested("AttendingSchema", only=["seat_section", "total_tickets", "user"])
 
     # define a schema - structure of the DB
     class Meta:

@@ -57,15 +57,18 @@ def seed_tables():
     # create a list of user instances including one admin user
     users = [
         User(
+            name="Bert",
+            user_name="Bertie",
             email="admin@email.com",
             # hash the password using bcrypt, 
-            password=bcrypt.generate_password_hash("123456").decode("utf-8"),
+            password=bcrypt.generate_password_hash("Abc12345").decode("utf-8"),
             is_admin=True
         ),
         User(
             name="Tom Martin",
+            user_name="Tommy",
             email="tom@email.com",
-            password=bcrypt.generate_password_hash("123456").decode("utf-8")
+            password=bcrypt.generate_password_hash("Abc12345").decode("utf-8")
         )
     ]
 

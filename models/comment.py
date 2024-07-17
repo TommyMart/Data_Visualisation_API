@@ -1,5 +1,7 @@
 from init import db, ma
 from marshmallow import fields
+from marshmallow.validate import Regexp, Length, And
+
 
 # Create comments the model 
 # child of Model class
@@ -32,6 +34,12 @@ class CommentSchema(ma.Schema):
     # prevent looping by excluding comments because we're already on the 
     # comment
     post = fields.Nested("PostSchema", exclude=["comments"])
+
+    # Validation
+    content = fields.String(validate=And(
+        Length(max=400, error="A comment must be less than 400 characters long"),
+        Regexp("^[A-Za-z0-9 ]+$", error="A comment must contain alphanumeric characters only")
+    ))
 
     class Meta:
         fields = ("id", "content", "timestamp", "user", "post")
