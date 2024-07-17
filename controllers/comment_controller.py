@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.comment import Comment, comment_schema, comments_schema
 from models.post import Post 
+from utils import authorise_as_admin
 
 # a comment cannot exist without a card, it belongs to a card, so can
 # register Blueprint to posts_bp (posts blueprint), and therefore it will
@@ -60,6 +61,11 @@ def delete_comment(post_id, comment_id):
     comment = db.session.scalar(stmt)
     # if comment exists
     if comment:
+        # check whether the user is an admin 
+        is_admin = authorise_as_admin()
+        # if the user is not the owner of the post
+        if not is_admin and str(comment.user_id) != get_jwt_identity():
+            return {"error": "User unorthorised to perform this request"}, 403
         # delete comment
         db.session.delete(comment)
         db.session.commit()
@@ -82,6 +88,9 @@ def update_comment(post_id, comment_id):
     comment = db.session.scalar(stmt)
     # if comment exists
     if comment:
+        # if the user is not the owner of the post
+        if str(comment.user_id) != get_jwt_identity():
+            return {"error": "Only the creator of a post can update it"}, 403
         # update the fields
         # only field we can update - with what ever the user has sent in payload
         # if data in the content payload, update, if not, leave as is

@@ -46,7 +46,8 @@ def count_attending(event_id):
         
         if total_tickets_sold is None:
             total_tickets_sold = 0
-        
+        stmt = db.select(Event).filter_by(id=event_id)
+        event = db.session.scalar(stmt)
         click.echo(f"Total tickets sold for Event ID {event_id}: {total_tickets_sold}")
     except Exception as e:
         click.echo(f"Error: {str(e)}")
@@ -57,8 +58,8 @@ def seed_tables():
     # create a list of user instances including one admin user
     users = [
         User(
-            name="Bert",
-            user_name="Bertie",
+            name="Admin",
+            user_name="Admina",
             email="admin@email.com",
             # hash the password using bcrypt, 
             password=bcrypt.generate_password_hash("Abc12345").decode("utf-8"),

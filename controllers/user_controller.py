@@ -1,14 +1,17 @@
-
+# Built-in Python Libraries
 from datetime import timedelta
 
+# External Libraries
 from flask import Blueprint, request
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from psycopg2 import errorcodes
 from flask_jwt_extended import create_access_token
 
+# Imports from local files
 from init import bcrypt, db
 from models.user import User, user_schema, UserSchema
+from utils import authorise_as_admin
 
 
 user_bp = Blueprint("user", __name__, url_prefix="/user")
@@ -46,6 +49,12 @@ def update_user():
 @user_bp.route("/<int:user_id>", methods=["DELETE"])
 @jwt_required()
 def delete_user(user_id):
+    # only admins can delete users
+    is_admin = authorise_as_admin()
+    if not is_admin:
+        # if not admin return error and forbidden status
+        return {"error": f"User is not authorised to perform this action"}, 403
+    # fetch user from DB
     stmt = db.select(User).filter_by(id=user_id)
     user = db.session.scalar(stmt)
 
