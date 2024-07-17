@@ -29,13 +29,13 @@ class User(db.Model):
     # connects the two variables user and post from posts.py
     # connects to the Post model and user field, provided by sqlalchemy
     # a user can have 0 or multple posts 
-    posts = db.relationship("Post", back_populates="user")
+    posts = db.relationship("Post", back_populates="user", cascade="all, delete")
     # Link with the comments field from the Comment model
-    comments = db.relationship("Comment", back_populates="user")
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete")
     # Link with the likes field from the Comment model
-    likes = db.relationship("Like", back_populates="user")
-    events = db.relationship("Event", back_populates="user")
-    attending = db.relationship("Attending", back_populates="user")
+    likes = db.relationship("Like", back_populates="user", cascade="all, delete")
+    events = db.relationship("Event", back_populates="user", cascade="all, delete")
+    attending = db.relationship("Attending", back_populates="user", cascade="all, delete")
 
 # schema instance from marshmallow - convert db objects to python objects
 # and python objects to db objects

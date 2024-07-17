@@ -41,3 +41,18 @@ def update_user():
     else:
         # return an error
         return {"error": "User does not exist"}, 404
+
+# user/<int:user_id> - DELETE - delete user
+@user_bp.route("/<int:user_id>", methods=["DELETE"])
+@jwt_required()
+def delete_user(user_id):
+    stmt = db.select(User).filter_by(id=user_id)
+    user = db.session.scalar(stmt)
+
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return {"message": f"User '{user.name}' deleted successfully"}, 200
+    
+    else:
+        return {"error": "User with id '{user_id}' not found"}
