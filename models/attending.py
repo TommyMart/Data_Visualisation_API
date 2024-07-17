@@ -31,7 +31,7 @@ class Attending(db.Model):
 
 # SCHEMA
 class AttendingSchema(ma.Schema):
-    user = fields.Nested("UserSchema", only=["name", "email"])
+    user = fields.Nested("UserSchema", only=["name", "email", "is_admin"])
     event = fields.Nested("EventSchema", only=["title", "ticket_price"])
     invoice = fields.Nested("InvoiceSchema", only=["total_cost"])
     

@@ -31,7 +31,7 @@ class LikeSchema(ma.Schema):
     user = fields.Nested("UserSchema", only=["name", "email"])
     # prevent looping by excluding likes because we're already on the 
     # likes
-    post = fields.Nested("PostSchema", only=["title"])
+    post = fields.Nested("PostSchema", only=["title", "id"])
 
     # define a schema - structure of the DB
     class Meta:

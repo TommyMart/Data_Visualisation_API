@@ -18,7 +18,37 @@ comments_bp = Blueprint("comments", __name__, url_prefix="/<int:post_id>/comment
 # we only want all the comments linked to one post, which we get when fetching posts,
 # which we get when fetching a Post. 
 
+# post/<int:post_id>/comments - GET - fetch all comments on a post
+@comments_bp.route("/<int:comment_id>")
+@jwt_required()
+def fetch_single_comments(post_id, comment_id):
+    # fetch the post with the correct id - post_id (passed in url)
+    stmt = db.select(Comment).filter_by(id=comment_id)
+    comment = db.session.scalar(stmt)
 
+    if comment: 
+        
+        return comment_schema.dump(comment)
+    
+    else:
+        return {"error": f"Comment with id {comment_id} not found"}, 404
+
+
+# post/<int:post_id>/comments - GET - fetch all comments on a post
+@comments_bp.route("/")
+@jwt_required()
+def fetch_comments(post_id):
+    # fetch the post with the correct id - post_id (passed in url)
+    stmt = db.select(Post).filter_by(id=post_id)
+    post = db.session.scalars(stmt)
+
+    if post: 
+        stmt = db.select(Comment).order_by(Comment.id.asc())
+        users = db.session.scalars(stmt)
+        return comments_schema.dump(users)
+    
+    else:
+        return {"error": f"Post with id {post_id} not found"}, 404
 
 # Create comment route on a Post
 @comments_bp.route("/", methods=["POST"])

@@ -10,21 +10,40 @@ from flask_jwt_extended import create_access_token
 
 # Imports from local files
 from init import bcrypt, db
-from models.user import User, user_schema, UserSchema
+from models.user import User, user_schema, users_schema, UserSchema
 from utils import authorise_as_admin
 
-
+# url_prefix = "/user" so routes do not need to include it
 user_bp = Blueprint("user", __name__, url_prefix="/user")
 
-# user/<int:user_id>
-@user_bp.route("/", methods=["PUT", "PATCH"])
+# user/ - GET - fetch all users
+@user_bp.route("/")
 @jwt_required()
-def update_user():
+def get_users():
+    stmt = db.select(User).order_by(User.id.asc())
+    users = db.session.scalars(stmt)
+    return users_schema.dump(users)
+
+# user/<int:user_id> - GET - fetch single user
+@user_bp.route("/<int:user_id>")
+@jwt_required()
+def get_user(user_id):
+    stmt = db.select(User).filter_by(id=user_id)
+    post = db.session.scalar(stmt)
+    if post:
+        return user_schema.dump(post)
+    else:
+        return {"error": f"Post with id {user_id} not found"}, 404
+
+# user/<int:user_id> - PUT or PATCH - update user
+@user_bp.route("/<int:user_id>", methods=["PUT", "PATCH"])
+@jwt_required()
+def update_user(user_id):
     # get the fields from the body of request
     body_data = UserSchema().load(request.get_json(), partial=True)
     password = body_data.get("password")
     # fetch user from the DB
-    stmt = db.select(User).filter_by(id=get_jwt_identity())
+    stmt = db.select(User).filter_by(id=user_id)
     user = db.session.scalar(stmt)
     # if user exists
     if user:

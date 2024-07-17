@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.attending import Attending, attending_schema, attendings_schema
 from models.event import Event
 from controllers.invoice_controller import invoice_bp
+from utils import authorise_as_admin
 
 from init import db
 
@@ -32,6 +33,12 @@ def fetch_event_attendees(event_id):
 @attending_bp.route("/<int:attendee_id>")
 @jwt_required()
 def fetch_specific_attendee(event_id, attendee_id):
+    # Check if the event exists
+    event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
+    
+    if not event_exists:
+        return {"error": f"Event with id '{event_id}' does not exist."}, 404
+    
     stmt = db.select(Attending).filter_by(event_id=event_id, id=attendee_id)
     attendee = db.session.scalar(stmt)
 
@@ -76,6 +83,11 @@ def delete_attending(attending_id):
     attending = db.session.scalar(stmt)
 
     if attending:
+        # check whether the user is an admin 
+        is_admin = authorise_as_admin()
+        # if the user is not the owner of the post
+        if not is_admin and str(attending.user_id) != get_jwt_identity():
+            return {"error": "User unorthorised to perform this request"}, 403
         db.session.delete(attending)
         db.session.commit()
         return {"message": f"Attending event '{Event.title}' deleted"}
@@ -93,7 +105,9 @@ def update_attending(attending_id):
     attending = db.session.scalar(stmt)
 
     if attending:
-
+        # if the user is not the owner of the post
+        if str(attending.user_id) != get_jwt_identity():
+            return {"error": "Only the creator of a post can update it"}, 403
         attending.total_tickets = body_data.get("total_tickets") or attending.total_tickets
         attending.seat_section = body_data.get("seat_section") or attending.seat_section
         attending.time_stamp = body_data.get("time_stamp") or attending.time_stamp

@@ -142,10 +142,16 @@ def seed_tables():
             title = "Event 1",
             description = "This is event 1",
             date = "01/02/2024",
+            event_admin_id = 1,
+            user = users[0]
+        ),
+        Event(
+            title = "Event 2",
+            description = "This is event 2",
+            date = "01/02/2024",
             event_admin_id = 2,
             user = users[1]
-        )
-    ]
+    )]
 
     db.session.add_all(events)
 
@@ -155,6 +161,12 @@ def seed_tables():
             timestamp = datetime.now(),
             event_id = 1,
             attending_id = 1
+        ),
+        Attending(
+            total_tickets = 2,
+            timestamp = datetime.now(),
+            event_id = 2,
+            attending_id = 2
         )
     ]
 
@@ -166,6 +178,12 @@ def seed_tables():
             event_id = 1,
             timestamp = datetime.now(),
             attendee_id = 1
+        ),
+        Invoice(
+            total_cost = 12.00,
+            event_id = 2,
+            timestamp = datetime.now(),
+            attendee_id = 2
         )
     ]
 
