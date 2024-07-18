@@ -72,6 +72,13 @@ Completed the models and route controllers for likes. Completed validation and s
 
 <img src="DOCS/trello_17:7.png" alt="Trello 17th July" width="60%"/>
 
+* Thursday the 18th July '24 update
+
+Today marks the mid-point of the assignment, so a holistic assessment was made regarding the importance of the cards and what would be most beneficial to the assignment and my learning outcomes. It was decided that since the code was fresh in my head, the most efficient and beneficial approach was to finish the validation and authorisation card before tackling the readme requirements that were due today. I approved this idea because I have completed easily more than half the assignment at the half-way point and wanted to continue working on the code so that it functions properly before moving onto something else. This was a good decision because I struggle moving onto a new task if the current task is not completed to a satisfactory standard. 
+
+I therefore changed the due dates of readme requirements 4 and 5 to the 23rd of July, this will allow me plenty of time to get my code functioning without errors and with the required validation and authorisation, which is taking me longer than anticipated. 
+
+<img src="DOCS/trello_18:7.png" alt="Trello 17th July" width="60%"/>
 
 ---
 
