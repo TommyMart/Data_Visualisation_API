@@ -74,9 +74,9 @@ Completed the models and route controllers for likes. Completed validation and s
 
 * Thursday the 18th July '24 update
 
-Today marks the mid-point of the assignment, so a holistic assessment was made regarding the importance of the cards and what would be most beneficial to the assignment and my learning outcomes. It was decided that since the code was fresh in my head, the most efficient and beneficial approach was to finish the validation and authorisation card before tackling the readme requirements that were due today. I approved this idea because I have completed easily more than half the assignment at the half-way point and wanted to continue working on the code so that it functions properly before moving onto something else. This was a good decision because I struggle moving onto a new task if the current task is not completed to a satisfactory standard. 
+Today marks the mid-point of the assignment timeline, so an assessment was made regarding the importance of the cards and what would be most beneficial to the assignment and the overall educational learning outcome. It was decided that since the code was fresh in my head, the most efficient and beneficial approach was to finish the validation and authorisation card before tackling the readme requirements that were due today. This idea was approved because I have completed more than 60% the assignment at the half-way point and wanted to continue working on the code until it functions as desired. This was a good decision because I struggle moving onto a new task if the current task is not completed to a satisfactory standard, which can then be detrimental to the new task. 
 
-I therefore changed the due dates of readme requirements 4 and 5 to the 23rd of July, this will allow me plenty of time to get my code functioning without errors and with the required validation and authorisation, which is taking me longer than anticipated. 
+I therefore changed the due dates of readme requirements 4 and 5 to the 23rd of July, this will allow me plenty of time to get my code functioning without errors and with the required validation and authorisation, which is taking me longer than first anticipated. 
 
 <img src="DOCS/trello_18:7.png" alt="Trello 17th July" width="60%"/>
 
@@ -206,6 +206,31 @@ Given these pros and cons, postgrSQL is an ideal database system for those with 
 The Object Relational Mapping system or ORM used for this application is SQLAlchemy. 
 
 <img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="70%"/>
+
+
+But firstly, lets define what an Object Relational Model (ORM) is. 
+
+According to freecodecamp.com, ‘Object Relational Mapping (ORM) is a technique used in creating a "bridge" between object-oriented programs and, in most cases, relational databases (Abba 2022).’
+
+And put in a way relating to our API application, SQLAlchemy is the layer that interacts with the Postgres relational database using SQL language via its own querying methods and an object-oriented programming language like Python. 
+
+For example, here is a query in SQL that retrieves data about a user. 
+
+<img src="DOCS/SQL_example.png" alt="SQLAlchemy logo" width="70%"/>
+
+While using an ORM tool the same query can be written like this:  
+
+<img src="DOCS/ORM_example.png" alt="SQLAlchemy logo" width="70%"/>
+
+### Some popular Python ORM’s include
+-	Django
+-	Web2py
+-	SQLObject
+-	SQLAlchemy
+
+
+
+
 
 ---
 

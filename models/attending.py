@@ -9,7 +9,7 @@ from init import db, ma
 from models.user import User
 
 # Constants
-# do not want the values to change so we use a tuple
+# do not want the values to change so use a tuple
 VALID_SEAT_SECTIONS = ( "General Addmission", "Section A", "Section B", "Section C", "VIP" ) 
 
 # Define a maximum number of tickets per user per event_id
