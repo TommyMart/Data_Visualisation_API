@@ -1,5 +1,9 @@
-from init import db, ma
+
+# External Libraries
 from marshmallow import fields
+
+# Imports from local files
+from init import db, ma
 
 # Create likes Model 
 # child of Model class

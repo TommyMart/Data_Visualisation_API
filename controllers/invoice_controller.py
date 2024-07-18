@@ -1,8 +1,11 @@
+# Built-in Python Libraries
 from datetime import datetime
 
+# External Libraries
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+# Imports from local files
 from init import db
 from models.invoice import Invoice, invoice_schema, invoices_schema
 from utils import authorise_as_admin
@@ -12,21 +15,8 @@ from models.attending import Attending
 
 invoice_bp = Blueprint("invoices", __name__, url_prefix="/<int:attending_id>/invoice")
 
-# # /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id>
-# # GET - fetch a single invoice
-# @invoice_bp.route("/<int:invoice_id>")
-# @jwt_required()
-# def get_single_invoice(event_id, attending_id, invoice_id):
-#     stmt = db.select(Invoice).filter_by(id=invoice_id, attendee_id=attending_id)
-#     invoice = db.session.scalar(stmt)
-
-#     if invoice:
-#         return invoice_schema.dump(invoice), 200
-    
-#     else:
-#         return {"error": f"Invoice with id '{invoice_id}' not found"}, 404
-
-# /<int:event_id>/attending - GET - fetch all attending an event
+# GET route to fetch all invoices for a specific event and attending ID
+# /<int:event_id>/attending/<int:attending_id>/invoice/ 
 @invoice_bp.route("/")
 @jwt_required()
 def fetch_event_attending(event_id, attending_id):

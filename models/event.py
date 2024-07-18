@@ -1,6 +1,8 @@
-from init import db, ma
+# External Libraries
 from marshmallow import fields
 
+# Imports from local files
+from init import db, ma
 from models.attending import Attending
 from models.invoice import Invoice
 

@@ -1,8 +1,12 @@
-# 
-from init import db, ma
+
+# External Libraries
 from marshmallow import fields, validates
 from marshmallow.validate import OneOf
 from marshmallow.exceptions import ValidationError
+
+# Imports from local files
+from init import db, ma
+from models.user import User
 
 # Constants
 # do not want the values to change so we use a tuple
@@ -12,24 +16,28 @@ VALID_SEAT_SECTIONS = ( "General Addmission", "Section A", "Section B", "Section
 MAX_TICKETS_PER_USER = 5
 MAX_TICKETS_PER_EMAIL = 5
 
-# TABLE
+# Attending Table
 class Attending(db.Model):
+
     # Table Name
     __tablename__ = "attending"
+
     # Table Attributes
     id = db.Column(db.Integer, primary_key=True)
     total_tickets = db.Column(db.Integer, default=1)
     seat_section = db.Column(db.String, default="General Admission")
     timestamp = db.Column(db.Date)
+
     # Foreign Keys
     event_id = db.Column(db.Integer, db.ForeignKey("events.id"), nullable=False)
     attending_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    
     # Relationships
     user = db.relationship("User", back_populates="attending")
     event = db.relationship("Event", back_populates="attending", cascade="all, delete")
     invoice = db.relationship("Invoice", back_populates="attending", cascade="all, delete")
 
-# SCHEMA
+# Attending Schema
 class AttendingSchema(ma.Schema):
     user = fields.Nested("UserSchema", only=["name", "email", "is_admin"])
     event = fields.Nested("EventSchema", only=["title", "ticket_price"])

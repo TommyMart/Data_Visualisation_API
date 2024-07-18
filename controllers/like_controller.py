@@ -1,8 +1,11 @@
+# Built-in Python Libraries
 from datetime import datetime
 
+# External Libraries
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+# Imports from local files
 from init import db
 from models.like import Like, like_schema, likes_schema
 from models.post import Post 

@@ -1,7 +1,9 @@
-from init import db, ma
+# External Libraries
 from marshmallow import fields
 from marshmallow.validate import Regexp, Length, And
 
+# Imports from local files
+from init import db, ma
 
 # Create comments the model 
 # child of Model class

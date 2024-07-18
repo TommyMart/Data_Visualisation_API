@@ -1,8 +1,11 @@
-# IMPORTS
 
-from init import db, ma
+# External Libraries
 from marshmallow import fields
 from marshmallow.validate import Length, And, Regexp
+
+# Imports from local files
+from init import db, ma
+
 
 # TABLE
 class Post(db.Model):

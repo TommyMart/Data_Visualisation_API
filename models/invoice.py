@@ -1,5 +1,9 @@
-from init import db, ma
+
+# External Libraries
 from marshmallow import fields
+
+# Imports from local files
+from init import db, ma
 
 # TABLE
 class Invoice(db.Model):

@@ -1,8 +1,11 @@
+# Built-in Python Libraries
 from datetime import datetime
 
+# External Libraries
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+# Imports from local files
 from init import db
 from models.event import Event, event_schema, events_schema
 from controllers.attending_controller import attending_bp

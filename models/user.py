@@ -1,9 +1,11 @@
-# "user" table model and schema
 
-from init import db, ma
+
+# External Libraries
 from marshmallow import fields
 from marshmallow.validate import Regexp, Length, And
 
+# Imports from local files
+from init import db, ma
 from models.like import Like
 
 # TABLE

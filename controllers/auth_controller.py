@@ -1,13 +1,16 @@
 # Authorisation controller
 # seperate file follows seperation of concerns (SoC)
 
+# Built-in Python Libraries
 from datetime import timedelta
 
+# External Libraries
 from flask import Blueprint, request
 from sqlalchemy.exc import IntegrityError
 from psycopg2 import errorcodes
 from flask_jwt_extended import create_access_token
 
+# Imports from local files
 from init import bcrypt, db
 from models.user import User, user_schema, UserSchema
 
