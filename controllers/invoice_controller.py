@@ -6,36 +6,71 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.invoice import Invoice, invoice_schema, invoices_schema
 from utils import authorise_as_admin
+from models.event import Event
+from models.attending import Attending
 
 
 invoice_bp = Blueprint("invoices", __name__, url_prefix="/<int:attending_id>/invoice")
 
-# /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id>
-# GET - fetch a single invoice
-@invoice_bp.route("/<int:invoice_id>")
-@jwt_required()
-def get_single_invoice(event_id, attending_id, invoice_id):
-    stmt = db.select(Invoice).filter_by(id=invoice_id, attendee_id=attending_id)
-    invoice = db.session.scalar(stmt)
+# # /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id>
+# # GET - fetch a single invoice
+# @invoice_bp.route("/<int:invoice_id>")
+# @jwt_required()
+# def get_single_invoice(event_id, attending_id, invoice_id):
+#     stmt = db.select(Invoice).filter_by(id=invoice_id, attendee_id=attending_id)
+#     invoice = db.session.scalar(stmt)
 
-    if invoice:
-        return invoice_schema.dump(invoice), 200
+#     if invoice:
+#         return invoice_schema.dump(invoice), 200
     
-    else:
-        return {"error": f"Invoice with id '{invoice_id}' not found"}, 404
+#     else:
+#         return {"error": f"Invoice with id '{invoice_id}' not found"}, 404
 
-# /events/<int:event_id>/attending/<int:attending_id>/invoice/ - POST -
-# create an invoice
+# /<int:event_id>/attending - GET - fetch all attending an event
+@invoice_bp.route("/")
+@jwt_required()
+def fetch_event_attending(event_id, attending_id):
+
+    # Check if the event exists
+    event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
+    
+    if not event_exists:
+        return {"error": f"Event with id '{event_id}' does not exist."}, 404
+    
+    
+    stmt = db.select(Invoice).filter_by(event_id=event_id, attendee_id=attending_id).order_by(Invoice.timestamp.desc())
+    invoices = db.session.scalars(stmt).all()
+
+    if invoices:
+
+        return invoices_schema.dump(invoices)
+    
+    else: 
+        return {"error": f"No invoices found for event with id '{event_id}' and attending id '{attending_id}"}, 404
+
+# POST route to create a new invoice for a specific event and attending ID
+# /events/<int:event_id>/attending/<int:attending_id>/invoice/ 
 @invoice_bp.route("/", methods=["POST"])
 @jwt_required()
 def new_invoice(event_id, attending_id):
     body_data = request.get_json()
     
+    # Check if the event exists
+    event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
+    if not event_exists:
+        return {"error": f"Event with id '{event_id}' does not exist."}, 404
+
+    # Check if the attendee exists
+    attendee_exists = db.session.query(Attending.id).filter_by(id=attending_id, event_id=event_id).scalar() is not None
+    if not attendee_exists:
+        return {"error": f"Attendee with id '{attending_id}' does not exist for event with id '{event_id}'"}, 404
+        
+    # Create a new invoice
     invoice = Invoice(
-        total_cost = body_data.get("total_cost"),
-        timestamp = datetime.now(),
-        event_id = body_data.get("event_id"),
-        attendee_id = body_data.get("attendee_id")
+        total_cost=body_data.get("total_cost"),
+        timestamp=datetime.now(),
+        event_id=event_id,
+        attendee_id=attending_id
     )
 
     db.session.add(invoice)
@@ -43,12 +78,24 @@ def new_invoice(event_id, attending_id):
 
     return invoice_schema.dump(invoice), 201
 
+# DELETE route to delete an invoice for a specific event, attending ID, and invoice ID
 # /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id> - 
-# DELETE - delete an invoice
 @invoice_bp.route("/<int:invoice_id>", methods=["DELETE"])
 @jwt_required()
 def delete_invoice(event_id, attending_id, invoice_id):
-    stmt = db.select(Invoice).filter_by(id=invoice_id)
+
+    # Check if the event exists
+    event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
+    if not event_exists:
+        return {"error": f"Event with id '{event_id}' does not exist."}, 404
+
+    # Check if the attendee exists
+    attendee_exists = db.session.query(Attending.id).filter_by(id=attending_id, event_id=event_id).scalar() is not None
+    if not attendee_exists:
+        return {"error": f"Attendee with id '{attending_id}' does not exist for event with id '{event_id}'"}, 404
+
+    # Fetch the invoice
+    stmt = db.select(Invoice).filter_by(id=invoice_id, event_id=event_id, attendee_id=attending_id)
     invoice = db.session.scalar(stmt)
 
     if invoice:
@@ -59,18 +106,29 @@ def delete_invoice(event_id, attending_id, invoice_id):
             return {"error": "User unorthorised to perform this request"}, 403
         db.session.delete(invoice)
         db.session.commit()
-        return {"message": f"Invoice '{invoice.id}' deleted successfully"}
+        return {"message": f"Invoice '{invoice.id}' deleted successfully"}, 200
     else:
-        return {"error": f"Invoice with id {invoice_id} not found"}, 404
+        return {"error": f"Invoice with id '{invoice_id}' not found for event with id '{event_id}' and attending id '{attending_id}'"}, 404
     
 # /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id> - 
 # PUT or PATCH - update an invoice 
 @invoice_bp.route("/<int:invoice_id>", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_invoice(invoice_id, event_id, attending_id):
-    body_data = request.get_json()
+    body_data = invoice_schema.load(request.get_json())
 
-    stmt = db.select(Invoice).filter_by(id=invoice_id)
+    # Check if the event exists
+    event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
+    if not event_exists:
+        return {"error": f"Event with id '{event_id}' does not exist."}, 404
+
+    # Check if the attendee exists
+    attendee_exists = db.session.query(Attending.id).filter_by(id=attending_id, event_id=event_id).scalar() is not None
+    if not attendee_exists:
+        return {"error": f"Attendee with id '{attending_id}' does not exist for event with id '{event_id}'"}, 404
+
+    # Fetch the invoice
+    stmt = db.select(Invoice).filter_by(id=invoice_id, event_id=event_id, attendee_id=attending_id)
     invoice = db.session.scalar(stmt)
 
 
@@ -84,12 +142,11 @@ def update_invoice(invoice_id, event_id, attending_id):
         
         invoice.total_cost = body_data.get("total_cost") or invoice.total_cost
         invoice.timestamp = body_data.get("timestamp") or invoice.timestamp
-        invoice.event_id = body_data.get("event_id") or invoice.event_id
-        invoice.attendee_id = body_data.get("attendee_id") or invoice.attendee_id
+        
         # session already added so just need to commit
         db.session.commit()
 
         return invoice_schema.dump(invoice)
 
     else:
-        return {"error": f"Invoice with id '{invoice_id}' not found"}, 404
+        return {"error": f"Invoice with id '{invoice_id}' not found for event with id '{event_id}' and attending id '{attending_id}'"}, 404
