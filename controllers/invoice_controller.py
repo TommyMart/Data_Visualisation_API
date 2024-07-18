@@ -97,17 +97,23 @@ def delete_invoice(event_id, attending_id, invoice_id):
     # Fetch the invoice
     stmt = db.select(Invoice).filter_by(id=invoice_id, event_id=event_id, attendee_id=attending_id)
     invoice = db.session.scalar(stmt)
-
+    
+    # If invoice exists
     if invoice:
         # check whether the user is an admin 
         is_admin = authorise_as_admin()
-        # if the user is not the owner of the post
+        # if the user is not and admin or the owner of the post return error
         if not is_admin and str(invoice.attendee_id) != get_jwt_identity():
             return {"error": "User unorthorised to perform this request"}, 403
+        # delete invoice data
         db.session.delete(invoice)
+        # commit session to DB
         db.session.commit()
+        # return query success message to client
         return {"message": f"Invoice '{invoice.id}' deleted successfully"}, 200
+    # if event, attending or invoice does not exist
     else:
+        # return error message to client 
         return {"error": f"Invoice with id '{invoice_id}' not found for event with id '{event_id}' and attending id '{attending_id}'"}, 404
     
 # /events/<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id> - 
@@ -131,7 +137,6 @@ def update_invoice(invoice_id, event_id, attending_id):
     stmt = db.select(Invoice).filter_by(id=invoice_id, event_id=event_id, attendee_id=attending_id)
     invoice = db.session.scalar(stmt)
 
-
     if invoice:
         # if the user is not the owner of the post
         # check whether the user is an admin 
@@ -145,7 +150,7 @@ def update_invoice(invoice_id, event_id, attending_id):
         
         # session already added so just need to commit
         db.session.commit()
-
+        
         return invoice_schema.dump(invoice)
 
     else:
