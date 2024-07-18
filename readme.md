@@ -16,13 +16,21 @@ The main tech-stack used for this application includes:
 
 ### R1. Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
 
-The problem this application solves is to provide an event goer with the ability to purchase tickets and communicate with friends surrounding everything related to the event. The app will allow users to make posts related to events to gage whether their friends are interested in attending. If so, a user will be able to purchase tickets in app including seating arrangements next to their friends. The app will also provide a private messaging platform for friends to organise all aspects surrounding the event, such as dinner, transport, and flights and accommodation for interstate or international events. 
+This application solves the problem that a user can create a private and secure account, that facilitates the access to events and ticketing options, while enabling a communication stream between users that are connected via a friendship. A user can make a post about an event that friends of that user can comment on or like. This function facilitates the communication around the event while gaging interest levels of those who a user might want to attend the event with. Furthermore, a private message platform can be arranged between friends so that details regarding an event can be discussed in private should they desire. Ticketing and seating options are also available from the app, allowing friends to pick seats next to each other but pay separately, then issued with an invoice linked to the payee. 
 
-For this assignment the app will only handle the API routes and payloads, but the finished product will include AI suggested dinner locations, transport, and more. Which will be used to ultimaetly leverage revenue for the app. Plus in app api routes to all major ticketing services for users to purchase from. 
+The app also allows users to create events with ticketing options and seating options. The user can then share the event with their friends by posting it, friends of the user making the post can also share the original post to gain more exposure. To buy a ticket a user does not have to be friends with the user who created the event should the event creator desire. This allows for the app to be used for small- and large-scale events, these can range from a small dinner at a restaurant where tickets are not required to huge concert that may require expenses like tickets, flights, accommodation, further travel, food, other events etc. 
+
+The app can leverage revenue by suggesting any of these expenses and organising them in app for the user. For example, if you’re going to a concert that starts at 9, the app can suggest a restaurant that has 5 stars that’s walking distance to the concert venue and can arrange a taxi or uber should the user require. And what about if friends at the concert lose each other in the crowds, the app’s private message function is the perfect place to contact all attendees to meet at the kebab shop across the road of the venue.  
+
+The app will allow users to register to create an account where they can store personal information that is protected by entering a password that is matched against a unique email address. The password is hashed using a third-party Flask library called bcrypt to ensure the integrity of the user’s data is maintained. 
 
 Storing info in DB
 
 Hashing passwords
+
+Authorisation
+
+Authentication
 
 Validation
 
