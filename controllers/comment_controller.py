@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.comment import Comment, comment_schema, comments_schema
 from models.post import Post 
+from utils import authorise_as_admin
 
 # a comment cannot exist without a card, it belongs to a card, so can
 # register Blueprint to posts_bp (posts blueprint), and therefore it will
@@ -17,7 +18,37 @@ comments_bp = Blueprint("comments", __name__, url_prefix="/<int:post_id>/comment
 # we only want all the comments linked to one post, which we get when fetching posts,
 # which we get when fetching a Post. 
 
+# post/<int:post_id>/comments - GET - fetch all comments on a post
+@comments_bp.route("/<int:comment_id>")
+@jwt_required()
+def fetch_single_comments(post_id, comment_id):
+    # fetch the post with the correct id - post_id (passed in url)
+    stmt = db.select(Comment).filter_by(id=comment_id)
+    comment = db.session.scalar(stmt)
 
+    if comment: 
+        
+        return comment_schema.dump(comment)
+    
+    else:
+        return {"error": f"Comment with id {comment_id} not found"}, 404
+
+
+# post/<int:post_id>/comments - GET - fetch all comments on a post
+@comments_bp.route("/")
+@jwt_required()
+def fetch_comments(post_id):
+    # fetch the post with the correct id - post_id (passed in url)
+    stmt = db.select(Post).filter_by(id=post_id)
+    post = db.session.scalars(stmt)
+
+    if post: 
+        stmt = db.select(Comment).order_by(Comment.id.asc())
+        users = db.session.scalars(stmt)
+        return comments_schema.dump(users)
+    
+    else:
+        return {"error": f"Post with id {post_id} not found"}, 404
 
 # Create comment route on a Post
 @comments_bp.route("/", methods=["POST"])
@@ -60,6 +91,11 @@ def delete_comment(post_id, comment_id):
     comment = db.session.scalar(stmt)
     # if comment exists
     if comment:
+        # check whether the user is an admin 
+        is_admin = authorise_as_admin()
+        # if the user is not the owner of the post
+        if not is_admin and str(comment.user_id) != get_jwt_identity():
+            return {"error": "User unorthorised to perform this request"}, 403
         # delete comment
         db.session.delete(comment)
         db.session.commit()
@@ -82,6 +118,9 @@ def update_comment(post_id, comment_id):
     comment = db.session.scalar(stmt)
     # if comment exists
     if comment:
+        # if the user is not the owner of the post
+        if str(comment.user_id) != get_jwt_identity():
+            return {"error": "Only the creator of a post can update it"}, 403
         # update the fields
         # only field we can update - with what ever the user has sent in payload
         # if data in the content payload, update, if not, leave as is

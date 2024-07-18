@@ -27,11 +27,11 @@ class Attending(db.Model):
     # Relationships
     user = db.relationship("User", back_populates="attending")
     event = db.relationship("Event", back_populates="attending", cascade="all, delete")
-    invoice = db.relationship("Invoice", back_populates="attending")
+    invoice = db.relationship("Invoice", back_populates="attending", cascade="all, delete")
 
 # SCHEMA
 class AttendingSchema(ma.Schema):
-    user = fields.Nested("UserSchema", only=["name", "email"])
+    user = fields.Nested("UserSchema", only=["name", "email", "is_admin"])
     event = fields.Nested("EventSchema", only=["title", "ticket_price"])
     invoice = fields.Nested("InvoiceSchema", only=["total_cost"])
     

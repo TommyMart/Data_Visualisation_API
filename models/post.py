@@ -66,7 +66,7 @@ class PostSchema(ma.Schema):
     # it has the same object as the UserSchema model, we only need name and id
     # to populate who the post is by and link to user profile via users.id
     # a post only has a single user so it is not fields.List
-    user = fields.Nested("UserSchema", only=["id", "name"])
+    user = fields.Nested("UserSchema", only=["id", "name", "email"])
     # A single card can have multiple comments so is a list
     # We don't need the card information again because we on the post
     

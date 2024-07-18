@@ -1,12 +1,18 @@
+
+# Built-in Python Libraries
 from datetime import datetime
 
+# External Libraries
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+# Imports from local files
 from init import db
 from controllers.comment_controller import comments_bp
 from controllers.like_controller import likes_bp
 from models.post import Post, post_schema, posts_schema
+from models.user import User
+from utils import authorise_as_admin
 
 
 posts_bp = Blueprint("posts", __name__, url_prefix="/posts")
@@ -70,6 +76,11 @@ def delete_post(post_id):
     post = db.session.scalar(stmt)
     # if post exists
     if post:
+        # check whether the user is an admin 
+        is_admin = authorise_as_admin()
+        # if the user is not the owner of the post
+        if not is_admin and str(post.user_id) != get_jwt_identity():
+            return {"error": "User unorthorised to perform this request"}, 403
         # delete the post
         db.session.delete(post)
         db.session.commit()
@@ -92,8 +103,13 @@ def update_post(post_id):
     # get the card from the DB, post_id is id passed in route
     stmt = db.select(Post).filter_by(id=post_id)
     post = db.session.scalar(stmt)
+
+    
     # if a card exists 
     if post:
+        # if the user is not the owner of the post
+        if str(post.user_id) != get_jwt_identity():
+            return {"error": "Only the creator of a post can update it"}, 403
         # update the fields as required
         # if the frontend has provided a title in payload,
         # update the title, if not, leave title as is
@@ -112,3 +128,11 @@ def update_post(post_id):
         # return an error 
         return {"error": f"Post with id {post_id} not found"}
     
+# def authorise_as_admin():
+#     # get the users id from get_jwt_identity()
+#     user_id = get_jwt_identity()
+#     # fetch the user from the DB
+#     stmt = db.select(User).filter_by(id=user_id)
+#     user = db.session.scalar(stmt)
+#     # check whether the user is an admin or not
+#     return user.is_admin

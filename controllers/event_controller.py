@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.event import Event, event_schema, events_schema
 from controllers.attending_controller import attending_bp
+from utils import authorise_as_admin
 
 events_bp = Blueprint("events", __name__, url_prefix="/events")
 events_bp.register_blueprint(attending_bp)
@@ -69,6 +70,11 @@ def delete_event(event_id):
     event = db.session.scalar(stmt)
 
     if event:
+        # check whether the user is an admin 
+        is_admin = authorise_as_admin()
+        # if the user is not the owner of the post
+        if not is_admin and str(event.event_admin_id) != get_jwt_identity():
+            return {"error": "User unorthorised to perform this request"}, 403
         db.session.delete(event)
         db.session.commit()
         return {"message": f"Event '{event.title}' deleted successfully"}
@@ -85,6 +91,9 @@ def update_event(event_id):
     event = db.session.scalar(stmt)
 
     if event:
+        # if the user is not the owner of the post
+        if str(event.event_admin_id) != get_jwt_identity():
+            return {"error": "Only the creator of a post can update it"}, 403
         event.title = body_data.get("title") or event.title
         event.description = body_data.get("description") or event.description
         event.date = body_data.get("date") or event.date
