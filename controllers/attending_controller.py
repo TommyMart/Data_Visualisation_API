@@ -18,7 +18,7 @@ attending_bp.register_blueprint(invoice_bp)
 # /<int:event_id>/attending - GET - fetch all attending an event
 @attending_bp.route("/")
 @jwt_required()
-def fetch_event_attendees(event_id):
+def fetch_event_attending(event_id):
 
     # Check if the event exists
     event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
@@ -37,22 +37,22 @@ def fetch_event_attendees(event_id):
         return {"error": f"No attendees found for event with id '{event_id}"}, 404
 
 # /<int:event_id>/attending/<int:attendee_id> - GET - fetch a specific attendee for an event
-@attending_bp.route("/<int:attendee_id>")
+@attending_bp.route("/<int:attending_id>")
 @jwt_required()
-def fetch_specific_attendee(event_id, attendee_id):
+def fetch_specific_attendee(event_id, attending_id):
     # Check if the event exists
     event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
     
     if not event_exists:
         return {"error": f"Event with id '{event_id}' does not exist."}, 404
     
-    stmt = db.select(Attending).filter_by(event_id=event_id, id=attendee_id)
+    stmt = db.select(Attending).filter_by(event_id=event_id, id=attending_id)
     attendee = db.session.scalar(stmt)
 
     if attendee:
         return attending_schema.dump(attendee)
     else:
-        return {"error": f"No attendee found with id '{attendee_id}' for event with id '{event_id}'"}, 404
+        return {"error": f"No attendee found with id '{attending_id}' for event with id '{event_id}'"}, 404
 
 # /<int:event_id>/attending - POST - attending an event
 @attending_bp.route("/", methods=["POST"])
@@ -112,9 +112,9 @@ def attending_event(event_id):
     
 
 # Update comment - /posts/post_id/comments/comment_id
-@attending_bp.route("/<int:attending_id>", methods=["PUT", "PATCH"])
+@attending_bp.route("/<int:attendee_id>", methods=["PUT", "PATCH"])
 @jwt_required()
-def update_attending(event_id, attending_id):
+def update_attendee(event_id, attendee_id):
 
     # Check if the event exists
     event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
@@ -122,36 +122,50 @@ def update_attending(event_id, attending_id):
     if not event_exists:
         return {"error": f"Event with id '{event_id}' does not exist."}, 404
     
+
     body_data = attending_schema.load(request.get_json(), partial=True)
-    stmt = db.session(Attending).filter_by(id=attending_id)
+    stmt = db.select(Attending).filter_by(event_id=event_id, id=attendee_id)
     attending = db.session.scalar(stmt)
+
+    
+    
+    
 
     if attending:
         # if the user is not the owner of the post
-        if str(attending.user_id) != get_jwt_identity():
+        if str(attending.attending_id) != get_jwt_identity():
             return {"error": "Only the creator of a post can update it"}, 403
         attending.total_tickets = body_data.get("total_tickets") or attending.total_tickets
         attending.seat_section = body_data.get("seat_section") or attending.seat_section
-        attending.time_stamp = body_data.get("time_stamp") or attending.time_stamp
+        attending.timestamp = body_data.get("time_stamp") or attending.timestamp
     
         db.session.commit()
         return attending_schema.dump(attending)
     
     else:
-        return {"error": f"Attending with id '{attending_id}' not found"}
+        return {"error": f"Attending with id '{attendee_id}' not found"}
     
 
-@attending_bp.route("/<int:attending_id>", methods=["DELETE"])
+@attending_bp.route("/<int:attendee_id>", methods=["DELETE"])
 @jwt_required()
-def delete_attending(event_id, attending_id):
+def delete_attending(event_id, attendee_id):
+
+    # Check if the event exists
+    event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
+    
+    if not event_exists:
+        return {"error": f"Event with id '{event_id}' does not exist."}, 404
+    
+    stmt = db.select(Attending).filter_by(event_id=event_id, id=attendee_id)
+    attendee = db.session.scalar(stmt)
     # fetch the attending from the DB
-    stmt = db.select(Attending).filter_by(id=attending_id)
+    stmt = db.select(Attending).filter_by(id=attendee_id)
     attending = db.session.scalar(stmt)
     # if attending exists
     if attending:
         # check whether the user is an admin 
         is_admin = authorise_as_admin()
-        # if the user is not the owner of the post
+        # if the user is not the owner of the attending
         if not is_admin and str(attending.user_id) != get_jwt_identity():
             return {"error": "User unorthorised to perform this request"}, 403
         # delete attending
@@ -162,4 +176,4 @@ def delete_attending(event_id, attending_id):
     # else
     else:
         # return error saying attending does not exist
-        return {"error": f"Attending with id {attending_id} not found"}, 404
+        return {"error": f"Attending with id {attendee_id} not found"}, 404
