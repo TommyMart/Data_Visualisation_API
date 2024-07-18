@@ -203,16 +203,9 @@ Given these pros and cons, postgrSQL is an ideal database system for those with 
 
 ### R5. Explain the features, purpose and functionalities of the object-relational mapping system (ORM) used in this app.
 
-The Object Relational Mapping system or ORM used for this application is SQLAlchemy. 
-
-<img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="70%"/>
-
-
-But firstly, lets define what an Object Relational Model (ORM) is. 
+Firstly, lets define what an Object Relational Model (ORM) is. 
 
 According to freecodecamp.com, ‘Object Relational Mapping (ORM) is a technique used in creating a "bridge" between object-oriented programs and, in most cases, relational databases (Abba 2022).’
-
-And put in a way relating to our API application, SQLAlchemy is the layer that interacts with the Postgres relational database using SQL language via its own querying methods and an object-oriented programming language like Python. 
 
 For example, here is a query in SQL that retrieves data about a user. 
 
@@ -228,8 +221,33 @@ While using an ORM tool the same query can be written like this:
 -	SQLObject
 -	SQLAlchemy
 
+The Object Relational Mapping system or ORM used for this application is SQLAlchemy. 
 
+<img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="70%"/>
 
+And put in a way relating to our API application, SQLAlchemy is the layer that interacts with the Postgres relational database using SQL language via its own querying methods and an object-oriented programming language like Python. 
+
+#### Some of the main features include:
+
+- SQL Expression Language: SQLAlchemy provides a comprehensive suite of well-known enterprise-level persistence patterns, designed to facilitate efficient and high-performing database access. It enables the creation of SQL queries in a Pythonic way, abstracting the complexities of SQL while offering a powerful and flexible way to interact with databases.
+
+- ORM: The Object-Relational Mapper (ORM) offers a high-level API for working with database records as Python objects, making it easier to interact with the database using Python code. It supports complex object relationships, lazy loading, and polymorphic inheritance, allowing developers to work with data in a more intuitive and object-oriented manner.
+
+- Database Connectivity: SQLAlchemy supports a wide range of major relational databases, including PostgreSQL, MySQL, SQLite, Oracle, and Microsoft SQL Server. This ensures broad compatibility and flexibility, allowing developers to choose the database that best fits their needs without worrying about compatibility issues.
+
+- Schema Generation: Automatically generating database schemas from Python classes reduces the need for manual schema creation. This feature ensures that the database schema is always in sync with the application's data models, simplifying development and maintenance.
+
+- Schema Migration: SQLAlchemy integrates with Alembic, a lightweight database migration tool for handling database migrations. This integration makes it easy to manage schema changes over time, ensuring that the database evolves with the application without manual intervention.
+
+- Transactions: Full support for database transactions ensures data integrity and consistency. SQLAlchemy allows developers to manage transactions easily, providing control over the commit and rollback operations to handle data safely and effectively.
+
+- SQL Compilation: SQLAlchemy compiles Python expressions into SQL statements, offering a powerful and expressive way to generate SQL queries. This feature allows developers to write complex queries using Python syntax, making the code more readable and maintainable.
+
+- Performance: SQLAlchemy optimizes database access through various techniques such as connection pooling, which reuses database connections, and query caching, which stores the results of frequently executed queries. These optimizations enhance the performance and scalability of database interactions.
+
+- Extensibility: Designed with extensibility in mind, SQLAlchemy allows developers to customize and extend its functionality as needed. It provides hooks and plugins for adding new behaviors and integrating with other tools, ensuring that it can adapt to the unique requirements of different projects.
+
+- Community and Documentation: SQLAlchemy is backed by a large and active community, providing a wealth of resources, support, and contributions. Comprehensive documentation, including tutorials, guides, and API references, helps developers learn how to use SQLAlchemy effectively and troubleshoot any issues they may encounter.
 
 
 ---
