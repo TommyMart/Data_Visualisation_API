@@ -227,7 +227,7 @@ The Object Relational Mapping system or ORM used for this application is SQLAlch
 
 And put in a way relating to our API application, SQLAlchemy is the layer that interacts with the Postgres relational database using SQL language via its own querying methods and an object-oriented programming language like Python. 
 
-#### Some of the main features include:
+#### Some of its main features include:
 
 - SQL Expression Language: SQLAlchemy provides a comprehensive suite of well-known enterprise-level persistence patterns, designed to facilitate efficient and high-performing database access. It enables the creation of SQL queries in a Pythonic way, abstracting the complexities of SQL while offering a powerful and flexible way to interact with databases.
 
@@ -249,6 +249,51 @@ And put in a way relating to our API application, SQLAlchemy is the layer that i
 
 - Community and Documentation: SQLAlchemy is backed by a large and active community, providing a wealth of resources, support, and contributions. Comprehensive documentation, including tutorials, guides, and API references, helps developers learn how to use SQLAlchemy effectively and troubleshoot any issues they may encounter.
 
+Now let’s look at how the apps code uses the features, purpose and functionalities of SQLAlchemy. 
+
+For this application SQLAlchemy was assigned to 'db', `db = SQLAlchemy()`, and therfore for the code examples every time we see 'db' we are accessing features from the SQLAlchemy library. 
+
+Models - when creating a table we use an SQLAlchemy class called ‘Model’, `class User(db.Model):`, creates a model class named ‘users’, that represents a table in the database. 
+
+
+Table Names - we can then assign a name to the Model class, or table, using `__tablename__ = "users"`, that sets the name to ‘users.
+
+Columns – we then create the table columns, or attributes, assigning them individual datatypes and constraints. Examples of the datatypes used in the app are:
+-	String
+-	Integer
+-	Date
+-	Float
+-	Boolean
+
+And examples of the constraints used in the app are:
+-	Primary key
+-	Foreign key 
+-	Unique 
+-	Default
+-	Nullable
+
+`id = db.Column(db.Integer, primary_key=True)`
+Where ‘id’ is a column of the table, with a datatype of integer and is the primary key of the table. 
+`user_id = db.Column(db.Integer, db.ForeignKey('users.id')`
+Where 'name' is a column of a table, with a datatype of integer, and is a foriegn key of the 'id' attribute from the users table.
+`name = db.Column(db.String, nullable=False)`
+Where ‘name’ is a column of the table, with a datatype of string and cannot be null. 
+
+Relationships - define how different tables or models relate to each other. 
+
+`‘posts = db.relationship("Post", back_populates="user", cascade="all, delete")’`
+
+Let’s break this code down…
+-	`db.relationship` is a function that defines that there is a relationship.
+-	`”Post”` is the name of the related model.
+-	`back_populates=”user”` - specifies the attribute on the related model that points back to the current model. This indicates that the ‘Post’ model has an attribute ‘user’ that points back to the ‘User’ model.
+-	` cascade="all, delete"` - determines that all related objects are deleted when the parent object is deleted. For example, when a user is deleted so are the users posts and comments. 
+
+This code connects the Post model and the user field, a user can make multiple posts, but a post can only be created by one user. 
+
+
+
+
 
 ---
 
@@ -268,6 +313,9 @@ Submitted on the 12th of July for approval.
 ---
 
 ### R7. Explain the implemented models and their relationships, including how the relationships aid the database implementation.
+
+
+
 
 SQLAlchemy terms - back populates, cascade
 Reasoning behind any changes to the ERD
