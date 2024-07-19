@@ -93,11 +93,11 @@ I therefore changed the due dates of readme requirements 4 and 5 to the 23rd of 
 ### Marshmallow
 <img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
 
-- Marshmallow is a framework-agnostic library for serializing and deserializing complex data types, such as objects, into native Python datatypes.
+- Marshmallow is a framework-agnostic library for serializing and deserializing complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
 
 ### SQLAlchemy 
 
-- SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL.
+- SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL. It allows for full control over SQL statements, supports complex queries, and facilitates the management of database schemas. By bridging the gap between Python objects and relational database tables, SQLAlchemy streamlines database interactions, making it easier to build and maintain scalable applications.
 
 ### bcrypt
 <img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="30%"/>
@@ -131,6 +131,7 @@ I therefore changed the due dates of readme requirements 4 and 5 to the 23rd of 
     - Flask-SQLAlchemy is an extension that simplifies the integration of SQLAlchemy into Flask applications, making database interactions more straightforward.
 * itsdangerous
 * Jinja2
+    - Jinja2 is a fast, extensible templating engine for Python, designed to generate HTML, XML, and other markup formats by combining static templates with dynamic data.
 * MarkupSafe
 * marshmallow-sqlalchemy
     - Marshmallow-SQLAlchemy integrates Marshmallow's serialization and deserialization capabilities with SQLAlchemy, facilitating the conversion of SQLAlchemy models to and from Python datatypes.
@@ -292,7 +293,35 @@ Let’s break this code down…
 This code connects the Post model and the user field, a user can make multiple posts, but a post can only be created by one user. 
 
 
+Here are some common SQLAlchemy methods, most used in this app, and their purposes:
 
+- commit: db.session.commit(): Commits the current transaction, saving all changes made during the transaction to the database.
+
+- delete: db.session.delete(instance): Marks an instance (record) for deletion from the database. The change is finalized when commit() is called.
+
+- session: db.session: Represents the database session used to manage and persist operations on objects and transactions. It's the main interface for interacting with the database.
+
+- select: db.select([columns]): Constructs a SQL SELECT statement to query data from the database. It's used to retrieve records based on certain criteria.
+
+- add: db.session.add(instance): Adds a new instance (record) to the session to be inserted into the database upon commit.
+
+- query: db.session.query(Model): Creates a query object for the specified model, allowing you to retrieve data from the database using various filtering and ordering methods.
+
+- filter: query.filter(condition): Adds filtering conditions to a query, returning only the records that match the specified condition.
+
+- filter_by: query.filter_by(**kwargs): Adds filtering conditions to a query using keyword arguments to specify column-value pairs.
+
+- scalar: query.scalar(): Executes the query and returns a single scalar result, which is the first column of the first row in the result set.
+
+- scalars: query.scalars(): Executes the query and returns an iterator of scalar results, which are the values of the first column for all rows in the result set.
+
+- all: query.all(): Executes the query and returns all results as a list of instances.
+
+- first: query.first(): Executes the query and returns the first result, or None if no result is found.
+
+- update: query.update(values): Performs a bulk update operation on the records that match the query's filter conditions, setting the specified column values.
+
+- rollback: db.session.rollback(): Rolls back the current transaction, undoing any changes made during the transaction.
 
 
 ---
