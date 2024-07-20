@@ -150,7 +150,7 @@ JWT-Extended is a Flask extension that provides robust support for JSON Web Toke
 
 Dotenv, or .env, is a simple module that loads environment variables from a .env file into a project's environment. This file typically contains key-value pairs, such as API keys, database URLs, and other configuration settings, allowing developers to manage sensitive information and configuration details separately from the codebase. By keeping these variables in a .env file, it enhances security and makes it easier to configure different environments (e.g., development, testing, production) without altering the code.
 
-### App Requirements not mentioned above
+### App third-party services not mentioned above
 
 * blinker
 * click
@@ -402,6 +402,8 @@ Finally (in-code): All queries to the database must be commented with an explana
 
 All images in readme go in DOCS, all source code go into DOCS
 
+For the applicaiton endpoints below, those with methods GET and DELETE, do not require any body date. For the example screenshots taken from Insomnia, the body data you can see is a part of the JWT Token consisting of random characters. 
+
 ### Authentication
 
 ***Login*** <br>
@@ -515,7 +517,7 @@ Description:  <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_comments_post.png" alt="Create a Post" width="70%"/> 
 
-***Fetch a Comment on a Post*** <br>
+***Fetch a Comment*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
@@ -542,7 +544,94 @@ Payload & Response: <br>
 ***Delete Comment*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
 Method: DELETE <br>
-Authorisation: Creator JWT Token or Admin and JWT Token<br>
+Authorisation: Creator JWT Token or Admin <br>
 Description:  <br>
 Payload & Response: <br>
 <img src="DOCS/delete_comment.png" alt="Delete a Comment" width="70%"/> 
+
+### Likes
+
+***Fetch Likes on a Post*** <br>
+URL Path: `http://localhost:8080/posts/2/likes` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_likes.png" alt="Fetch likes on a Post" width="70%"/> 
+
+***Like a Post*** <br>
+URL Path: `http://localhost:8080/posts/2/likes` <br>
+Method: POST <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/new_like.png" alt="Like a Post" width="70%"/> 
+
+***Delete a Like*** <br>
+URL Path: `http://localhost:8080/posts/2/likes/<int:like_id>` <br>
+Method: DELETE <br>
+Authorisation: Creators JWT Token or Admin <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/delete_like.png" alt="Delete a Like" width="70%"/> 
+
+### Events
+
+***Fetch Events*** <br>
+URL Path: `http://localhost:8080/events` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_likes.png" alt="Fetch Events" width="70%"/> 
+
+***Fetch Specific Event*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_event.png" alt="Fetch an Event" width="70%"/> 
+
+***Fetch Specific Event*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_event.png" alt="Fetch an Event" width="70%"/> 
+
+***Search for Event*** <br>
+URL Path: `http://localhost:8080/events/search/<string:event_title>` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/search_event.png" alt="Search for an Event" width="70%"/> 
+
+***New Event*** <br>
+URL Path: `http://localhost:8080/events` <br>
+Method: POST <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/new_event.png" alt="Search for an Event" width="70%"/> 
+
+***Update Event*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>` <br>
+Method: PUT or PATCH <br>
+Authorisation: Creators JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/update_event.png" alt="Update an Event" width="70%"/> 
+
+***Delete Event*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>` <br>
+Method: DELETE <br>
+Authorisation: Creators JWT Token or Admin<br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/delete_event.png" alt="Delete Event" width="70%"/> 
+
+### Attending
+

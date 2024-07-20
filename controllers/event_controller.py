@@ -44,21 +44,21 @@ def get_single_event(event_id):
         # return message and error status code
         return {"error": f"Event with id {event_id} not found"}, 404
     
-# event/search/<string:event_name> - GET - fetch event/s by partial event_name
-@events_bp.route("/search/<string:event_name>")
+# event/search/<string:event_title> - GET - fetch event/s by partial event_title
+@events_bp.route("/search/<string:event_title>")
 @jwt_required()
-def search_event_by_name(event_name):
+def search_event_by_name(event_title):
     # Construct the LIKE pattern for partial matching
-    like_pattern = f"%{event_name}%"
+    like_pattern = f"%{event_title}%"
 
     # Perform a case-insensitive search using ilike (case-insensitive LIKE)
-    stmt = db.select(Event).filter(Event.event_name.ilike(like_pattern))
+    stmt = db.select(Event).filter(Event.title.ilike(like_pattern))
     events = db.session.scalars(stmt).all()
 
     if events:
         return events_schema.dump(events)
     else:
-        return {"error": f"No events found matching '{event_name}'"}, 404
+        return {"error": f"No events found matching '{event_title}'"}, 404
 
 
 # /events/ - POST - create a new event
