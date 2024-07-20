@@ -402,11 +402,38 @@ Finally (in-code): All queries to the database must be commented with an explana
 
 All images in readme go in DOCS, all source code go into DOCS
 
-***Login***
-URL Path: http://localhost:8080/auth/login
-Method: POST
-Authorisation: NA 
-Description: A user can login using their existing email and password. If a match is found in the database, the user is provided with a JWT token to perform queries that is valid for 24hrs. 
-Payload & Response:
-<img src="DOCS/insomnia_login.png" alt="SQLAlchemy logo" width="70%"/>
+### Authentication
 
+***Login*** <br>
+URL Path: http://localhost:8080/auth/login <br>
+Method: POST <br>
+Authorisation: NA <br>
+Description: A user can login using their existing email and password. If a match is found in the database, the user is provided with a JWT token to perform queries that is valid for 24hrs. <br>
+Payload & Response: <br>
+<img src="DOCS/insomnia_login.png" alt="Insomnia Login" width="70%"/>
+
+***Register*** <br>
+URL Path: http://localhost:8080/auth/register <br>
+Method: POST <br>
+Authorisation: NA <br>
+Description: A user can register to the app, creating their own account with data, including a password and email that is used to create a JWT token that provides them the authority to interact with the app. <br>
+Payload & Response: <br>
+<img src="DOCS/insomnia_register.png" alt="Insomnia Register" width="70%"/>
+
+### Users
+
+***Fetch Users*** <br>
+URL Path: http://localhost:8080/user <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_users.png" alt="Insomnia Register" width="70%"/>
+
+***Fetch A Specific User*** <br>
+URL Path: http://localhost:8080/user/1 <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_a_user.png" alt="Insomnia Register" width="70%"/>
