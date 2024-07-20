@@ -405,7 +405,7 @@ All images in readme go in DOCS, all source code go into DOCS
 ### Authentication
 
 ***Login*** <br>
-URL Path: http://localhost:8080/auth/login <br>
+URL Path: `http://localhost:8080/auth/login` <br>
 Method: POST <br>
 Authorisation: NA <br>
 Description: A user can login using their existing email and password. If a match is found in the database, the user is provided with a JWT token to perform queries that is valid for 24hrs. <br>
@@ -413,7 +413,7 @@ Payload & Response: <br>
 <img src="DOCS/insomnia_login.png" alt="Insomnia Login" width="70%"/>
 
 ***Register*** <br>
-URL Path: http://localhost:8080/auth/register <br>
+URL Path: `http://localhost:8080/auth/register` <br>
 Method: POST <br>
 Authorisation: NA <br>
 Description: A user can register to the app, creating their own account with data, including a password and email that is used to create a JWT token that provides them the authority to interact with the app. <br>
@@ -423,7 +423,7 @@ Payload & Response: <br>
 ### Users
 
 ***Fetch Users*** <br>
-URL Path: http://localhost:8080/user <br>
+URL Path: `http://localhost:8080/user` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
@@ -431,9 +431,118 @@ Payload & Response: <br>
 <img src="DOCS/fetch_users.png" alt="Insomnia Register" width="70%"/>
 
 ***Fetch A Specific User*** <br>
-URL Path: http://localhost:8080/user/1 <br>
+URL Path: `http://localhost:8080/user/<int:user_id` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_a_user.png" alt="Insomnia Register" width="70%"/>
+
+***Search by user_namer*** <br>
+URL Path: `http://localhost:8080/search/<string:user_name>` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/search_user_name.png" alt="Insomnia Search by user_name" width="70%"/> 
+
+***Update a User*** <br>
+URL Path: `http://localhost:8080/user/<int:user_id>` <br>
+Method: PUT or PATCH <br>
+Authorisation: Creators JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/update_user.png" alt="Insomnia updaet user" width="70%"/> 
+
+***Delete a User*** <br>
+URL Path: `http://localhost:8080/user/<int:user_id>` <br>
+Method: DELETE <br>
+Authorisation: Creators JWT Token or Admin and JWT Token<br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/delete_user.png" alt="Insomnia delete user" width="70%"/> 
+
+
+### Posts
+
+***Fetch a Post*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_post.png" alt="Create a Post" width="70%"/> 
+
+***Fetch all Posts*** <br>
+URL Path: `http://localhost:8080/posts/` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_posts.png" alt="Fecth all posts" width="70%"/> 
+
+***Create a Post*** <br>
+URL Path: `http://localhost:8080/posts` <br>
+Method: POST <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/create_a_post.png" alt="Insomnia delete user" width="70%"/> 
+
+***Update a Post*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
+Method: PUT or PATCH <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/update_post.png" alt="Update a post" width="70%"/> 
+
+***Delete a Post*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
+Method: DELETE <br>
+Authorisation: Creators JWT Token or Admin and JWT Token<br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/delete_post.png" alt="Delete a post" width="70%"/> 
+
+### Comments
+
+***Fetch all Comments on a Post*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/comments` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_comments_post.png" alt="Create a Post" width="70%"/> 
+
+***Fetch a Comment on a Post*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_a_comment.png" alt="Create a Post" width="70%"/> 
+
+***New Post Comment*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/comments` <br>
+Method: POST <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/new_comment.png" alt="Create a Post" width="70%"/> 
+
+***Update Comment*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
+Method: PUT or PATCH <br>
+Authorisation: Creator JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/update_comment.png" alt="Update a Comment" width="70%"/> 
+
+***Delete Comment*** <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
+Method: DELETE <br>
+Authorisation: Creator JWT Token or Admin and JWT Token<br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/delete_comment.png" alt="Delete a Comment" width="70%"/> 
