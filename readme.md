@@ -16,27 +16,51 @@ The main tech-stack used for this application includes:
 
 ### R1. Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
 
-This application solves the problem that a user can create a private and secure account, that facilitates the access to events and ticketing options, while enabling a communication stream between users that are connected via a friendship. A user can make a post about an event that friends of that user can comment on or like. This function facilitates the communication around the event while gaging interest levels of those who a user might want to attend the event with. Furthermore, a private message platform can be arranged between friends so that details regarding an event can be discussed in private should they desire. Ticketing and seating options are also available from the app, allowing friends to pick seats next to each other but pay separately, then issued with an invoice linked to the payee. 
+This application addresses several key issues related to event management and social interactions around events. The primary problem it solves is providing a secure and efficient platform for users to manage event access, ticketing, and communication with friends.
 
-The app also allows users to create events with ticketing options and seating options. The user can then share the event with their friends by posting it, friends of the user making the post can also share the original post to gain more exposure. To buy a ticket a user does not have to be friends with the user who created the event should the event creator desire. This allows for the app to be used for small- and large-scale events, these can range from a small dinner at a restaurant where tickets are not required to huge concert that may require expenses like tickets, flights, accommodation, further travel, food, other events etc. 
+### Problem and Solution Overview:
 
-The app can leverage revenue by suggesting any of these expenses and organising them in app for the user. For example, if you’re going to a concert that starts at 9, the app can suggest a restaurant that has 5 stars that’s walking distance to the concert venue and can arrange a taxi or uber should the user require. And what about if friends at the concert lose each other in the crowds, the app’s private message function is the perfect place to contact all attendees to meet at the kebab shop across the road of the venue.  
+**Secure Account Creation and Event Access:**
 
-The app will allow users to register to create an account where they can store personal information that is protected by entering a password that is matched against a unique email address. The password is hashed using a third-party Flask library called bcrypt to ensure the integrity of the user’s data is maintained. 
+Problem: Users need a secure way to create accounts and manage their personal information while accessing events and ticketing options.
+Solution: The app allows users to create private, secure accounts protected by hashed passwords using the bcrypt library. Users can log in with their credentials, and a JWT token is issued for secure session management. This token verifies the user's identity for all interactions, ensuring data integrity and privacy.
 
-Storing info in DB
+**Event Communication and Engagement:**
 
-Hashing passwords
+Problem: Users need a platform to discuss events, gauge interest, and communicate with friends.
+Solution: Users can post about events, and friends can comment and like these posts, facilitating communication and interest gauging. Additionally, a private messaging feature allows friends to discuss event details securely.
 
-Authorisation
+**Integrated Ticketing and Seating Management:**
 
-Authentication
+Problem: Users want to purchase tickets and select seats, often wanting to sit together but pay separately.
+Solution: The app provides ticketing and seating options, allowing users to select seats next to their friends while handling payments individually. An invoice linked to the payee is issued, streamlining the process.
 
-Validation
+**Event Creation and Sharing:**
 
-JWT token 
+Problem: Users need a way to create events, manage ticketing, and share events with a broader audience.
+Solution: Users can create events with ticketing and seating options and share these events with their friends through posts. Friends can further share the posts, increasing event exposure. The app supports both small and large-scale events, making it versatile for various event types.
 
-Bcrypt
+**Revenue Generation through Recommendations:**
+
+Problem: Users often need assistance planning additional aspects of their event experience, such as dining and transportation.
+Solution: The app suggests related expenses and services, such as nearby restaurants, transportation options, and other activities. For instance, if a user is attending a concert, the app might recommend a highly-rated restaurant nearby and arrange a taxi or Uber if needed.
+
+**User-Friendly Search and Interaction:**
+
+Problem: Users need an efficient way to find friends and events without needing exact spellings.
+Solution: The app allows partial string searches, returning results that include any part of the search input. For example, searching for 'my' would return 'Tommy', 'Amy', 'Sammy', etc.
+
+**Comprehensive Data Management:**
+
+Problem: Users and admins need to manage various data types related to events, posts, comments, and more.
+Solution: Users can create, view, update, and delete data they have created, with admins having full authorization to manage the app's data. Data validation ensures that the correct information is stored, such as validating email formats and password strength.
+
+**Seating Section and Ticket Limits:**
+
+Problem: Users need to choose specific seating sections and ensure ticket limits are enforced.
+Solution: The app provides different seating sections (General Admission, Section C, B, A, VIP) and enforces limits on ticket sales per section. A CLI function allows checking the total tickets sold for an event.
+
+This comprehensive application effectively addresses the needs of users looking to manage events, communicate with friends, and handle ticketing in a secure and user-friendly manner. Furthermore, not all functionalities mentioned in the above solutions will be implemented in the initial API route design due on the 28th of July. These include the AI suggestions, seat number selection, dynamic total cost invoices, and private messaging.
 
 ---
 
@@ -250,9 +274,11 @@ And put in a way relating to our API application, SQLAlchemy is the layer that i
 
 - **Community and Documentation**: SQLAlchemy is backed by a large and active community, providing a wealth of resources, support, and contributions. Comprehensive documentation, including tutorials, guides, and API references, helps developers learn how to use SQLAlchemy effectively and troubleshoot any issues they may encounter.
 
+(Features - SQLAlchemy n.d.)
+
 Now let’s look at how the apps code uses the features, purpose and functionalities of SQLAlchemy. 
 
-For this application SQLAlchemy was assigned to 'db', `db = SQLAlchemy()`, and therfore for the code examples every time we see 'db' we are accessing features from the SQLAlchemy library. 
+For this application SQLAlchemy was assigned to 'db', `db = SQLAlchemy()`, and therfore for the code examples every time we see 'db' we are accessing the SQLAlchemy library features. For further understanding of the SQLAlchemy methods used in the following code, such as commit, select, session, filter_by etc. please refer to the end of this answer for a brief explanation. 
 
 **Models** - when creating a table we use an SQLAlchemy class called ‘Model’, `class User(db.Model):`, creates a model class named ‘users’, that represents a table in the database. 
 
@@ -292,9 +318,13 @@ Let’s break this code down…
 
 This code connects the Post model and the user field, a user can make multiple posts, but a post can only be created by one user. 
 
+**Database Interaction**
+
+Next is fetching data from the database, first a SQL statement that determines what data is to be fetched, `db.select(User).filter_by(id=user_id)`, in this case it is a User iteration based on the id passed in the route URL. Then we execute the statement and retrieve the selected data and store it in a variable such as 'user - `user = db.session.scalar(stmt)`. Scalar executes a query that returns a single result, while scalars can return multiple results. Then, if the data is found, it is serialised and returned to the client in the form of JSON - ` return user_schema.dump(user)`. If it is not found, an error message and status code is returned to the client in JSON instead - ` return {"error": f"User with id {user_id} not found"}, 404`.
 
 
-Here are some common SQLAlchemy methods, most are used in this app, and their purposes:
+
+Here are a few of the more common SQLAlchemy methods, most of which are used in this app but not all, and their purpose:
 
 - **commit**: db.session.commit(): Commits the current transaction, saving all changes made during the transaction to the database.
 
@@ -323,7 +353,6 @@ Here are some common SQLAlchemy methods, most are used in this app, and their pu
 - **update**: query.update(values): Performs a bulk update operation on the records that match the query's filter conditions, setting the specified column values.
 
 - **rollback**: db.session.rollback(): Rolls back the current transaction, undoing any changes made during the transaction.
-
 
 ---
 
