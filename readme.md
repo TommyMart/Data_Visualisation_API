@@ -164,7 +164,7 @@ For this question we will be discussing the pro and cons of PostgreSQL, because 
 
 PostgreSQL was one of the first DBMS’s to be created and is still used frequently for web databases found in industry today. It is a free, open-source database, that allows users to control structured and unstructured data. It is a highly flexible database and is used across many industries and scenarios. It is an object relational database, which means that it includes both relational and object-orientated databases. It also can communicate with other modern frameworks such as Ruby on Rails, Node.js or Django. (Object-Relational Database Management System n.d.). A postgreSQL environment can be hosted virtually, physically and in the cloud, and can be used on most operating systems and platforms (such as Linux) (Arsenault 2017). 
 
-#### Pro's
+**Pro's**
 
 * The engine of the database system is scalable. 
 * The software is open source.
@@ -190,7 +190,7 @@ PostgreSQL was one of the first DBMS’s to be created and is still used frequen
 (PostgreSQL: a closer look at the object-relational database management system n.d.)
 
 
-#### Con's
+**Con's**
 
 * Documentation can be more difficult to find than some other competing database systems and expandable documentation is often only in English.
 * The configuration method can be confusing to some. 
@@ -230,36 +230,36 @@ And put in a way relating to our API application, SQLAlchemy is the layer that i
 
 #### Some of its main features include:
 
-- SQL Expression Language: SQLAlchemy provides a comprehensive suite of well-known enterprise-level persistence patterns, designed to facilitate efficient and high-performing database access. It enables the creation of SQL queries in a Pythonic way, abstracting the complexities of SQL while offering a powerful and flexible way to interact with databases.
+- **SQL Expression Language**: SQLAlchemy provides a comprehensive suite of well-known enterprise-level persistence patterns, designed to facilitate efficient and high-performing database access. It enables the creation of SQL queries in a Pythonic way, abstracting the complexities of SQL while offering a powerful and flexible way to interact with databases.
 
-- ORM: The Object-Relational Mapper (ORM) offers a high-level API for working with database records as Python objects, making it easier to interact with the database using Python code. It supports complex object relationships, lazy loading, and polymorphic inheritance, allowing developers to work with data in a more intuitive and object-oriented manner.
+- **ORM**: The Object-Relational Mapper (ORM) offers a high-level API for working with database records as Python objects, making it easier to interact with the database using Python code. It supports complex object relationships, lazy loading, and polymorphic inheritance, allowing developers to work with data in a more intuitive and object-oriented manner.
 
-- Database Connectivity: SQLAlchemy supports a wide range of major relational databases, including PostgreSQL, MySQL, SQLite, Oracle, and Microsoft SQL Server. This ensures broad compatibility and flexibility, allowing developers to choose the database that best fits their needs without worrying about compatibility issues.
+- **Database Connectivity**: SQLAlchemy supports a wide range of major relational databases, including PostgreSQL, MySQL, SQLite, Oracle, and Microsoft SQL Server. This ensures broad compatibility and flexibility, allowing developers to choose the database that best fits their needs without worrying about compatibility issues.
 
-- Schema Generation: Automatically generating database schemas from Python classes reduces the need for manual schema creation. This feature ensures that the database schema is always in sync with the application's data models, simplifying development and maintenance.
+- **Schema Generation**: Automatically generating database schemas from Python classes reduces the need for manual schema creation. This feature ensures that the database schema is always in sync with the application's data models, simplifying development and maintenance.
 
-- Schema Migration: SQLAlchemy integrates with Alembic, a lightweight database migration tool for handling database migrations. This integration makes it easy to manage schema changes over time, ensuring that the database evolves with the application without manual intervention.
+- **Schema Migration**: SQLAlchemy integrates with Alembic, a lightweight database migration tool for handling database migrations. This integration makes it easy to manage schema changes over time, ensuring that the database evolves with the application without manual intervention.
 
-- Transactions: Full support for database transactions ensures data integrity and consistency. SQLAlchemy allows developers to manage transactions easily, providing control over the commit and rollback operations to handle data safely and effectively.
+- **Transactions**: Full support for database transactions ensures data integrity and consistency. SQLAlchemy allows developers to manage transactions easily, providing control over the commit and rollback operations to handle data safely and effectively.
 
-- SQL Compilation: SQLAlchemy compiles Python expressions into SQL statements, offering a powerful and expressive way to generate SQL queries. This feature allows developers to write complex queries using Python syntax, making the code more readable and maintainable.
+- **SQL Compilation**: SQLAlchemy compiles Python expressions into SQL statements, offering a powerful and expressive way to generate SQL queries. This feature allows developers to write complex queries using Python syntax, making the code more readable and maintainable.
 
-- Performance: SQLAlchemy optimizes database access through various techniques such as connection pooling, which reuses database connections, and query caching, which stores the results of frequently executed queries. These optimizations enhance the performance and scalability of database interactions.
+- **Performance**: SQLAlchemy optimizes database access through various techniques such as connection pooling, which reuses database connections, and query caching, which stores the results of frequently executed queries. These optimizations enhance the performance and scalability of database interactions.
 
-- Extensibility: Designed with extensibility in mind, SQLAlchemy allows developers to customize and extend its functionality as needed. It provides hooks and plugins for adding new behaviors and integrating with other tools, ensuring that it can adapt to the unique requirements of different projects.
+- **Extensibility**: Designed with extensibility in mind, SQLAlchemy allows developers to customize and extend its functionality as needed. It provides hooks and plugins for adding new behaviors and integrating with other tools, ensuring that it can adapt to the unique requirements of different projects.
 
-- Community and Documentation: SQLAlchemy is backed by a large and active community, providing a wealth of resources, support, and contributions. Comprehensive documentation, including tutorials, guides, and API references, helps developers learn how to use SQLAlchemy effectively and troubleshoot any issues they may encounter.
+- **Community and Documentation**: SQLAlchemy is backed by a large and active community, providing a wealth of resources, support, and contributions. Comprehensive documentation, including tutorials, guides, and API references, helps developers learn how to use SQLAlchemy effectively and troubleshoot any issues they may encounter.
 
 Now let’s look at how the apps code uses the features, purpose and functionalities of SQLAlchemy. 
 
 For this application SQLAlchemy was assigned to 'db', `db = SQLAlchemy()`, and therfore for the code examples every time we see 'db' we are accessing features from the SQLAlchemy library. 
 
-Models - when creating a table we use an SQLAlchemy class called ‘Model’, `class User(db.Model):`, creates a model class named ‘users’, that represents a table in the database. 
+**Models** - when creating a table we use an SQLAlchemy class called ‘Model’, `class User(db.Model):`, creates a model class named ‘users’, that represents a table in the database. 
 
 
 Table Names - we can then assign a name to the Model class, or table, using `__tablename__ = "users"`, that sets the name to ‘users.
 
-Columns – we then create the table columns, or attributes, assigning them individual datatypes and constraints. Examples of the datatypes used in the app are:
+**Columns** – we then create the table columns, or attributes, assigning them individual datatypes and constraints. Examples of the datatypes used in the app are:
 -	String
 -	Integer
 -	Date
@@ -280,7 +280,7 @@ Where 'name' is a column of a table, with a datatype of integer, and is a forieg
 `name = db.Column(db.String, nullable=False)`
 Where ‘name’ is a column of the table, with a datatype of string and cannot be null. 
 
-Relationships - define how different tables or models relate to each other. 
+**Relationships** - define how different tables or models relate to each other. 
 
 `‘posts = db.relationship("Post", back_populates="user", cascade="all, delete")’`
 
@@ -293,35 +293,36 @@ Let’s break this code down…
 This code connects the Post model and the user field, a user can make multiple posts, but a post can only be created by one user. 
 
 
-Here are some common SQLAlchemy methods, most used in this app, and their purposes:
 
-- commit: db.session.commit(): Commits the current transaction, saving all changes made during the transaction to the database.
+Here are some common SQLAlchemy methods, most are used in this app, and their purposes:
 
-- delete: db.session.delete(instance): Marks an instance (record) for deletion from the database. The change is finalized when commit() is called.
+- **commit**: db.session.commit(): Commits the current transaction, saving all changes made during the transaction to the database.
 
-- session: db.session: Represents the database session used to manage and persist operations on objects and transactions. It's the main interface for interacting with the database.
+- **delete**: db.session.delete(instance): Marks an instance (record) for deletion from the database. The change is finalized when commit() is called.
 
-- select: db.select([columns]): Constructs a SQL SELECT statement to query data from the database. It's used to retrieve records based on certain criteria.
+- **session**: db.session: Represents the database session used to manage and persist operations on objects and transactions. It's the main interface for interacting with the database.
 
-- add: db.session.add(instance): Adds a new instance (record) to the session to be inserted into the database upon commit.
+- **select**: db.select([columns]): Constructs a SQL SELECT statement to query data from the database. It's used to retrieve records based on certain criteria.
 
-- query: db.session.query(Model): Creates a query object for the specified model, allowing you to retrieve data from the database using various filtering and ordering methods.
+- **add**: db.session.add(instance): Adds a new instance (record) to the session to be inserted into the database upon commit.
 
-- filter: query.filter(condition): Adds filtering conditions to a query, returning only the records that match the specified condition.
+- **query**: db.session.query(Model): Creates a query object for the specified model, allowing you to retrieve data from the database using various filtering and ordering methods.
 
-- filter_by: query.filter_by(**kwargs): Adds filtering conditions to a query using keyword arguments to specify column-value pairs.
+- **filter**: query.filter(condition): Adds filtering conditions to a query, returning only the records that match the specified condition.
 
-- scalar: query.scalar(): Executes the query and returns a single scalar result, which is the first column of the first row in the result set.
+- **filter_by**: query.filter_by(**kwargs): Adds filtering conditions to a query using keyword arguments to specify column-value pairs.
 
-- scalars: query.scalars(): Executes the query and returns an iterator of scalar results, which are the values of the first column for all rows in the result set.
+- **scalar**: query.scalar(): Executes the query and returns a single scalar result, which is the first column of the first row in the result set.
 
-- all: query.all(): Executes the query and returns all results as a list of instances.
+- **scalars**: query.scalars(): Executes the query and returns an iterator of scalar results, which are the values of the first column for all rows in the result set.
 
-- first: query.first(): Executes the query and returns the first result, or None if no result is found.
+- **all**: query.all(): Executes the query and returns all results as a list of instances.
 
-- update: query.update(values): Performs a bulk update operation on the records that match the query's filter conditions, setting the specified column values.
+- **first**: query.first(): Executes the query and returns the first result, or None if no result is found.
 
-- rollback: db.session.rollback(): Rolls back the current transaction, undoing any changes made during the transaction.
+- **update**: query.update(values): Performs a bulk update operation on the records that match the query's filter conditions, setting the specified column values.
+
+- **rollback**: db.session.rollback(): Rolls back the current transaction, undoing any changes made during the transaction.
 
 
 ---

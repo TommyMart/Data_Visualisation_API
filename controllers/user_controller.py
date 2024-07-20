@@ -34,7 +34,34 @@ def get_user(user_id):
         return user_schema.dump(post)
     else:
         return {"error": f"Post with id {user_id} not found"}, 404
+    
+# # user/search/<string:user_name> - GET - fetch user by user_name
+# @user_bp.route("/search/<string:user_name>")
+# @jwt_required()
+# def search_user_by_name(user_name):
+#     stmt = db.select(User).filter_by(user_name=user_name)
+#     user = db.session.scalar(stmt)
+#     if user:
+#         return user_schema.dump(user)
+#     else:
+#         return {"error": f"User with user_name '{user_name}' not found"}, 404
+    
+# user/search/<string:user_name> - GET - fetch user/s by partial user_name
+@user_bp.route("/search/<string:user_name>")
+@jwt_required()
+def search_user_by_name(user_name):
+    # Construct the LIKE pattern for partial matching
+    like_pattern = f"%{user_name}%"
 
+    # Perform a case-insensitive search using ilike (case-insensitive LIKE)
+    stmt = db.select(User).filter(User.user_name.ilike(like_pattern))
+    users = db.session.scalars(stmt).all()
+
+    if users:
+        return users_schema.dump(users)
+    else:
+        return {"error": f"No users found matching '{user_name}'"}, 404
+    
 # user/<int:user_id> - PUT or PATCH - update user
 @user_bp.route("/<int:user_id>", methods=["PUT", "PATCH"])
 @jwt_required()
@@ -63,6 +90,8 @@ def update_user(user_id):
     else:
         # return an error
         return {"error": "User does not exist"}, 404
+
+
 
 # user/<int:user_id> - DELETE - delete user
 @user_bp.route("/<int:user_id>", methods=["DELETE"])
