@@ -22,42 +22,42 @@ This application addresses several key issues related to event management and so
 
 **Secure Account Creation and Event Access:**
 
-Problem: Users need a secure way to create accounts and manage their personal information while accessing events and ticketing options.
+Problem: Users need a secure way to create accounts and manage their personal information while accessing events and ticketing options. <br>
 Solution: The app allows users to create private, secure accounts protected by hashed passwords using the bcrypt library. Users can log in with their credentials, and a JWT token is issued for secure session management. This token verifies the user's identity for all interactions, ensuring data integrity and privacy.
 
 **Event Communication and Engagement:**
 
-Problem: Users need a platform to discuss events, gauge interest, and communicate with friends.
+Problem: Users need a platform to discuss events, gauge interest, and communicate with friends.<br>
 Solution: Users can post about events, and friends can comment and like these posts, facilitating communication and interest gauging. Additionally, a private messaging feature allows friends to discuss event details securely.
 
 **Integrated Ticketing and Seating Management:**
 
-Problem: Users want to purchase tickets and select seats, often wanting to sit together but pay separately.
+Problem: Users want to purchase tickets and select seats, often wanting to sit together but pay separately.<br>
 Solution: The app provides ticketing and seating options, allowing users to select seats next to their friends while handling payments individually. An invoice linked to the payee is issued, streamlining the process.
 
 **Event Creation and Sharing:**
 
-Problem: Users need a way to create events, manage ticketing, and share events with a broader audience.
+Problem: Users need a way to create events, manage ticketing, and share events with a broader audience.<br>
 Solution: Users can create events with ticketing and seating options and share these events with their friends through posts. Friends can further share the posts, increasing event exposure. The app supports both small and large-scale events, making it versatile for various event types.
 
 **Revenue Generation through Recommendations:**
 
-Problem: Users often need assistance planning additional aspects of their event experience, such as dining and transportation.
+Problem: Users often need assistance planning additional aspects of their event experience, such as dining and transportation.<br>
 Solution: The app suggests related expenses and services, such as nearby restaurants, transportation options, and other activities. For instance, if a user is attending a concert, the app might recommend a highly-rated restaurant nearby and arrange a taxi or Uber if needed.
 
 **User-Friendly Search and Interaction:**
 
-Problem: Users need an efficient way to find friends and events without needing exact spellings.
+Problem: Users need an efficient way to find friends and events without needing exact spellings.<br>
 Solution: The app allows partial string searches, returning results that include any part of the search input. For example, searching for 'my' would return 'Tommy', 'Amy', 'Sammy', etc.
 
 **Comprehensive Data Management:**
 
-Problem: Users and admins need to manage various data types related to events, posts, comments, and more.
+Problem: Users and admins need to manage various data types related to events, posts, comments, and more.<br>
 Solution: Users can create, view, update, and delete data they have created, with admins having full authorization to manage the app's data. Data validation ensures that the correct information is stored, such as validating email formats and password strength.
 
 **Seating Section and Ticket Limits:**
 
-Problem: Users need to choose specific seating sections and ensure ticket limits are enforced.
+Problem: Users need to choose specific seating sections and ensure ticket limits are enforced.<br>
 Solution: The app provides different seating sections (General Admission, Section C, B, A, VIP) and enforces limits on ticket sales per section. A CLI function allows checking the total tickets sold for an event.
 
 This comprehensive application effectively addresses the needs of users looking to manage events, communicate with friends, and handle ticketing in a secure and user-friendly manner. Furthermore, not all functionalities mentioned in the above solutions will be implemented in the initial API route design due on the 28th of July. These include the AI suggestions, seat number selection, dynamic total cost invoices, and private messaging.
@@ -72,37 +72,43 @@ For this project tasks were allocated and tracked using Atlassian's project mana
 
 Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
 
-* Friday the 12th July '24 update
+* Friday the 12th of July '24 update
 
 Initiated board and populated all cards with required functionality.
 
 <img src="DOCS/trello_day1.png" alt="Trello day 1" width="60%"/>
 
-* Monday the 15th July '24 update
+* Monday the 15th of July '24 update
 
 Completed readme requirements 1 and 2, plus models and route controllers for Users, Posts and Comments. 
 
 <img src="DOCS/trello_15:7.png" alt="Trello 15th July" width="60%"/>
 
-* Tuesday the 16th July '24 update
+* Tuesday the 16th of July '24 update
 
 Completed the models and route controllers for Events, Attendees and Ivoices. 
 
 <img src="DOCS/trello_16:7.png" alt="Trello 16th July" width="60%"/>
 
-* Wednesday the 17th July '24 update
+* Wednesday the 17th of July '24 update
 
 Completed the models and route controllers for likes. Completed validation and started on Authorisation.  
 
 <img src="DOCS/trello_17:7.png" alt="Trello 17th July" width="60%"/>
 
-* Thursday the 18th July '24 update
+* Thursday the 18th of July '24 update
 
-Today marks the mid-point of the assignment timeline, so an assessment was made regarding the importance of the cards and what would be most beneficial to the assignment and the overall educational learning outcome. It was decided that since the code was fresh in my head, the most efficient and beneficial approach was to finish the validation and authorisation card before tackling the readme requirements that were due today. This idea was approved because I have completed more than 60% the assignment at the half-way point and wanted to continue working on the code until it functions as desired. This was a good decision because I struggle moving onto a new task if the current task is not completed to a satisfactory standard, which can then be detrimental to the new task. 
+Today marks the mid-point of the assignment timeline, so I assessed the importance of the tasks and what would be most beneficial for the assignment and overall learning outcome. Since the code was fresh in my mind, I decided that the most efficient and beneficial approach was to finish the validation and authorisation tasks before tackling the README requirements due today. This decision was approved because I have completed more than 60% of the assignment at the half-way point and wanted to continue working on the code until it functions as desired. This was a good decision because I struggle to move on to a new task if the current task is not completed to a satisfactory standard, which can then be detrimental to the new task.
 
-I therefore changed the due dates of readme requirements 4 and 5 to the 23rd of July, this will allow me plenty of time to get my code functioning without errors and with the required validation and authorisation, which is taking me longer than first anticipated. 
+I, therefore, changed the due dates of README requirements 4 and 5 to the 23rd of July. This will allow me plenty of time to get my code functioning without errors and with the required validation and authorisation, which is taking longer than anticipated.
 
 <img src="DOCS/trello_18:7.png" alt="Trello 17th July" width="60%"/>
+
+* Saturday the 20th of July '24 update
+
+After talking with my lecturer Simon via Zoom in the morning, I made a new 'search' card for the Trello board. It required a search function so that the client can search for either a user_name or event_name via the url. The search also needed to be a partial search and return a list should their be multiple matches to the search input. This functionality was completed shortly after and the card was moved to the renamed 'completed' column of the board. Aditionally, readme requirement 4 was moved to completed and a new card for readme requirement 8 was made due to it being missed during the initation stage of the project management process. 
+
+<img src="DOCS/trello_20:7.png" alt="Trello 20th July" width="60%"/>
 
 ---
 
