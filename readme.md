@@ -118,37 +118,37 @@ After talking with my lecturer Simon via Zoom in the morning, I made a new 'sear
 
 <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/flask-logo-icon.png" alt="Flask logo" width="30%"/>
 
-- Flask is a lightweight WSGI web application framework for Python, designed to enable quick and easy development of web applications. It follows a simple, modular design that allows developers to choose the components they need, making it highly flexible and extensible. Flask supports extensions for adding functionality like form validation, authentication, and database integration. Its simplicity and ease of use make it an ideal choice for both beginners and experienced developers looking to build scalable and maintainable web applications.
+Flask is a lightweight WSGI web application framework for Python, designed to enable quick and easy development of web applications. It follows a simple, modular design that allows developers to choose the components they need, making it highly flexible and extensible. Flask supports extensions for adding functionality like form validation, authentication, and database integration. Its simplicity and ease of use make it an ideal choice for both beginners and experienced developers looking to build scalable and maintainable web applications.
 
 ### Marshmallow
 <img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
 
-- Marshmallow is a framework-agnostic library for serializing and deserializing complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
+Marshmallow is a framework-agnostic library for serializing and deserializing complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
 
 ### SQLAlchemy 
 
-- SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL. It allows for full control over SQL statements, supports complex queries, and facilitates the management of database schemas. By bridging the gap between Python objects and relational database tables, SQLAlchemy streamlines database interactions, making it easier to build and maintain scalable applications.
+SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL. It allows for full control over SQL statements, supports complex queries, and facilitates the management of database schemas. By bridging the gap between Python objects and relational database tables, SQLAlchemy streamlines database interactions, making it easier to build and maintain scalable applications.
 
 ### bcrypt
 <img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="30%"/>
 
-- Bcrypt is a cryptographic hash function designed to securely store passwords by transforming them into a fixed-length string using a one-way hash function, making it irreversible. It adds a random "salt" to each password to ensure unique hashes, and employs a "cost factor" to determine the number of iterations for hashing, enhancing security by making it computationally expensive to crack. Bcrypt is favored over faster algorithms like SHA256 for password storage due to its resistance to brute force and dictionary attacks.
+Bcrypt is a cryptographic hash function designed to securely store passwords by transforming them into a fixed-length string using a one-way hash function, making it irreversible. It adds a random "salt" to each password to ensure unique hashes, and employs a "cost factor" to determine the number of iterations for hashing, enhancing security by making it computationally expensive to crack. Bcrypt is favored over faster algorithms like SHA256 for password storage due to its resistance to brute force and dictionary attacks.
 
 ### Psycopg2-binary
 <img src="https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png" alt="Psycopg2 logo" width="30%"/>
 
-- Psycopg2-binary is a production-ready PostgreSQL adapter for Python, designed to facilitate the connection and interaction between Python applications and PostgreSQL databases. It provides efficient, high-performance database access, supporting advanced features like asynchronous communication and notification, COPY command support, and more. 
+Psycopg2-binary is a production-ready PostgreSQL adapter for Python, designed to facilitate the connection and interaction between Python applications and PostgreSQL databases. It provides efficient, high-performance database access, supporting advanced features like asynchronous communication and notification, COPY command support, and more. 
 
 #### Flask-JWT-Extended
 <img src="https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png" alt="JWT Web Token logo" width="30%"/>
 
-- WT-Extended is a Flask extension that provides robust support for JSON Web Tokens (JWTs), enhancing security in Flask applications by allowing developers to create, manage, and validate JWTs easily. It includes features like token refreshing, complex access control, and various token storage options, making it versatile for handling authentication and authorization in modern web applications. JWT-Extended simplifies implementing secure user authentication workflows, ensuring sensitive information is safely transmitted between clients and servers.
+JWT-Extended is a Flask extension that provides robust support for JSON Web Tokens (JWTs), enhancing security in Flask applications by allowing developers to create, manage, and validate JWTs easily. It includes features like token refreshing, complex access control, and various token storage options, making it versatile for handling authentication and authorization in modern web applications. JWT-Extended simplifies implementing secure user authentication workflows, ensuring sensitive information is safely transmitted between clients and servers.
 
 ### python-dotenv
 
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHaNT3Fi8RMNUpPDk-Zddeo2FTvDN3Sye5AA&s" alt=".Env logo" width="30%"/>
 
-- Dotenv, or .env, is a simple module that loads environment variables from a .env file into a project's environment. This file typically contains key-value pairs, such as API keys, database URLs, and other configuration settings, allowing developers to manage sensitive information and configuration details separately from the codebase. By keeping these variables in a .env file, it enhances security and makes it easier to configure different environments (e.g., development, testing, production) without altering the code.
+Dotenv, or .env, is a simple module that loads environment variables from a .env file into a project's environment. This file typically contains key-value pairs, such as API keys, database URLs, and other configuration settings, allowing developers to manage sensitive information and configuration details separately from the codebase. By keeping these variables in a .env file, it enhances security and makes it easier to configure different environments (e.g., development, testing, production) without altering the code.
 
 ### App Requirements not mentioned above
 
@@ -389,6 +389,7 @@ Reasoning behind any changes to the ERD
 
 ### R8. Explain how to use this application’s API endpoints. Each endpoint should be explained, including the following data for each endpoint:
 
+
 Explain each endpoint / routes.
 
 Include these for each:
@@ -400,3 +401,12 @@ Include these for each:
 Finally (in-code): All queries to the database must be commented with an explanation of how they work and the data they are intended to retrieve 
 
 All images in readme go in DOCS, all source code go into DOCS
+
+***Login***
+URL Path: http://localhost:8080/auth/login
+Method: POST
+Authorisation: NA 
+Description: A user can login using their existing email and password. If a match is found in the database, the user is provided with a JWT token to perform queries that is valid for 24hrs. 
+Payload & Response:
+<img src="DOCS/insomnia_login.png" alt="SQLAlchemy logo" width="70%"/>
+
