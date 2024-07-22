@@ -356,8 +356,17 @@ This code connects the Post model and the user field, a user can make multiple p
 
 - `db.session.commit()`: This command commits the current transaction, which includes any pending changes such as the deletion found by db.session.delete(user). When this is called, SQLAlchemy sends the appropriate SQL DELETE statement to the database to remove the record and finalises the database transaction.
 
+*Checking if id Exists*
 
+`event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None` is used to check if a specific event exists in the database:
 
+`db.session.query(Event.id)`: This creates a query object to select the id column from the Event table. <br>
+`.filter_by(id=event_id)`: This filters the query to only include rows where the id matches the event_id passed in the URL path.<br>
+`.scalar()`: This executes the query and returns a single value (the first column of the first row) from the result set, or None if no rows match the filter. If it were `.scalars`, this would return all the rows of the result set, or None if no rows match the filter. <br>
+`is not None`: This checks if the result of scalar() `is not None`. If the result `is not None`, it means an event with the specified id exists, and the rest of the function can run. If `is not None` is false, then the event with the specified id does not exist and it's probable an error message would be thrown. <br>
+Putting it all together, this line of code checks whether an event with the specified `event_id` exists in the database and stores True or False as event_exists. <br>
+
+---
 
 Here are a few of the more common SQLAlchemy methods, most of which are used in this app but not all, and their functionality:
 
@@ -395,6 +404,24 @@ Here are a few of the more common SQLAlchemy methods, most of which are used in 
 
 ### R6. Design an entity relationship diagram (ERD) for this app’s database, and explain how the relations between the diagrammed models will aid the database design.
 
+**Normalisation Definition** - Database normalisation is a database design principle for organising data in an organised and consistent way. It helps you avoid redundancy and maintain the integrity of the database. It also helps to eliminate undesirable characteristics associated with insertion, deletion, and updating (Chris 2022).
+
+**Relationship Examples**
+
+<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fgitmind.com%2Ferd-examples.html&psig=AOvVaw2dJVTvy4ywazmS2Sdi81eq&ust=1721715487792000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPjln5SAuocDFQAAAAAdAAAAABAE" alt="ERD reltionships diagram" width="70%"/> 
+
+For the ERD of this app the only relationships used are 'one and only one' and 'zero to many'. 
+
+A user can create zero to many posts, comments or events, while they can like many posts and attend many events, though, each of these models can only belong to the one user. 
+
+***ERD Hierachy Posts***
+
+<img src="DOCS/hierarchy1.png" alt="Hierachy user/post ERD" width="70%"/> 
+
+***ERD Hierachy Events***
+
+<img src="DOCS/hierarchy1.png" alt="Hierachy user/post ERD" width="70%"/> 
+
 Talk in database terms, normalisation, relations - one to many etc, 
 
 #### Initial Draft ERD 
@@ -418,13 +445,13 @@ Submitted on the 12th of July for approval.
 
 <img src="DOCS/Users.png" alt="Fetch a comment" width="100%"/> 
 
-id - created by Postgres per entry, Primary Key, automatically and NOT NULL. 
-name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-user_name - String of alphanumeric characters between 3 and 5 long and NOT NULL. 
-password - hashed by bcrypt, must be more than 8 characters and include a letter and number and NOT NULL. 
-email - requires valid email format between 5 and 120 characters long, must be unique and NOT NULL. 
-dob - required valid date format written as dd/mm/yyyy only.
-is_admin - t = True, f = false, default = f, NOT NULL. 
+- id - Intger created by Postgres per entry, Primary Key, and therfore automatically NOT NULL. 
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- user_name - String of alphanumeric characters between 3 and 5 long and NOT NULL. 
+- password - String hashed by bcrypt, must be more than 8 characters and include a letter and number. 
+- email - String requires valid email format between 5 and 120 characters long, must be unique and NOT NULL. 
+- dob - Date requires valid date format written as dd/mm/yyyy only.
+- is_admin - Boolean, t = True, f = false, default = f. 
 
 The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model when responding to a request when listed as a nested list in the model's schema. <br>
 ```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```<br>
@@ -437,6 +464,7 @@ Since a user can have zero or many posts, comments, likes, events or attending, 
 
 <img src="DOCS/fetch_a_user.png" alt="Fetch a comment" width="70%"/> 
 
+The lists shown in this example can be viewed by clicking on the arrow pointing to the right, this will display any current data the user has created or updated. 
 
 SQLAlchemy terms - back populates, cascade
 Reasoning behind any changes to the ERD
