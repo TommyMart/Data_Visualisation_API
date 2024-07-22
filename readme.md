@@ -53,12 +53,15 @@ Solution: The app allows partial string searches, returning results that include
 **Comprehensive Data Management:**
 
 Problem: Users and admins need to manage various data types related to events, posts, comments, and more.<br>
-Solution: Users can create, view, update, and delete data they have created, with admins having full authorization to manage the app's data. Data validation ensures that the correct information is stored, such as validating email formats and password strength.
+Solution: Users can create, view, update, and delete data they have created, with admins having full authorisation to manage the app's data. Data validation ensures that the correct information is stored, such as validating email formats and password strength.
 
 **Seating Section and Ticket Limits:**
 
 Problem: Users need to choose specific seating sections and ensure ticket limits are enforced.<br>
 Solution: The app provides different seating sections (General Admission, Section C, B, A, VIP) and enforces limits on ticket sales per section. A CLI function allows checking the total tickets sold for an event.
+
+<img src="DOCS/cli_event_tickets.png" alt="Total event tickets sold CLI" width="60%"/> <br>
+<img src="DOCS/seat_section_soldout.png" alt="Soldout seating section" width="60%"/> <br>
 
 This comprehensive application effectively addresses the needs of users looking to manage events, communicate with friends, and handle ticketing in a secure and user-friendly manner. Furthermore, not all functionalities mentioned in the above solutions will be implemented in the initial API route design due on the 28th of July. These include the AI suggestions, seat number selection, dynamic total cost invoices, and private messaging.
 
@@ -408,7 +411,7 @@ Here are a few of the more common SQLAlchemy methods, most of which are used in 
 
 **Relationship Examples**
 
-<img src="https://webusupload.apowersoft.info/gitmind/wp-content/uploads/2021/04/erd-symbols.jpg.webp" alt="ERD reltionships diagram" width="70%"/> 
+<img src="DOCS/erd-symbols.jpg" alt="ERD reltionships diagram" width="70%"/> 
 
 For the ERD of this app the only relationships used are 'one and only one' and 'zero to many'. 
 
@@ -420,7 +423,7 @@ A user can create zero to many posts, comments or events, while they can like ma
 
 ***ERD Events Hierachy***
 
-<img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" height="50%"/> 
+<img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" height="30%"/> 
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
