@@ -110,11 +110,11 @@ After talking with my lecturer Simon via Zoom in the morning, I made a new 'sear
 
 <img src="DOCS/trello_20:7.png" alt="Trello 20th July" width="60%"/>
 
-* Mondayy the 22nd of July '24 update
+* Monday the 22nd of July '24 update
 
-Completed readme requirements 3 and 8, added error handling card to Trello board. 
+Completed readme requirements 3, 5 and 8, added error handling card to the Trello board. 
 
-<img src="DOCS/trello_17:7.png" alt="Trello 17th July" width="60%"/>
+<img src="DOCS/trello_22:7.png" alt="Trello 22nd July" width="60%"/>
 
 ---
 
