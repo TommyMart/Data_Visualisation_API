@@ -420,7 +420,7 @@ A user can create zero to many posts, comments or events, while they can like ma
 
 ***ERD Events Hierachy***
 
-<img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" width="50%"/> 
+<img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" height="50%"/> 
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
