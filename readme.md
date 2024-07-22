@@ -12,6 +12,8 @@ The main tech-stack used for this application includes:
 * SQLAlchemy
 
 ![Flask, Postgres and SQLAlechemy logos](https://miro.medium.com/v2/resize:fill:320:214/1*DmGeEpZpQgApXWuINqHghQ.png)
+![Python logo](DOCS/Python_logo.png)
+
 ---
 
 ### R1. Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
@@ -19,6 +21,10 @@ The main tech-stack used for this application includes:
 This application addresses several key issues related to event management and social interactions around events. The primary problem it solves is providing a secure and efficient platform for users to manage event access, ticketing, and communication with friends.
 
 ### Problem and Solution Overview:
+
+Based on feedback from friends, online reviews, and my own experience, the event ticketing platforms in Australia fall short of customer expectations. Here are the ratings for two of the largest ticket providers in the country:
+
+Their user experience (UX) and user interface (UI) are outdated and challenging for some users. This application aims to address these fundamental issues, offering all users a smooth and enjoyable experience from purchasing tickets, arranging flights and accomodation, to organising the entire event. This app has you covered.
 
 **Secure Account Creation and Event Access:**
 
@@ -60,8 +66,11 @@ Solution: Users can create, view, update, and delete data they have created, wit
 Problem: Users need to choose specific seating sections and ensure ticket limits are enforced.<br>
 Solution: The app provides different seating sections (General Admission, Section C, B, A, VIP) and enforces limits on ticket sales per section. A CLI function allows checking the total tickets sold for an event.
 
-<img src="DOCS/cli_event_tickets.png" alt="Total event tickets sold CLI" width="60%"/> <br>
-<img src="DOCS/seat_section_soldout.png" alt="Soldout seating section" width="60%"/> <br>
+**Total Tickets Sold**
+<img src="DOCS/cli_event_tickets.png" alt="Total event tickets sold CLI" width="40%"/> <br>
+
+**Seating Section Limitations**
+<img src="DOCS/seat_section_soldout.png" alt="Soldout seating section" width="70%"/> <br>
 
 This comprehensive application effectively addresses the needs of users looking to manage events, communicate with friends, and handle ticketing in a secure and user-friendly manner. Furthermore, not all functionalities mentioned in the above solutions will be implemented in the initial API route design due on the 28th of July. These include the AI suggestions, seat number selection, dynamic total cost invoices, and private messaging.
 
