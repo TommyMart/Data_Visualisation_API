@@ -344,11 +344,11 @@ This code connects the Post model and the user field, a user can make multiple p
 
 **Database Interaction**
 
-- SQL Statement: Determine what data to fetch using a SQL statement like db.select(User).filter_by(id=user_id), which selects a User based on the id from the route URL.
-- Execute Statement: Execute the statement and retrieve the selected data, storing it in a variable such as user - user = db.session.scalar(stmt). The scalar method executes a query that returns a single result, while scalars can return multiple results.
+- Determine what data to fetch using `db.select(User).filter_by(id=user_id)`, which selects a User based on the id from the URL path.
+- Execute Statement: Execute the statement and retrieve the selected data, storing it in a variable such as user - `user = db.session.scalar(stmt)`. The scalar method executes a query that returns a single result, while scalars can return multiple results.
 - Check and Return Data:
-    - If the data is found, serialize it and return it to the client in JSON format - return user_schema.dump(user).
-    - If the data is not found, return an error message and status code to the client in JSON format - return {"error": f"User with id {user_id} not found"}, 404.
+    - If the data is found, serialize it and return it to the client in JSON format - `return user_schema.dump(user)`.
+    - If the data is not found, return an error message and status code to the client in JSON format - `return {"error": f"User with id {user_id} not found"}, 404`.
 
 **Adding to Session and Commiting**
 
@@ -356,7 +356,7 @@ This code connects the Post model and the user field, a user can make multiple p
 
 - `db.session.commit()`: This command commits the current transaction, which includes any pending changes such as the deletion found by db.session.delete(user). When this is called, SQLAlchemy sends the appropriate SQL DELETE statement to the database to remove the record and finalises the database transaction.
 
-*Checking if id Exists*
+**Checking if id Exists**
 
 `event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None` is used to check if a specific event exists in the database:
 
@@ -408,19 +408,19 @@ Here are a few of the more common SQLAlchemy methods, most of which are used in 
 
 **Relationship Examples**
 
-<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fgitmind.com%2Ferd-examples.html&psig=AOvVaw2dJVTvy4ywazmS2Sdi81eq&ust=1721715487792000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPjln5SAuocDFQAAAAAdAAAAABAE" alt="ERD reltionships diagram" width="70%"/> 
+<img src="https://webusupload.apowersoft.info/gitmind/wp-content/uploads/2021/04/erd-symbols.jpg.webp" alt="ERD reltionships diagram" width="70%"/> 
 
 For the ERD of this app the only relationships used are 'one and only one' and 'zero to many'. 
 
 A user can create zero to many posts, comments or events, while they can like many posts and attend many events, though, each of these models can only belong to the one user. 
 
-***ERD Hierachy Posts***
+***ERD Posts Hierachy***
 
-<img src="DOCS/hierarchy1.png" alt="Hierachy user/post ERD" width="70%"/> 
+<img src="DOCS/hierarchy1.png" alt="Hierachy user/post ERD" width="50%"/> 
 
-***ERD Hierachy Events***
+***ERD Events Hierachy***
 
-<img src="DOCS/hierarchy1.png" alt="Hierachy user/post ERD" width="70%"/> 
+<img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" width="50%"/> 
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
