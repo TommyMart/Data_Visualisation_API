@@ -114,6 +114,8 @@ After talking with my lecturer Simon via Zoom in the morning, I made a new 'sear
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
 
+Below describes the third party services, packages or dependencies that are used in the developed application. With greater detail provdided for those that are installed directly using pip or pip3. 
+
 ### Flask
 
 <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/flask-logo-icon.png" alt="Flask logo" width="30%"/>
@@ -126,6 +128,7 @@ Flask is a lightweight WSGI web application framework for Python, designed to en
 Marshmallow is a framework-agnostic library for serializing and deserializing complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
 
 ### SQLAlchemy 
+<img src="DOCS/SQL_example.png" alt="SQLAlchemy logo" width="30%"/>
 
 SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL. It allows for full control over SQL statements, supports complex queries, and facilitates the management of database schemas. By bridging the gap between Python objects and relational database tables, SQLAlchemy streamlines database interactions, making it easier to build and maintain scalable applications.
 
@@ -153,22 +156,31 @@ Dotenv, or .env, is a simple module that loads environment variables from a .env
 ### App third-party services not mentioned above
 
 * blinker
+    - Blinker is a Python library that provides a fast, simple, and flexible way to create signal/event handling systems, allowing different parts of an application to communicate with each other through signals.
 * click
+    - Click is a Python package used to create command-line interfaces (CLI) with minimal code, providing functionality for handling arguments, options, and commands in a user-friendly way.
 * Flask-Bcrypt
+    -  Flask-Bcrypt is a Flask extension that provides bcrypt hashing utilities for hashing passwords, making it easier to implement secure password storage in Flask applications.
 * flask-marshmallow
     - Flask-Marshmallow provides a thin integration layer for Flask and Marshmallow, enhancing Marshmallow with additional features tailored for Flask applications.
 * Flask-SQLAlchemy
     - Flask-SQLAlchemy is an extension that simplifies the integration of SQLAlchemy into Flask applications, making database interactions more straightforward.
 * itsdangerous
+    - itsdangerous is a Python library that provides various helpers to pass data to untrusted environments in a safe way, most notably used for creating and validating secure signed tokens.
 * Jinja2
     - Jinja2 is a fast, extensible templating engine for Python, designed to generate HTML, XML, and other markup formats by combining static templates with dynamic data.
 * MarkupSafe
+    - MarkupSafe is a Python library used to safely handle and render text in web applications by escaping characters that could introduce security vulnerabilities, such as cross-site scripting (XSS) attacks. It ensures that any text marked as safe remains unchanged while potentially dangerous characters are properly escaped.
 * marshmallow-sqlalchemy
     - Marshmallow-SQLAlchemy integrates Marshmallow's serialization and deserialization capabilities with SQLAlchemy, facilitating the conversion of SQLAlchemy models to and from Python datatypes.
 * packaging
+    - Packaging is a Python library that provides utilities for working with Python package metadata, including version parsing, dependency resolution, and other tasks related to managing Python package distributions.
 * PyJWT
+    - PyJWT is a Python library used for encoding and decoding JSON Web Tokens (JWT), which are commonly used for securely transmitting information between parties as a JSON object.
 * typing_extensions
+    - `typing_extensions` is a Python library that provides backports of new type hinting features introduced in recent versions of Python, allowing developers to use these features in older versions of the language.
 * Werkzeug
+    - Werkzeug is a comprehensive WSGI (Web Server Gateway Interface) utility library for Python that provides a range of tools to build web applications, including request and response handling, URL routing, and debugging support. It is a core component of the Flask web framework.
 
 ---
 
@@ -240,11 +252,11 @@ According to freecodecamp.com, ‘Object Relational Mapping (ORM) is a technique
 
 For example, here is a query in SQL that retrieves data about a user. 
 
-<img src="DOCS/SQL_example.png" alt="SQLAlchemy logo" width="70%"/>
+<img src="DOCS/SQL_example.png" alt="SQL code example" width="70%"/>
 
 While using an ORM tool the same query can be written like this:  
 
-<img src="DOCS/ORM_example.png" alt="SQLAlchemy logo" width="70%"/>
+<img src="DOCS/ORM_example.png" alt="ORM code example" width="70%"/>
 
 ### Some popular Python ORM’s include
 -	Django
@@ -390,19 +402,17 @@ Reasoning behind any changes to the ERD
 ### R8. Explain how to use this application’s API endpoints. Each endpoint should be explained, including the following data for each endpoint:
 
 
-Explain each endpoint / routes.
+Below we will explain each endpoint / routes.
 
-Include these for each:
+Including for each:
 * HTTP verb (get, post, patch, put)
 * Path or route ("/posts/1/comments/1" etc)
 * Any required body or header data - what the payload will look like (get or delete don't require body), authorisation header - 
-* Response - structure of a sample resoonse with examples
+* Response - structure of a sample response with examples
 
-Finally (in-code): All queries to the database must be commented with an explanation of how they work and the data they are intended to retrieve 
+For the applicaiton endpoints below, those with methods GET and DELETE, do not require any body data. The example screenshots taken from Insomnia with those methods, the body data you can see is a part of the JWT Token consisting of random characters. 
 
-All images in readme go in DOCS, all source code go into DOCS
-
-For the applicaiton endpoints below, those with methods GET and DELETE, do not require any body date. For the example screenshots taken from Insomnia, the body data you can see is a part of the JWT Token consisting of random characters. 
+For a regular (not admin) user to delete or update data from a table, they must be the creator of that data, so we can use `get_jwt_identity()` to check the identity of the user and match it against the user identity who created the data. This can be written as `str(invoice.attendee_id) != get_jwt_identity()`, where 'invoice', is the data the user is trying to update or delete. 
 
 ### Authentication
 
@@ -467,7 +477,7 @@ Payload & Response: <br>
 
 ### Posts
 
-***Fetch a Post*** <br>
+***Fetch Specific Post*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
@@ -483,18 +493,18 @@ Description:  <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_posts.png" alt="Fecth all posts" width="70%"/> 
 
-***Create a Post*** <br>
+***New Post*** <br>
 URL Path: `http://localhost:8080/posts` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
-<img src="DOCS/create_a_post.png" alt="Insomnia delete user" width="70%"/> 
+<img src="DOCS/new_post.png" alt="New post" width="70%"/> 
 
 ***Update a Post*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
 Method: PUT or PATCH <br>
-Authorisation: JWT Token <br>
+Authorisation: Creator JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
 <img src="DOCS/update_post.png" alt="Update a post" width="70%"/> 
@@ -502,7 +512,7 @@ Payload & Response: <br>
 ***Delete a Post*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
 Method: DELETE <br>
-Authorisation: Creators JWT Token or Admin and JWT Token<br>
+Authorisation: Creators JWT Token or Admin <br>
 Description:  <br>
 Payload & Response: <br>
 <img src="DOCS/delete_post.png" alt="Delete a post" width="70%"/> 
@@ -515,7 +525,7 @@ Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
-<img src="DOCS/fetch_comments_post.png" alt="Create a Post" width="70%"/> 
+<img src="DOCS/comments.png" alt="Fetch all Comments on a Post" width="70%"/> 
 
 ***Fetch a Comment*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
@@ -523,15 +533,15 @@ Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
-<img src="DOCS/fetch_a_comment.png" alt="Create a Post" width="70%"/> 
+<img src="DOCS/fetch_a_comment.png" alt="Fetch a comment" width="70%"/> 
 
-***New Post Comment*** <br>
+***New Comment*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
-<img src="DOCS/new_comment.png" alt="Create a Post" width="70%"/> 
+<img src="DOCS/new_comment.png" alt="New comment" width="70%"/> 
 
 ***Update Comment*** <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
@@ -552,7 +562,7 @@ Payload & Response: <br>
 ### Likes
 
 ***Fetch Likes on a Post*** <br>
-URL Path: `http://localhost:8080/posts/2/likes` <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/likes` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
@@ -560,7 +570,7 @@ Payload & Response: <br>
 <img src="DOCS/fetch_likes.png" alt="Fetch likes on a Post" width="70%"/> 
 
 ***Like a Post*** <br>
-URL Path: `http://localhost:8080/posts/2/likes` <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/likes` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
 Description:  <br>
@@ -568,7 +578,7 @@ Payload & Response: <br>
 <img src="DOCS/new_like.png" alt="Like a Post" width="70%"/> 
 
 ***Delete a Like*** <br>
-URL Path: `http://localhost:8080/posts/2/likes/<int:like_id>` <br>
+URL Path: `http://localhost:8080/posts/<int:post_id>/likes/<int:like_id>` <br>
 Method: DELETE <br>
 Authorisation: Creators JWT Token or Admin <br>
 Description:  <br>
@@ -583,15 +593,7 @@ Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
-<img src="DOCS/fetch_likes.png" alt="Fetch Events" width="70%"/> 
-
-***Fetch Specific Event*** <br>
-URL Path: `http://localhost:8080/events/<int:event_id>` <br>
-Method: GET <br>
-Authorisation: JWT Token <br>
-Description:  <br>
-Payload & Response: <br>
-<img src="DOCS/fetch_event.png" alt="Fetch an Event" width="70%"/> 
+<img src="DOCS/fetch_events.png" alt="Fetch Events" width="70%"/> 
 
 ***Fetch Specific Event*** <br>
 URL Path: `http://localhost:8080/events/<int:event_id>` <br>
@@ -644,7 +646,7 @@ Payload & Response: <br>
 <img src="DOCS/fetch_all_attending.png" alt="Fetch All Attending an Event" width="70%"/> 
 
 ***Fetch Specific Attending*** <br>
-URL Path: `http://localhost:8080/events/<int:event_id>/attending` <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
@@ -657,7 +659,7 @@ Method: POST <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
-<img src="DOCS/New_attending.png" alt="New Attending" width="70%"/> 
+<img src="DOCS/new_attending.png" alt="New Attending" width="70%"/> 
 
 ***Update Attending*** <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id>` <br>
@@ -691,7 +693,7 @@ Method: GET <br>
 Authorisation: JWT Token <br>
 Description:  <br>
 Payload & Response: <br>
-<img src="" alt="Fetch Specific Invoice" width="70%"/> 
+<img src="DOCS/fetch_invoice.png" alt="Fetch Specific Invoice" width="70%"/> 
 
 ***New Invoice*** <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice` <br>

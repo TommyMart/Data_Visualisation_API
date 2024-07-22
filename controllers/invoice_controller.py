@@ -15,6 +15,33 @@ from models.attending import Attending
 
 invoice_bp = Blueprint("invoices", __name__, url_prefix="/<int:attending_id>/invoice")
 
+# GET route to fetch a specific invoice for a specific event and attending ID
+# /<int:event_id>/attending/<int:attending_id>/invoice/<int:invoice_id>
+@invoice_bp.route("/<int:invoice_id>", methods=["GET"])
+@jwt_required()
+def fetch_specific_invoice(event_id, attending_id, invoice_id):
+    
+    # Check if the event exists
+    event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None
+    
+    if not event_exists:
+        return {"error": f"Event with id '{event_id}' does not exist."}, 404
+    
+    # Check if the attending exists
+    attending_exists = db.session.query(Attending.id).filter_by(id=attending_id).scalar() is not None
+    
+    if not attending_exists:
+        return {"error": f"Attending with id '{attending_id}' does not exist."}, 404
+    
+    # Check if the specific invoice exists for the given event and attending ID
+    invoice = db.session.query(Invoice).filter_by(event_id=event_id, attendee_id=attending_id, id=invoice_id).first()
+
+    if invoice:
+        return invoice_schema.dump(invoice)
+    
+    else: 
+        return {"error": f"Invoice with id '{invoice_id}' not found for event with id '{event_id}' and attending id '{attending_id}'"}, 404
+
 # GET route to fetch all invoices for a specific event and attending ID
 # /<int:event_id>/attending/<int:attending_id>/invoice/ 
 @invoice_bp.route("/")
