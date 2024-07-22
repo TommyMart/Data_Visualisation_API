@@ -282,7 +282,7 @@ And put in a way relating to our API application, SQLAlchemy is the layer that i
 
 - **ORM**: The Object-Relational Mapper (ORM) offers a high-level API for working with database records as Python objects, making it easier to interact with the database using Python code. It supports complex object relationships, lazy loading, and polymorphic inheritance, allowing developers to work with data in a more intuitive and object-oriented manner.
 
-- **Database Connectivity**: SQLAlchemy supports a wide range of major relational databases, including PostgreSQL, MySQL, SQLite, Oracle, and Microsoft SQL Server. This ensures broad compatibility and flexibility, allowing developers to choose the database that best fits their needs without worrying about compatibility issues.
+- **Database Connectivity**: SQLAlchemy supports a wide range of major relational databases, including PostgreSQL, MySQL, SQLite, Oracle, and Microsoft SQL. This ensures compatibility and flexibility, allowing developers to choose the database that best fits their needs without worrying about compatibility issues.
 
 - **Schema Generation**: Automatically generating database schemas from Python classes reduces the need for manual schema creation. This feature ensures that the database schema is always in sync with the application's data models, simplifying development and maintenance.
 
@@ -292,15 +292,15 @@ And put in a way relating to our API application, SQLAlchemy is the layer that i
 
 - **SQL Compilation**: SQLAlchemy compiles Python expressions into SQL statements, offering a powerful and expressive way to generate SQL queries. This feature allows developers to write complex queries using Python syntax, making the code more readable and maintainable.
 
-- **Performance**: SQLAlchemy optimizes database access through various techniques such as connection pooling, which reuses database connections, and query caching, which stores the results of frequently executed queries. These optimizations enhance the performance and scalability of database interactions.
+- **Performance**: SQLAlchemy optimizes database access through various techniques such as connection pooling, which reuses database connections, and query caching, which stores the results of frequently executed queries. These optimisations enhance the performance and scalability of database interactions.
 
-- **Extensibility**: Designed with extensibility in mind, SQLAlchemy allows developers to customize and extend its functionality as needed. It provides hooks and plugins for adding new behaviors and integrating with other tools, ensuring that it can adapt to the unique requirements of different projects.
+- **Extensibility**: Designed with extensibility in mind, SQLAlchemy allows developers to customise and extend its functionality as needed. It provides hooks and plugins for adding new behaviors and integrating with other developer tools, ensuring that it can adapt to the unique requirements of different projects.
 
-- **Community and Documentation**: SQLAlchemy is backed by a large and active community, providing a wealth of resources, support, and contributions. Comprehensive documentation, including tutorials, guides, and API references, helps developers learn how to use SQLAlchemy effectively and troubleshoot any issues they may encounter.
+- **Community and Documentation**: SQLAlchemy is backed by a large and active community, providing a wealth of resources, support, and contributions. Comprehensive documentation, including tutorials, guides, and API references, helps developers learn how to use SQLAlchemy effectively and troubleshoot any issues that may occur.
 
-(Features - SQLAlchemy n.d.)
+***Referenced from (Features - SQLAlchemy n.d.).***
 
-Now let’s look at how the apps code uses the features, purpose and functionalities of SQLAlchemy. 
+**Now** let’s look at how the apps code uses the features, purpose and functionalities of SQLAlchemy. 
 
 For this application SQLAlchemy was assigned to 'db', `db = SQLAlchemy()`, and therfore for the code examples every time we see 'db' we are accessing the SQLAlchemy library features. For further understanding of the SQLAlchemy methods used in the following code, such as commit, select, session, filter_by etc. please refer to the end of this answer for a brief explanation. 
 
@@ -344,11 +344,22 @@ This code connects the Post model and the user field, a user can make multiple p
 
 **Database Interaction**
 
-Next is fetching data from the database, first a SQL statement that determines what data is to be fetched, `db.select(User).filter_by(id=user_id)`, in this case it is a User iteration based on the id passed in the route URL. Then we execute the statement and retrieve the selected data and store it in a variable such as 'user - `user = db.session.scalar(stmt)`. Scalar executes a query that returns a single result, while scalars can return multiple results. Then, if the data is found, it is serialised and returned to the client in the form of JSON - ` return user_schema.dump(user)`. If it is not found, an error message and status code is returned to the client in JSON instead - ` return {"error": f"User with id {user_id} not found"}, 404`.
+- SQL Statement: Determine what data to fetch using a SQL statement like db.select(User).filter_by(id=user_id), which selects a User based on the id from the route URL.
+- Execute Statement: Execute the statement and retrieve the selected data, storing it in a variable such as user - user = db.session.scalar(stmt). The scalar method executes a query that returns a single result, while scalars can return multiple results.
+- Check and Return Data:
+    - If the data is found, serialize it and return it to the client in JSON format - return user_schema.dump(user).
+    - If the data is not found, return an error message and status code to the client in JSON format - return {"error": f"User with id {user_id} not found"}, 404.
+
+## Adding to Session and Commiting
+
+- `db.session.delete(user)`: This command finds the user object for deletion. The user object is a row in the database that the user is trying to delete. SQLAlchemy keeps track of this in its session.
+
+- `db.session.commit()`: This command commits the current transaction, which includes any pending changes such as the deletion found by db.session.delete(user). When this is called, SQLAlchemy sends the appropriate SQL DELETE statement to the database to remove the record and finalises the database transaction.
 
 
 
-Here are a few of the more common SQLAlchemy methods, most of which are used in this app but not all, and their purpose:
+
+Here are a few of the more common SQLAlchemy methods, most of which are used in this app but not all, and their functionality:
 
 - **commit**: db.session.commit(): Commits the current transaction, saving all changes made during the transaction to the database.
 
@@ -378,6 +389,8 @@ Here are a few of the more common SQLAlchemy methods, most of which are used in 
 
 - **rollback**: db.session.rollback(): Rolls back the current transaction, undoing any changes made during the transaction.
 
+***Referenced from (Features - SQLAlchemy n.d.).***
+
 ---
 
 ### R6. Design an entity relationship diagram (ERD) for this app’s database, and explain how the relations between the diagrammed models will aid the database design.
@@ -397,7 +410,32 @@ Submitted on the 12th of July for approval.
 
 ### R7. Explain the implemented models and their relationships, including how the relationships aid the database implementation.
 
+***Delete on Cascade***: 'When we create a foreign key using this option, it deletes the referencing rows in the child table when the referenced row is deleted in the parent table which has a primary key (Babu 2019).'
 
+***back_populates***: 
+
+### Users
+
+<img src="DOCS/Users.png" alt="Fetch a comment" width="70%"/> 
+
+id - created by Postgres per entry, Primary Key, automatically and NOT NULL. 
+name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+user_name - String of alphanumeric characters between 3 and 5 long and NOT NULL. 
+password - hashed by bcrypt, must be more than 8 characters and include a letter and number and NOT NULL. 
+email - requires valid email format between 5 and 120 characters long, must be unique and NOT NULL. 
+dob - required valid date format written as dd/mm/yyyy only.
+is_admin - t = True, f = false, default = f, NOT NULL. 
+
+The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model when responding to a request when listed as a nested list in the model's schema. 
+```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```
+```comments = db.relationship("Comment", back_populates="user", cascade="all, delete")```
+```likes = db.relationship("Like", back_populates="user", cascade="all, delete")```
+```events = db.relationship("Event", back_populates="user", cascade="all, delete")```
+```attending = db.relationship("Attending", back_populates="user", cascade="all, delete")```
+
+Since a user can have zero or many posts, comments, likes, events or attending, this schema passed each of these as lists of dictionaries, so that JSON can be used, when responding to a request. Here's an example so you're able to visualise what this looks like for this example for the rest of the models that are analysed for this requirement:
+
+<img src="DOCS/fetch_a_user.png" alt="Fetch a comment" width="70%"/> 
 
 
 SQLAlchemy terms - back populates, cascade
@@ -407,16 +445,15 @@ Reasoning behind any changes to the ERD
 
 ### R8. Explain how to use this application’s API endpoints. Each endpoint should be explained, including the following data for each endpoint:
 
+Below is an explanation of each endpoint / route used in the app.
 
-Below we will explain each endpoint / routes.
-
-Including for each:
+Including:
 * HTTP verb (get, post, patch, put)
 * Path or route ("/posts/1/comments/1" etc)
 * Any required body or header data - what the payload will look like (get or delete don't require body), authorisation header - 
 * Response - structure of a sample response with examples
 
-For the applicaiton endpoints below, those with methods GET and DELETE, do not require any body data. The example screenshots taken from Insomnia with those methods, the body data you can see is a part of the JWT Token consisting of random characters. 
+For the application endpoints below, those with methods GET and DELETE, do not require any body data. The example screenshots taken from Insomnia with those methods, the body data that is sometimes visable, is part of the JWT Bearer Token consisting of what appears to be random characters. 
 
 For a regular (not admin) user to delete or update data from a table, they must be the creator of that data, so we can use `get_jwt_identity()` to check the identity of the user and match it against the user identity who created the data. This can be written as `str(invoice.attendee_id) != get_jwt_identity()`, where 'invoice', is the data the user is trying to update or delete. 
 
@@ -453,6 +490,7 @@ If an invalid email is used while trying to login, the error response below is t
 ***Invalid*** <br>
 <img src="DOCS/invalid_email.png" alt="Invalid email" width="70%"/>
 
+***Now we will look at each endpoint...***
 
 ### Authentication
 
@@ -758,3 +796,7 @@ Authorisation: Creator JWT Token or Admin<br>
 Description: Delete invoice data from the database by id. Only an admin can perform this action.  <br>
 Payload & Response: <br>
 <img src="DOCS/delete_invoice.png" alt="Delete Invoice" width="70%"/> 
+
+## Reference List
+
+LLM disclosure: ChatGPT4 was used while writing this readme.md file for grammar and punctuation. Prompting such 'Please improve grammar and punctuation by rewriting this content using mostly my words:' was used. The data was checked for hallucinations and provided with content written  firslty by myself. 
