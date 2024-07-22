@@ -110,6 +110,12 @@ After talking with my lecturer Simon via Zoom in the morning, I made a new 'sear
 
 <img src="DOCS/trello_20:7.png" alt="Trello 20th July" width="60%"/>
 
+* Mondayy the 22nd of July '24 update
+
+Completed readme requirements 3 and 8, added error handling card to Trello board. 
+
+<img src="DOCS/trello_17:7.png" alt="Trello 17th July" width="60%"/>
+
 ---
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
@@ -128,7 +134,7 @@ Flask is a lightweight WSGI web application framework for Python, designed to en
 Marshmallow is a framework-agnostic library for serializing and deserializing complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
 
 ### SQLAlchemy 
-<img src="DOCS/SQL_example.png" alt="SQLAlchemy logo" width="30%"/>
+<img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="30%"/>
 
 SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL. It allows for full control over SQL statements, supports complex queries, and facilitates the management of database schemas. By bridging the gap between Python objects and relational database tables, SQLAlchemy streamlines database interactions, making it easier to build and maintain scalable applications.
 
@@ -178,7 +184,7 @@ Dotenv, or .env, is a simple module that loads environment variables from a .env
 * PyJWT
     - PyJWT is a Python library used for encoding and decoding JSON Web Tokens (JWT), which are commonly used for securely transmitting information between parties as a JSON object.
 * typing_extensions
-    - `typing_extensions` is a Python library that provides backports of new type hinting features introduced in recent versions of Python, allowing developers to use these features in older versions of the language.
+    - typing_extensions is a Python library that provides backports of new type hinting features introduced in recent versions of Python, allowing developers to use these features in older versions of the language.
 * Werkzeug
     - Werkzeug is a comprehensive WSGI (Web Server Gateway Interface) utility library for Python that provides a range of tools to build web applications, including request and response handling, URL routing, and debugging support. It is a core component of the Flask web framework.
 
@@ -414,6 +420,8 @@ For the applicaiton endpoints below, those with methods GET and DELETE, do not r
 
 For a regular (not admin) user to delete or update data from a table, they must be the creator of that data, so we can use `get_jwt_identity()` to check the identity of the user and match it against the user identity who created the data. This can be written as `str(invoice.attendee_id) != get_jwt_identity()`, where 'invoice', is the data the user is trying to update or delete. 
 
+To perform all the queries below, besides register and login, an active JWT token must be attached to the user making the query for it to be successful. This means that a user must be logged in to make CRUD relational database queries. 
+
 ### Authentication
 
 ***Login*** <br>
@@ -438,31 +446,31 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/user` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch all users in the database. <br>
 Payload & Response: <br>
-<img src="DOCS/fetch_users.png" alt="Insomnia Register" width="70%"/>
+<img src="DOCS/fetch_users.png" alt="Fetch all users" width="70%"/>
 
 ***Fetch A Specific User*** <br>
 URL Path: `http://localhost:8080/user/<int:user_id` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch a specific user from the database using their id. <br>
 Payload & Response: <br>
-<img src="DOCS/fetch_a_user.png" alt="Insomnia Register" width="70%"/>
+<img src="DOCS/fetch_a_user.png" alt="Fetch specific user" width="70%"/>
 
 ***Search by user_namer*** <br>
 URL Path: `http://localhost:8080/search/<string:user_name>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Search the database for a user or users by user_name using a partial user URL path search. <br>
 Payload & Response: <br>
-<img src="DOCS/search_user_name.png" alt="Insomnia Search by user_name" width="70%"/> 
+<img src="DOCS/search_user_name.png" alt="Search by user_name" width="70%"/> 
 
 ***Update a User*** <br>
 URL Path: `http://localhost:8080/user/<int:user_id>` <br>
 Method: PUT or PATCH <br>
 Authorisation: Creators JWT Token <br>
-Description:  <br>
+Description: Update user data. Only the creator of the user account can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/update_user.png" alt="Insomnia updaet user" width="70%"/> 
 
@@ -470,9 +478,9 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/user/<int:user_id>` <br>
 Method: DELETE <br>
 Authorisation: Creators JWT Token or Admin and JWT Token<br>
-Description:  <br>
+Description: Delete user from database. Only the creator of the user account or an admin can perform this action. <br>
 Payload & Response: <br>
-<img src="DOCS/delete_user.png" alt="Insomnia delete user" width="70%"/> 
+<img src="DOCS/delete_user.png" alt="Dlete user" width="70%"/> 
 
 
 ### Posts
@@ -481,15 +489,15 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch a specific post from the database by post_id. <br>
 Payload & Response: <br>
-<img src="DOCS/fetch_post.png" alt="Create a Post" width="70%"/> 
+<img src="DOCS/fetch_post.png" alt="Fecth a Post" width="70%"/> 
 
 ***Fetch all Posts*** <br>
 URL Path: `http://localhost:8080/posts/` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch all posts from the database. <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_posts.png" alt="Fecth all posts" width="70%"/> 
 
@@ -497,7 +505,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Create a new post. <br>
 Payload & Response: <br>
 <img src="DOCS/new_post.png" alt="New post" width="70%"/> 
 
@@ -505,7 +513,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
 Method: PUT or PATCH <br>
 Authorisation: Creator JWT Token <br>
-Description:  <br>
+Description: Update a post. Only the creator of the user account who made the post can perform this action.  <br>
 Payload & Response: <br>
 <img src="DOCS/update_post.png" alt="Update a post" width="70%"/> 
 
@@ -513,7 +521,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>` <br>
 Method: DELETE <br>
 Authorisation: Creators JWT Token or Admin <br>
-Description:  <br>
+Description: Delete a post by post_id. Only the creator of the user account who made the post or an admin can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/delete_post.png" alt="Delete a post" width="70%"/> 
 
@@ -523,7 +531,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch all comments on a post by post_id from database. <br>
 Payload & Response: <br>
 <img src="DOCS/comments.png" alt="Fetch all Comments on a Post" width="70%"/> 
 
@@ -531,7 +539,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch a specific comment on a post (post_id) using comment_id from database. <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_a_comment.png" alt="Fetch a comment" width="70%"/> 
 
@@ -539,7 +547,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Create a new comment on a post. The post with post_id in path must exist. <br>
 Payload & Response: <br>
 <img src="DOCS/new_comment.png" alt="New comment" width="70%"/> 
 
@@ -547,7 +555,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
 Method: PUT or PATCH <br>
 Authorisation: Creator JWT Token <br>
-Description:  <br>
+Description: Update a comment on an post in database. Only the creator of the user account who made the comment can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/update_comment.png" alt="Update a Comment" width="70%"/> 
 
@@ -555,7 +563,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/comments/<int:comment_id>` <br>
 Method: DELETE <br>
 Authorisation: Creator JWT Token or Admin <br>
-Description:  <br>
+Description: Delete a comment. Only the creator of the user account who made the post comment or an admin can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/delete_comment.png" alt="Delete a Comment" width="70%"/> 
 
@@ -565,7 +573,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/likes` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fecth a all likes on a post from database. <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_likes.png" alt="Fetch likes on a Post" width="70%"/> 
 
@@ -573,7 +581,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/likes` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Like a post and store the data in database. <br>
 Payload & Response: <br>
 <img src="DOCS/new_like.png" alt="Like a Post" width="70%"/> 
 
@@ -581,7 +589,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/posts/<int:post_id>/likes/<int:like_id>` <br>
 Method: DELETE <br>
 Authorisation: Creators JWT Token or Admin <br>
-Description:  <br>
+Description: Delete a like from database. Only the creator of the user account who made the like or an admin can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/delete_like.png" alt="Delete a Like" width="70%"/> 
 
@@ -591,7 +599,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch all events from database. <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_events.png" alt="Fetch Events" width="70%"/> 
 
@@ -599,7 +607,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch a specific event from database. <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_event.png" alt="Fetch an Event" width="70%"/> 
 
@@ -607,7 +615,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/search/<string:event_title>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Search the database for an event or events by event title using a partial user URL path search. <br>
 Payload & Response: <br>
 <img src="DOCS/search_event.png" alt="Search for an Event" width="70%"/> 
 
@@ -615,7 +623,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Create a new event. <br>
 Payload & Response: <br>
 <img src="DOCS/new_event.png" alt="Search for an Event" width="70%"/> 
 
@@ -623,7 +631,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>` <br>
 Method: PUT or PATCH <br>
 Authorisation: Creators JWT Token <br>
-Description:  <br>
+Description: Update an event in database. Only the creator of the user account who made the event can perform this action.  <br>
 Payload & Response: <br>
 <img src="DOCS/update_event.png" alt="Update an Event" width="70%"/> 
 
@@ -631,7 +639,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>` <br>
 Method: DELETE <br>
 Authorisation: Creators JWT Token or Admin<br>
-Description:  <br>
+Description: Event an event in database. Only the creator of the user account who made the event or an admin can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/delete_event.png" alt="Delete Event" width="70%"/> 
 
@@ -641,7 +649,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch all attendees of an event by event id from database.  <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_all_attending.png" alt="Fetch All Attending an Event" width="70%"/> 
 
@@ -649,7 +657,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch a specific event attendee from database. <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_attending.png" alt="Fetch Specific Attending" width="70%"/> 
 
@@ -657,7 +665,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Create new attendee of an event. <br>
 Payload & Response: <br>
 <img src="DOCS/new_attending.png" alt="New Attending" width="70%"/> 
 
@@ -665,7 +673,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id>` <br>
 Method: PUT or PATCH <br>
 Authorisation: Creator JWT Token <br>
-Description:  <br>
+Description: Update an attendee data in database. Only the creator of the user account who is attending the event can perform this action.  <br>
 Payload & Response: <br>
 <img src="DOCS/update_attending.png" alt="Update Attending" width="70%"/> 
 
@@ -673,7 +681,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id>` <br>
 Method: DELETE <br>
 Authorisation: Creator JWT Token or Admin <br>
-Description:  <br>
+Description: Delete attendee data from the database by id. Only the creator of the user account who is attending the event or an admin can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/delete_attending.png" alt="Delete Attending" width="70%"/> 
 
@@ -683,15 +691,15 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch an event attendee invoice or invoices from the database by attending id. <br>
 Payload & Response: <br>
 <img src="DOCS/invoices_attending_event.png" alt="Fetch Attending Invoice" width="70%"/> 
 
 ***Fetch Specific Invoice*** <br>
-URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice` <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice/<int:invoice_id>` <br>
 Method: GET <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Fetch a specific attendee invoice from database by invoice id.  <br>
 Payload & Response: <br>
 <img src="DOCS/fetch_invoice.png" alt="Fetch Specific Invoice" width="70%"/> 
 
@@ -699,7 +707,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice` <br>
 Method: POST <br>
 Authorisation: JWT Token <br>
-Description:  <br>
+Description: Create a new invoice for an attendee to store in the database. <br>
 Payload & Response: <br>
 <img src="DOCS/new_invoice.png" alt="New Invoice" width="70%"/> 
 
@@ -707,7 +715,7 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice/<int:invoice_id>` <br>
 Method: PUT or PATCH <br>
 Authorisation: Creator JWT Token <br>
-Description:  <br>
+Description: Update an invoice data in database. It is important that invoice data cannot be edited by a regular user, so only an admin can perform this action. <br>
 Payload & Response: <br>
 <img src="DOCS/update_invoice.png" alt="Update Invoice" width="70%"/> 
 
@@ -715,6 +723,6 @@ Payload & Response: <br>
 URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice/<int:invoice_id>` <br>
 Method: DELETE <br>
 Authorisation: Creator JWT Token or Admin<br>
-Description:  <br>
+Description: Delete invoice data from the database by id. Only an admin can perform this action.  <br>
 Payload & Response: <br>
 <img src="DOCS/delete_invoice.png" alt="Delete Invoice" width="70%"/> 
