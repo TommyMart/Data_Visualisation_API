@@ -350,7 +350,7 @@ This code connects the Post model and the user field, a user can make multiple p
     - If the data is found, serialize it and return it to the client in JSON format - return user_schema.dump(user).
     - If the data is not found, return an error message and status code to the client in JSON format - return {"error": f"User with id {user_id} not found"}, 404.
 
-## Adding to Session and Commiting
+**Adding to Session and Commiting**
 
 - `db.session.delete(user)`: This command finds the user object for deletion. The user object is a row in the database that the user is trying to delete. SQLAlchemy keeps track of this in its session.
 
@@ -416,7 +416,7 @@ Submitted on the 12th of July for approval.
 
 ### Users
 
-<img src="DOCS/Users.png" alt="Fetch a comment" width="70%"/> 
+<img src="DOCS/Users.png" alt="Fetch a comment" width="100%"/> 
 
 id - created by Postgres per entry, Primary Key, automatically and NOT NULL. 
 name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
@@ -426,13 +426,13 @@ email - requires valid email format between 5 and 120 characters long, must be u
 dob - required valid date format written as dd/mm/yyyy only.
 is_admin - t = True, f = false, default = f, NOT NULL. 
 
-The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model when responding to a request when listed as a nested list in the model's schema. 
-```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```
-```comments = db.relationship("Comment", back_populates="user", cascade="all, delete")```
-```likes = db.relationship("Like", back_populates="user", cascade="all, delete")```
-```events = db.relationship("Event", back_populates="user", cascade="all, delete")```
-```attending = db.relationship("Attending", back_populates="user", cascade="all, delete")```
-
+The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model when responding to a request when listed as a nested list in the model's schema. <br>
+```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```<br>
+```comments = db.relationship("Comment", back_populates="user", cascade="all, delete")```<br>
+```likes = db.relationship("Like", back_populates="user", cascade="all, delete")```<br>
+```events = db.relationship("Event", back_populates="user", cascade="all, delete")```<br>
+```attending = db.relationship("Attending", back_populates="user", cascade="all, delete")```<br>
+<br>
 Since a user can have zero or many posts, comments, likes, events or attending, this schema passed each of these as lists of dictionaries, so that JSON can be used, when responding to a request. Here's an example so you're able to visualise what this looks like for this example for the rest of the models that are analysed for this requirement:
 
 <img src="DOCS/fetch_a_user.png" alt="Fetch a comment" width="70%"/> 
