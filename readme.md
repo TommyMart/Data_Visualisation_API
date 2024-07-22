@@ -12,7 +12,7 @@ The main tech-stack used for this application includes:
 * SQLAlchemy
 
 ![Flask, Postgres and SQLAlechemy logos](https://miro.medium.com/v2/resize:fill:320:214/1*DmGeEpZpQgApXWuINqHghQ.png)
-![Python logo](DOCS/Python_logo.png)
+<img src="DOCS/Python_logo.png" alt="Python logo" width="40%"/> 
 
 ---
 
