@@ -11,9 +11,9 @@ The main tech-stack used for this application includes:
 * PostgrsSQL
 * SQLAlchemy
 
+<img src="DOCS/Python_logo.png" alt="Python logo" width="40%"/>
 ![Flask, Postgres and SQLAlechemy logos](https://miro.medium.com/v2/resize:fill:320:214/1*DmGeEpZpQgApXWuINqHghQ.png)
-<img src="DOCS/Python_logo.png" alt="Python logo" width="40%"/> 
-
+ 
 ---
 
 ### R1. Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
@@ -66,10 +66,10 @@ Solution: Users can create, view, update, and delete data they have created, wit
 Problem: Users need to choose specific seating sections and ensure ticket limits are enforced.<br>
 Solution: The app provides different seating sections (General Admission, Section C, B, A, VIP) and enforces limits on ticket sales per section. A CLI function allows checking the total tickets sold for an event.
 
-**Total Tickets Sold**
+**Total Tickets Sold** <br>
 <img src="DOCS/cli_event_tickets.png" alt="Total event tickets sold CLI" width="40%"/> <br>
 
-**Seating Section Limitations**
+**Seating Section Limitations** <br>
 <img src="DOCS/seat_section_soldout.png" alt="Soldout seating section" width="70%"/> <br>
 
 This comprehensive application effectively addresses the needs of users looking to manage events, communicate with friends, and handle ticketing in a secure and user-friendly manner. Furthermore, not all functionalities mentioned in the above solutions will be implemented in the initial API route design due on the 28th of July. These include the AI suggestions, seat number selection, dynamic total cost invoices, and private messaging.
