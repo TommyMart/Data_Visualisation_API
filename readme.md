@@ -462,9 +462,9 @@ Submitted on the 12th of July for approval.
 
 ### Users
 
-<img src="DOCS/Users.png" alt="Fetch a comment" width="100%"/> 
+<img src="DOCS/Users.png" alt="Users PSQL table" width="100%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therfore automatically NOT NULL. 
+- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
 - name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
 - user_name - String of alphanumeric characters between 3 and 5 long and NOT NULL. 
 - password - String hashed by bcrypt, must be more than 8 characters and include a letter and number. 
@@ -481,9 +481,81 @@ The code below builds the relationship between the child models of the users mod
 <br>
 Since a user can have zero or many posts, comments, likes, events or attending, this schema passed each of these as lists of dictionaries, so that JSON can be used, when responding to a request. Here's an example so you're able to visualise what this looks like for this example for the rest of the models that are analysed for this requirement:
 
-<img src="DOCS/fetch_a_user.png" alt="Fetch a comment" width="70%"/> 
+<img src="DOCS/fetch_a_user.png" alt="Fetch a user" width="70%"/> 
 
 The lists shown in this example can be viewed by clicking on the arrow pointing to the right, this will display any current data the user has created or updated. 
+
+### Posts
+
+<img src="DOCS/posts_table.png" alt="Posts PSQL table" width="100%"/> 
+
+- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+
+```user = db.relationship("User", back_populates="posts")```
+```comments = db.relationship("Comment", back_populates="post", cascade="all, delete")```
+```likes = db.relationship("Like", back_populates="post", cascade="all, delete")```
+
+### Comments
+
+<img src="DOCS/comments_table.png" alt="Comments PSQL table" width="100%"/> 
+
+- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+
+```user = db.relationship("User", back_populates="comments")```
+```post = db.relationship("Post", back_populates="comments")```
+
+### Likes
+
+<img src="DOCS/likes_table.png" alt="Likes PSQL table" width="100%"/> 
+
+- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+
+user = db.relationship("User", back_populates="likes")
+post = db.relationship("Post", back_populates="likes")
+
+### Events
+
+<img src="DOCS/events_table.png" alt="Events PSQL table" width="100%"/> 
+
+- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+
+```user = db.relationship("User", back_populates="events")```
+```attending = db.relationship("Attending", back_populates="event", cascade="all, delete")```
+```invoice = db.relationship("Invoice", back_populates="event", cascade="all, delete")```
+
+### Attending
+
+<img src="DOCS/attending_table.png" alt="Attending PSQL table" width="100%"/> 
+
+- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+
+```user = db.relationship("User", back_populates="attending")```
+```event = db.relationship("Event", back_populates="attending", cascade="all, delete")```
+```invoice = db.relationship("Invoice", back_populates="attending", cascade="all, delete")```
+
+### Invoices
+
+<img src="DOCS/invoices_table.png" alt="Invoices PSQL table" width="100%"/> 
+
+- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+
+```event = db.relationship("Event", back_populates="invoice")```
+```attending = db.relationship("Attending", back_populates="invoice")```
 
 SQLAlchemy terms - back populates, cascade
 Reasoning behind any changes to the ERD
