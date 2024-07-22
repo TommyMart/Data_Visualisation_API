@@ -6,12 +6,13 @@
 
 The main tech-stack used for this application includes:
 
-* Python
+* Python <br>
+
+<img src="DOCS/Python_logo.png" alt="Python logo" width="40%"/> <br>
 * Flask
 * PostgrsSQL
 * SQLAlchemy
 
-<img src="DOCS/Python_logo.png" alt="Python logo" width="40%"/>
 ![Flask, Postgres and SQLAlechemy logos](https://miro.medium.com/v2/resize:fill:320:214/1*DmGeEpZpQgApXWuINqHghQ.png)
  
 ---
