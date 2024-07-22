@@ -24,6 +24,12 @@ This application addresses several key issues related to event management and so
 
 Based on feedback from friends, online reviews, and my own experience, the event ticketing platforms in Australia fall short of customer expectations. Here are the ratings for two of the largest ticket providers in the country:
 
+**Ticketek Review** <br>
+<img src="DOCS/ticketek_review.png" alt="Ticketek review 1 star" width="70%"/> <br>
+
+**Eventbrite Review** <br>
+<img src="DOCS/Eventbrite_review.png" alt="Eventbrite review 1 star" width="70%"/> <br>
+
 Their user experience (UX) and user interface (UI) are outdated and challenging for some users. This application aims to address these fundamental issues, offering all users a smooth and enjoyable experience from purchasing tickets, arranging flights and accomodation, to organising the entire event. This app has you covered.
 
 **Secure Account Creation and Event Access:**
