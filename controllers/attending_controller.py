@@ -137,7 +137,7 @@ def update_attendee(event_id, attendee_id):
     if attending:
         # if the user is not the owner of the post
         if str(attending.attending_id) != get_jwt_identity():
-            return {"error": "Only the creator of a post can update it"}, 403
+            return {"error": "Only the attendee can update this information"}, 403
         attending.total_tickets = body_data.get("total_tickets") or attending.total_tickets
         attending.seat_section = body_data.get("seat_section") or attending.seat_section
         attending.timestamp = body_data.get("time_stamp") or attending.timestamp

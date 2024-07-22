@@ -106,7 +106,7 @@ I, therefore, changed the due dates of README requirements 4 and 5 to the 23rd o
 
 * Saturday the 20th of July '24 update
 
-After talking with my lecturer Simon via Zoom in the morning, I made a new 'search' card for the Trello board. It required a search function so that the client can search for either a user_name or event_name via the url. The search also needed to be a partial search and return a list should their be multiple matches to the search input. This functionality was completed shortly after and the card was moved to the renamed 'completed' column of the board. Aditionally, readme requirement 4 was moved to completed and a new card for readme requirement 8 was made due to it being missed during the initation stage of the project management process. 
+After a Zoom meeting with my lecturer Simon in the morning, I created a new 'search' card on the Trello board. This card required implementing a search function that allows clients to search for either a user_name or event_name via the URL. The search needed to support partial matches and return a list of results if there were multiple matches. I completed this functionality shortly after and moved the card to the newly renamed 'completed' column. Additionally, I marked readme requirement 4 as completed and created a new card for readme requirement 8, which had been overlooked during the initial project management phase.
 
 <img src="DOCS/trello_20:7.png" alt="Trello 20th July" width="60%"/>
 
@@ -421,6 +421,31 @@ For the applicaiton endpoints below, those with methods GET and DELETE, do not r
 For a regular (not admin) user to delete or update data from a table, they must be the creator of that data, so we can use `get_jwt_identity()` to check the identity of the user and match it against the user identity who created the data. This can be written as `str(invoice.attendee_id) != get_jwt_identity()`, where 'invoice', is the data the user is trying to update or delete. 
 
 To perform all the queries below, besides register and login, an active JWT token must be attached to the user making the query for it to be successful. This means that a user must be logged in to make CRUD relational database queries. 
+
+### Error Handling
+
+When querying data via a URL path that takes one or more inputs, such as event_id, it is important to check whether the previous inputs exist before querying the final input. In the example below, we can see that the route function first checks if the event exists, and if it doesn't it throws an error as seen in the example screenshot below. The below examples are of one route, but these error protection processes are taken for every route that requires additional inputs. Additionally, there are error handling repsonses set for the wrong email or password when logging in, to checking the validation requirements when registering a new user, these error responses are an important way to notify the client while also limiting the chance of crashing the server. 
+
+<img src="DOCS/eventcheck_error.png" alt="Event check error" width="70%"/>
+
+If the event does exists in the database, the function then checks to see if the attending_id exists in the database, and if it doesn't it throws an error as seen in the example screenshot below.
+
+<img src="DOCS/attending_check.png" alt="Attending check error" width="70%"/>
+
+If the event and attending id's are both in the database, the function then checks to see if the user exists, and if it doesn't it throws an error as seen in the example screenshot below.
+
+<img src="DOCS/invoice_notfound.png" alt="Invoice check error" width="70%"/>
+
+This is the same if a user tries to update or delete data they did not create. Example of the response error seen in the screenshot below. 
+
+When trying to update or delete a card where the user identity does not match that of the user who created the data, the response is an error like the one in the screenshot below. 
+
+<img src="DOCS/update_error.png" alt="Attending check error" width="70%"/>
+
+If an invalid email is used while trying to login, the error response below is thrown. 
+
+<img src="DOCS/invalid_email.png" alt="Invalid email" width="70%"/>
+
 
 ### Authentication
 
