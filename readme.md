@@ -424,26 +424,33 @@ To perform all the queries below, besides register and login, an active JWT toke
 
 ### Error Handling
 
-When querying data via a URL path that takes one or more inputs, such as event_id, it is important to check whether the previous inputs exist before querying the final input. In the example below, we can see that the route function first checks if the event exists, and if it doesn't it throws an error as seen in the example screenshot below. The below examples are of one route, but these error protection processes are taken for every route that requires additional inputs. Additionally, there are error handling repsonses set for the wrong email or password when logging in, to checking the validation requirements when registering a new user, these error responses are an important way to notify the client while also limiting the chance of crashing the server. 
+When querying data via a URL path that takes one or more inputs, such as event_id, it is important to check whether the previous inputs exist before querying the final input. In the example below, we can see that the route function first checks if the event exists, and if it doesn't it throws an error as seen in the example screenshot below. 
 
+The below examples are of one route, but these error protection processes are taken for every route that requires additional inputs. Additionally, there are error handling repsonses set for the wrong email or password when logging in or checking the validation requirements when registering a new user, these error responses are an important way to notify the client while also limiting the chance of crashing the server.
+
+***Event Exists***
 <img src="DOCS/eventcheck_error.png" alt="Event check error" width="70%"/>
 
 If the event does exists in the database, the function then checks to see if the attending_id exists in the database, and if it doesn't it throws an error as seen in the example screenshot below.
 
+***Attending Exists***
 <img src="DOCS/attending_check.png" alt="Attending check error" width="70%"/>
 
 If the event and attending id's are both in the database, the function then checks to see if the user exists, and if it doesn't it throws an error as seen in the example screenshot below.
 
+***Invoice Exists***
 <img src="DOCS/invoice_notfound.png" alt="Invoice check error" width="70%"/>
 
 This is the same if a user tries to update or delete data they did not create. Example of the response error seen in the screenshot below. 
 
 When trying to update or delete a card where the user identity does not match that of the user who created the data, the response is an error like the one in the screenshot below. 
 
+***Creator Only***
 <img src="DOCS/update_error.png" alt="Attending check error" width="70%"/>
 
 If an invalid email is used while trying to login, the error response below is thrown. 
 
+***Invalid***
 <img src="DOCS/invalid_email.png" alt="Invalid email" width="70%"/>
 
 
