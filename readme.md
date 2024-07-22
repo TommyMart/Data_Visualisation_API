@@ -635,3 +635,84 @@ Payload & Response: <br>
 
 ### Attending
 
+***Fetch All Attending an Event*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_all_attending.png" alt="Fetch All Attending an Event" width="70%"/> 
+
+***Fetch Specific Attending*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/fetch_attending.png" alt="Fetch Specific Attending" width="70%"/> 
+
+***New Attending*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending` <br>
+Method: POST <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/New_attending.png" alt="New Attending" width="70%"/> 
+
+***Update Attending*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id>` <br>
+Method: PUT or PATCH <br>
+Authorisation: Creator JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/update_attending.png" alt="Update Attending" width="70%"/> 
+
+***Delete Attending*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id>` <br>
+Method: DELETE <br>
+Authorisation: Creator JWT Token or Admin <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/delete_attending.png" alt="Delete Attending" width="70%"/> 
+
+### Invoice
+
+***Fetch Attending Invoice*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/invoices_attending_event.png" alt="Fetch Attending Invoice" width="70%"/> 
+
+***Fetch Specific Invoice*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice` <br>
+Method: GET <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="" alt="Fetch Specific Invoice" width="70%"/> 
+
+***New Invoice*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice` <br>
+Method: POST <br>
+Authorisation: JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/new_invoice.png" alt="New Invoice" width="70%"/> 
+
+***Update Invoice*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice/<int:invoice_id>` <br>
+Method: PUT or PATCH <br>
+Authorisation: Creator JWT Token <br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/update_invoice.png" alt="Update Invoice" width="70%"/> 
+
+***Delete Invoice*** <br>
+URL Path: `http://localhost:8080/events/<int:event_id>/attending/<int:attending_id/invoice/<int:invoice_id>` <br>
+Method: DELETE <br>
+Authorisation: Creator JWT Token or Admin<br>
+Description:  <br>
+Payload & Response: <br>
+<img src="DOCS/delete_invoice.png" alt="Delete Invoice" width="70%"/> 
