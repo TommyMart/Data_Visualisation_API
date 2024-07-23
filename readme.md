@@ -502,39 +502,45 @@ As you can see there is a lot of redundant data, this can be avoided by implemen
 
 Bit nicer right? And if the client needs the movie's data it can access this via the foriegn key 1. This example is independant of this app, this app further seperates number of tickets and total price due to further database normalisation measures. 
 
+
+
 **Table normalisation examples:**
 
 **Posts Data:**
 
 The posts data is stored separately from the users. This ensures that every time a user makes a post, the user's personal information isn't included in the database entry, avoiding data redundancy. If the user's personal information is needed, it can be accessed via the user_id foreign key.
 
+<img src="DOCS/posts_table.png" alt="Posts psql table" width="70%"/> 
+
 **Comments Data:**
 
 The comments data is stored separately from the posts table. This means that every time a comment is made, the post data does not need to be included because it remains constant, thus avoiding data redundancy. If the post information is needed, it can be accessed via the post_id foreign key, or the user's information who made the comment can be accessed via the user_id foreign key.
 
+<img src="DOCS/comments_table.png" alt="Comments psql table" width="70%"/> 
+
 **Likes Data:**
 
-The likes data is stored separately from the posts table. This ensures that every time a post is liked, the post data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the post information is needed, it can be accessed via the post_id foreign key, or the user's information who made the like can be accessed via the user_id foreign key.
+The likes data is stored separately from the posts and users table. This ensures that every time a post is liked, the post and user data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the post or user information is needed, it can be accessed via the post_id foreign key, or the user's information who made the like can be accessed via the user_id foreign key.
+
+<img src="DOCS/likes_table.png" alt="Likes psql table" width="70%"/> 
 
 **Events Data:**
 
 The events data is stored separately from the users. This ensures that every time a user creates an event, the user's personal information isn't included in the database entry, avoiding data redundancy. If the user's personal information is needed, it can be accessed via the event_admin_id foreign key.
 
-**Attending Data (User):**
+<img src="DOCS/events_table.png" alt="Events psql table" width="70%"/> 
 
-The attending data is stored separately from the users. This ensures that every time a user attends an event, the user's personal information isn't included in the database entry, avoiding data redundancy. If the user's personal information is needed, it can be accessed via the attending_id foreign key.
+**Attending Data:** 
 
-**Attending Data (Event):**
+The Attending data is stored separately from the events and users tables. This ensures that every time a user attends an event, the user and event data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the event or user information is needed, it can be accessed via the event_id foreign key, or the user's information who is attending the event can be accessed via the attending_id foreign key.
 
-The attending data is stored separately from the events. This ensures that every time a user attends an event, the event's constant information isn't included in the database entry, avoiding data redundancy. If the event's information is needed, it can be accessed via the event_id foreign key.
+<img src="DOCS/attending_table.png" alt="Attendings psql table" width="70%"/> 
 
-**Invoice Data (Event):**
+**Invoice Data:**
 
-The invoice data is stored separately from the events. This ensures that every time a user attends an event and receives an invoice, the event's constant information isn't included in the database entry, avoiding data redundancy. If the event's information is needed, it can be accessed via the event_id foreign key.
+The Invoice data is stored separately from the events and attending tables. This ensures that every time a user attends an event and receives an invoice, the attending and event data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the event or attending information is needed, it can be accessed via the event_id foreign key, or the attendees information who recieved the invoice can be accessed via the attending_id foreign key.
 
-**Invoice Data (Attending):**
-
-The invoice data is stored separately from the attendings. This ensures that every time a user attends an event and receives an invoice, the attending's constant information isn't included in the database entry, avoiding data redundancy. If the attending's information is needed, it can be accessed via the attending_id foreign key.
+<img src="DOCS/invoices_table.png" alt="Invoicess psql table" width="70%"/> 
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
