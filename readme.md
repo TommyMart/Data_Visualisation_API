@@ -516,13 +516,13 @@ The posts data is stored separately from the users. This ensures that every time
 
 The comments data is stored separately from the posts table. This means that every time a comment is made, the post data does not need to be included because it remains constant, thus avoiding data redundancy. If the post information is needed, it can be accessed via the post_id foreign key, or the user's information who made the comment can be accessed via the user_id foreign key.
 
-<img src="DOCS/comments_table.png" alt="Comments psql table" width="70%"/> 
+<img src="DOCS/comments_table.png" alt="Comments psql table" width="60%"/> 
 
 **Likes Data:**
 
 The likes data is stored separately from the posts and users table. This ensures that every time a post is liked, the post and user data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the post or user information is needed, it can be accessed via the post_id foreign key, or the user's information who made the like can be accessed via the user_id foreign key.
 
-<img src="DOCS/likes_table.png" alt="Likes psql table" width="70%"/> 
+<img src="DOCS/likes_table.png" alt="Likes psql table" width="40%"/> 
 
 **Events Data:**
 
@@ -540,7 +540,7 @@ The Attending data is stored separately from the events and users tables. This e
 
 The Invoice data is stored separately from the events and attending tables. This ensures that every time a user attends an event and receives an invoice, the attending and event data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the event or attending information is needed, it can be accessed via the event_id foreign key, or the attendees information who recieved the invoice can be accessed via the attending_id foreign key.
 
-<img src="DOCS/invoices_table.png" alt="Invoicess psql table" width="70%"/> 
+<img src="DOCS/invoices_table.png" alt="Invoicess psql table" width="50%"/> 
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
