@@ -86,7 +86,7 @@ class PostSchema(ma.Schema):
         Regexp("^[A-Za-z0-9 ]+$", error="Post content must contain alphanumeric characters only")
     ))
     location = fields.String(validate=And(
-        Length(min=3, max=100, error="Location must be between 3 and 100characters long"),
+        Length(min=3, max=100, error="Location must be between 3 and 100 characters long"),
         Regexp("^[A-Za-z ]+$", error="Location must contain alpha characters only")
         ))
     image_url = fields.String(validate=And(

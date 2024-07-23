@@ -428,6 +428,7 @@ Here are a few of the more common SQLAlchemy methods, most of which are used in 
 **Relationship Examples**
 
 <img src="DOCS/erd-symbols.jpg" alt="ERD reltionships diagram" width="70%"/> 
+(Entity Relationship Diagram 2021)
 
 For the ERD of this app the only relationships used are 'one and only one' and 'zero to many'. 
 
@@ -456,9 +457,11 @@ Submitted on the 12th of July for approval.
 
 ### R7. Explain the implemented models and their relationships, including how the relationships aid the database implementation.
 
-***Delete on Cascade***: 'When we create a foreign key using this option, it deletes the referencing rows in the child table when the referenced row is deleted in the parent table which has a primary key (Babu 2019).'
+***Delete on Cascade***: 'When we create a foreign key using this option, it deletes the referencing rows in the child table when the referenced row is deleted in the parent table which has a primary key (Babu 2019).' 
 
-***back_populates***: 
+For example, if a post is deleted, the comments and likes on that post are deletd too. As there's not point keeping the comment data if the post it is commenting on it deleted from the database. 
+
+***back_populates***: is an argument that builds a bidirectional relationship between the two models. It allows for navigation in both ways between the related objects. 
 
 ### Users
 
@@ -472,7 +475,7 @@ Submitted on the 12th of July for approval.
 - dob - Date requires valid date format written as dd/mm/yyyy only.
 - is_admin - Boolean, t = True, f = false, default = f. 
 
-The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model when responding to a request when listed as a nested list in the model's schema. <br>
+The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model, and vice versa, when responding to a request when listed in the model's schema. <br>
 ```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```<br>
 ```comments = db.relationship("Comment", back_populates="user", cascade="all, delete")```<br>
 ```likes = db.relationship("Like", back_populates="user", cascade="all, delete")```<br>
@@ -483,19 +486,26 @@ Since a user can have zero or many posts, comments, likes, events or attending, 
 
 <img src="DOCS/fetch_a_user.png" alt="Fetch a user" height="70%"/> 
 
-The lists shown in this example can be viewed by clicking on the arrow pointing to the right, this will display any current data the user has created or updated. 
+The lists shown in this example can be viewed by clicking on the arrow pointing to the right, this will display any current data the user has created or updated. This data could be used on a user homepage to inform them of their recent actions. 
 
 ### Posts
 
 <img src="DOCS/posts_table.png" alt="Posts PSQL table" width="100%"/> 
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- title - String of alphanumeric characters that must be at least 3 long and NOT NULL.
+- content - String of alphanumeric characters less than 400 long.
+- date - Date format automatically populated by the datetime library.
+- location - String of alphanumeric characters between 3 and 100 long.
+- image_url - String in URL format between 5 and 150 characters long.
 
+Foriegn Keys
+
+- user_id - Integer that references the id column of the users table. NOT NULL. 
+
+Relationships 
+
+When a post is deleted the comments and likes of that specific post are deleted too because `cascade="all, delete`. There is a relationship between the posts model and the user, comments and likes models, this is so a post can be displayed with information regarding who made the post, and the comments and likes associated with that post. A post can have zero to many comments and likes but only one creator (user). 
 ```user = db.relationship("User", back_populates="posts")``` <br>
 ```comments = db.relationship("Comment", back_populates="post", cascade="all, delete")``` <br>
 ```likes = db.relationship("Like", back_populates="post", cascade="all, delete")``` <br>
@@ -505,9 +515,17 @@ The lists shown in this example can be viewed by clicking on the arrow pointing 
 <img src="DOCS/comments_table.png" alt="Comments PSQL table" height="80%"/> 
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- content - String of alphanumeric characters less than 400 long and NOT NULL.
+- timestamp - Date format automatically populated by the datetime library.
 
+Foriegn Keys
+
+- user_id - Integer that references the id column of the users table. NOT NULL. 
+- post_id - Integer that references the id column of the posts table. NOT NULL. 
+
+Relationships 
+
+For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. Since a user cannot like a comment at this stage of the build process, there is no current reltionship, moving forward this is a functionality the app will implement. 
 ```user = db.relationship("User", back_populates="comments")``` <br>
 ```post = db.relationship("Post", back_populates="comments")``` <br>
 
@@ -516,19 +534,35 @@ The lists shown in this example can be viewed by clicking on the arrow pointing 
 <img src="DOCS/likes_table.png" alt="Likes PSQL table" height="60%"/> 
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
 
-```user = db.relationship("User", back_populates="likes")``` <br> 
-```post = db.relationship("Post", back_populates="likes")``` <br>
+Foriegn Keys
+
+- user_id - Integer that references the id column of the users table. NOT NULL. 
+- post_id - Integer that references the id column of the posts table. NOT NULL. 
+
+Relationships 
+
+For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. 
+```user = db.relationship("User", back_populates="comments")``` <br>
+```post = db.relationship("Post", back_populates="comments")``` <br>
 
 ### Events
 
 <img src="DOCS/events_table.png" alt="Events PSQL table" width="100%"/> 
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- title - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- description - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- date - Date must written as dd/mm/yyyy only.
+- ticket_price - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+
+Foreign Keys
+
+- event_admin_id - - Integer that references the id column of the users table. NOT NULL.
+
+Relationships
+
+When an event is deleted from the database, so are the attending and invoice model data for that event. An automatic refund function will be implemented in the next phase of the build process if the event is cancelled (deleted) before the event has taken place. The event model has a bidirectional relationship with the user, attending and invoice models. This is useful when the client wants to know what seats are available while using the events route for example. 
 
 ```user = db.relationship("User", back_populates="events")``` <br>
 ```attending = db.relationship("Attending", back_populates="event", cascade="all, delete")``` <br>
@@ -539,11 +573,21 @@ The lists shown in this example can be viewed by clicking on the arrow pointing 
 <img src="DOCS/attending_table.png" alt="Attending PSQL table" width="100%"/> 
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- total_tickets - Integer <= MAX_TICKETS_PER_USER, default = 1 ticket.
+- seat_section - String OneOf VALID_SEAT_SECTIONS if < count input limit, default = General Admission.
+- timestamp - - Date format automatically populated by the datetime library.
+
+Foriegn Keys
+
+- event_id - Integer that references the id column of the events table. NOT NULL. 
+- attending_id - Integer that references the id column of the users table. NOT NULL. 
+
+Relationships
+
+When an event attendee data is deleted from the database, so is the invoice model data for that attendee. The attendee model has a bidirectional relationship with the user, event and invoice models. This is useful when the client wants to read the event ticket price while on the attending route for example. 
 
 ```user = db.relationship("User", back_populates="attending")``` <br> 
-```event = db.relationship("Event", back_populates="attending", cascade="all, delete")``` <br>
+```event = db.relationship("Event", back_populates="attending")``` <br>
 ```invoice = db.relationship("Invoice", back_populates="attending", cascade="all, delete")``` <br>
 
 ### Invoices
@@ -551,8 +595,17 @@ The lists shown in this example can be viewed by clicking on the arrow pointing 
 <img src="DOCS/invoices_table.png" alt="Invoices PSQL table" height="80%"/> 
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
-- name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
+- total_cost - Float datatype with a default value of 0.00.
+- timestamp - - Date format automatically populated by the datetime library.
+
+Foriegn Keys
+
+- event_id - Integer that references the id column of the events table. NOT NULL. 
+- attending_id - Integer that references the id column of the users table. NOT NULL. 
+
+Relationships
+
+For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. 
 
 ```event = db.relationship("Event", back_populates="invoice")``` <br>
 ```attending = db.relationship("Attending", back_populates="invoice")``` <br>
@@ -564,7 +617,7 @@ Reasoning behind any changes to the ERD
 
 ### R8. Explain how to use this application’s API endpoints. Each endpoint should be explained, including the following data for each endpoint:
 
-Below is an explanation of each endpoint / route used in the app.
+Below is an explanation of each endpoint / route used in the app.       
 
 Including:
 * HTTP verb (get, post, patch, put)

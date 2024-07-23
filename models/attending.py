@@ -14,7 +14,8 @@ VALID_SEAT_SECTIONS = ( "General Addmission", "Section A", "Section B", "Section
 
 # Define a maximum number of tickets per user per event_id
 MAX_TICKETS_PER_USER = 5
-MAX_TICKETS_PER_EMAIL = 5
+# constant for the maximum number of tickets per email address
+# MAX_TICKETS_PER_EMAIL = 5
 
 # Attending Table
 class Attending(db.Model):
@@ -34,7 +35,7 @@ class Attending(db.Model):
     
     # Relationships
     user = db.relationship("User", back_populates="attending")
-    event = db.relationship("Event", back_populates="attending", cascade="all, delete")
+    event = db.relationship("Event", back_populates="attending")
     invoice = db.relationship("Invoice", back_populates="attending", cascade="all, delete")
 
 # Attending Schema
@@ -51,14 +52,15 @@ class AttendingSchema(ma.Schema):
         if value > MAX_TICKETS_PER_USER:
             raise ValidationError(f"Maximum {MAX_TICKETS_PER_USER} tickets allowed per user per event")
 
-    @validates("user")
-    def validate_email_tickets_limit(self, value):
-        email = value.get("email")
-        if email:
-            # Query the database to count tickets already purchased by this email
-            stmt = db.session.query(db.func.sum(Attending.total_tickets)).join(Attending.user).filter(User.email == email).scalar()
-            if stmt and stmt + value["total_tickets"] > MAX_TICKETS_PER_EMAIL:
-                raise ValidationError(f"Maximum {MAX_TICKETS_PER_EMAIL} tickets allowed per email address")
+    # this function is currently a work in progress
+    # @validates("user")
+    # def validate_email_tickets_limit(self, value):
+    #     email = value.get("email")
+    #     if email:
+    #         # Query the database to count tickets already purchased by this email
+    #         stmt = db.session.query(db.func.sum(Attending.total_tickets)).join(Attending.user).filter(User.email == email).scalar()
+    #         if stmt and stmt + value["total_tickets"] > MAX_TICKETS_PER_EMAIL:
+    #             raise ValidationError(f"Maximum {MAX_TICKETS_PER_EMAIL} tickets allowed per email address")
 
     @validates("seat_section")
     def limit_general_admission(self, value):

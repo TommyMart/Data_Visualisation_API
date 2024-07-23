@@ -1,5 +1,6 @@
 # External Libraries
 from marshmallow import fields
+from marshmallow.validate import Regexp, Length, And
 
 # Imports from local files
 from init import db, ma
@@ -32,6 +33,12 @@ class EventSchema(ma.Schema):
     attending = fields.List(fields.Nested("AttendingSchema", only=["event_id", "seat_section", "total_tickets", "user"]))
     invoice = fields.List(fields.Nested("InvoiceSchema", only=["total_cost"]))
     # define a schema - structure of the DB
+
+
+    date = fields.String(validate=
+        Regexp(r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must written as dd/mm/yyyy only")
+        )
+    
     class Meta:
         fields = ( "id", "title", "description", "date", "ticket_price", "event_admin_id", "user", "attending", "invoice")
 
