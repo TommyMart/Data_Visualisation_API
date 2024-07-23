@@ -429,14 +429,7 @@ Here are a few of the more common SQLAlchemy methods, most of which are used in 
 
 ### R6. Design an entity relationship diagram (ERD) for this app’s database, and explain how the relations between the diagrammed models will aid the database design.
 
-**Normalisation Definition** - Database normalisation is a database design principle for organising data in an organised and consistent way. It helps you avoid redundancy and maintain the integrity of the database. It also helps to eliminate undesirable characteristics associated with insertion, deletion, and updating (Chris 2022).
-
-The example below is of an unnormalised table. This is because for each ticket purchase entry for a specific event, the title, descripiton, date, time and ticket price will remain constant, making it redundant data. This can be avoided making implenting database normalisation and using different tables for the event details, those attending the event and payable invoice data, which is visiable in this apps final ERD. This app's database design uses normalisation successfully to avoid redundancy and maintain the integrity of the database.
-
-#### Example of an unnormalised Events Table.
-![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
-
-**Relationship Examples**
+**Relationship Legend**
 
 <img src="DOCS/erd-symbols.jpg" alt="ERD reltionships diagram" width="70%"/> 
 (Entity Relationship Diagram 2021) <br>
@@ -450,19 +443,19 @@ A user can create zero to many posts, comments likes, or events, they can attend
 **One and only One** relationship means that the object can only belong to one other object. For example, a comment on a post can only be made by one user, there is no way two users can create a single comment. 
 
 **Users** <br>
-- One user to zero to many posts, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
-- One user to zero to many comments, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
-- One user to zero to many likes, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
-- One user to zero to many events, linked by foriegn key 'event_admin_id' referencing the id column of the users table. <br>
-- One user to zero to many attending, linked by foriegn key 'attending_id' referencing the id column of the users table. <br>
+One user to zero to many posts, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
+One user to zero to many comments, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
+One user to zero to many likes, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
+One user to zero to many events, linked by foriegn key 'event_admin_id' referencing the id column of the users table. <br>
+One user to zero to many attending, linked by foriegn key 'attending_id' referencing the id column of the users table. <br>
 **Posts** <br>
-- One post to zero to many comments, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
-- One post to zero to many likes, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
+One post to zero to many comments, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
+One post to zero to many likes, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
 **Events** <br>
-- One event to zero to many attending, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
-- One event to zero to many invoices, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
+One event to zero to many attending, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
+One event to zero to many invoices, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
 **Attending** <br>
-- One attending to zero to many invoices, linked by foriegn key 'attending_id' referencing the id column of the attending table.<br>
+One attending to zero to many invoices, linked by foriegn key 'attending_id' referencing the id column of the attending table.<br>
 
 As explained previously, these foreign key relationships allow for further bidirectional interactivity between the tables and their data using the `relationship` and `back_populates`. 
 
@@ -485,6 +478,47 @@ Finished on the 23rd of July after the code was completed.
 ![Final ERD image](DOCS/userhierachydiagram.jpg)
 
 The changes made from the draft ERD to the final will be outlined in the next requirement. 
+
+**Normalisation Definition** - Database normalisation is a database design principle for organising data in an organised and consistent way. It helps you avoid redundancy and maintain the integrity of the database. It also helps to eliminate undesirable characteristics associated with insertion, deletion, and updating (Chris 2022).
+
+The example below is of an unnormalised table. This is because for each ticket purchase entry for a specific event, the title, descripiton, date, time and ticket price will remain constant, making it redundant data. This can be avoided making implenting database normalisation and using different tables for the event details, those attending the event and payable invoice data, which is visiable in this apps final ERD. This app's database design uses normalisation successfully to avoid redundancy and maintain the integrity of the database.
+
+#### Example of an unnormalised Events Table.
+![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
+
+**Table normalisation examples:**
+
+**Posts Data:**
+
+The posts data is stored separately from the users. This ensures that every time a user makes a post, the user's personal information isn't included in the database entry, avoiding data redundancy. If the user's personal information is needed, it can be accessed via the user_id foreign key.
+
+**Comments Data:**
+
+The comments data is stored separately from the posts table. This means that every time a comment is made, the post data does not need to be included because it remains constant, thus avoiding data redundancy. If the post information is needed, it can be accessed via the post_id foreign key, or the user's information who made the comment can be accessed via the user_id foreign key.
+
+**Likes Data:**
+
+The likes data is stored separately from the posts table. This ensures that every time a post is liked, the post data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the post information is needed, it can be accessed via the post_id foreign key, or the user's information who made the like can be accessed via the user_id foreign key.
+
+**Events Data:**
+
+The events data is stored separately from the users. This ensures that every time a user creates an event, the user's personal information isn't included in the database entry, avoiding data redundancy. If the user's personal information is needed, it can be accessed via the event_admin_id foreign key.
+
+**Attending Data (User):**
+
+The attending data is stored separately from the users. This ensures that every time a user attends an event, the user's personal information isn't included in the database entry, avoiding data redundancy. If the user's personal information is needed, it can be accessed via the attending_id foreign key.
+
+**Attending Data (Event):**
+
+The attending data is stored separately from the events. This ensures that every time a user attends an event, the event's constant information isn't included in the database entry, avoiding data redundancy. If the event's information is needed, it can be accessed via the event_id foreign key.
+
+**Invoice Data (Event):**
+
+The invoice data is stored separately from the events. This ensures that every time a user attends an event and receives an invoice, the event's constant information isn't included in the database entry, avoiding data redundancy. If the event's information is needed, it can be accessed via the event_id foreign key.
+
+**Invoice Data (Attending):**
+
+The invoice data is stored separately from the attendings. This ensures that every time a user attends an event and receives an invoice, the attending's constant information isn't included in the database entry, avoiding data redundancy. If the attending's information is needed, it can be accessed via the attending_id foreign key.
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
