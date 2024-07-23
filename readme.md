@@ -486,18 +486,18 @@ The example below is of an unnormalised table. This is because for each ticket p
 #### Example of an unnormalised Events Table.
 ![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
 
-If you can imagine the database table for the example table above... For every time a ticket is sold for moviee A, movie A's title, description, date and ticket price will be included in each entry. The database entry would look something like this:
+If you can imagine the database table for the example table above... For every time a ticket is sold for event, say, Movie A, Movie A's - title, description, date and ticket price will be included in each entry. The database entry would look something like this:
 
-Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 2 | $30  
-Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 1 | $15
-Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 4 | $60 
-Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 2 | $30 
-Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 3 | $45 
-Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 1 | $15 
+Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 2 | $30 <br>
+Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 1 | $15 <br>
+Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 4 | $60 <br>
+Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 2 | $30 <br>
+Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 3 | $45 <br>
+Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 1 | $15 <br>
 
 As you can see there is a lot of redundant data, this can be avoided by implementing database normalisation during the design stage. What about if there was one column for Movie As id as a foreign key, lets say it's 1, plus the number of tickets and the total cost. 
 
-1 | 2 | $30
+1 | 2 | $30 <br>
 1 | 1 | $15
 
 Bit nicer right? And if the client needs the movie's data it can access this via the foriegn key 1. This example is independant of this app, this app further seperates number of tickets and total price due to further database normalisation measures. 
