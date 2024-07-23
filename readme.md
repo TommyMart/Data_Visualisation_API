@@ -135,6 +135,12 @@ Completed readme requirements 3, 5 and 8, added error handling card to the Trell
 
 <img src="DOCS/trello_22:7.png" alt="Trello 22nd July" width="60%"/>
 
+* Tuesday the 23rd of July '24 update
+
+Completed readme requirements 6 and 7, starting working on the comments and error handling cards. 
+
+<img src="DOCS/trello_23:7.png" alt="Trello 23rd July" width="60%"/>
+
 ---
 
 ### R3 List and explain the third-party services, packages and dependencies used in this app.
