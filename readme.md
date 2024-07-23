@@ -445,9 +445,26 @@ The only relationships used in this app thus far are 'one and only one' and 'zer
 
 A user can create zero to many posts, comments likes, or events, they can attend zero to many events, and therefore, have zero to many invoices. Though, each of these models can only belong to one and only one user, and an invoice can only belong to one event attendee. This relationship may change in the future to implement a joint payment method and/or joint event administration, but at this stage of the build there's only one paying attendee and event creator. 
 
-**Zero to Many** relationship means that the one object on the many side can exist even if the other side is zero. An example of this is if a factory can create zero to many products, the factory can exist if no products are being made but no products can be made without a factory. Another example, relative to this app, is no attendees can attend an event that does not exist. 
+**Zero to Many** relationship means that the one object can exist even if the other side doesn't, or is zero. An example of this is if a factory can create zero to many products, the factory can exist if no products are being made but no products can be made without a factory. Another example, relative to this app, is no attendees can attend an event that does not exist. 
 
 **One and only One** relationship means that the object can only belong to one other object. For example, a comment on a post can only be made by one user, there is no way two users can create a single comment. 
+
+**Users** <br>
+One user to zero to many posts, linked by foriegn key 'user_id' referencing the id column of the users table. 
+One user to zero to many comments, linked by foriegn key 'user_id' referencing the id column of the users table. 
+One user to zero to many likes, linked by foriegn key 'user_id' referencing the id column of the users table. 
+One user to zero to many events, linked by foriegn key 'event_admin_id' referencing the id column of the users table. 
+One user to zero to many attending, linked by foriegn key 'attending_id' referencing the id column of the users table. 
+**Posts** <br>
+One post to zero to many comments, linked by foriegn key 'post_id' referencing the id column of the posts table. 
+One post to zero to many likes, linked by foriegn key 'post_id' referencing the id column of the posts table. 
+**Events** <br>
+One event to zero to many attending, linked by foriegn key 'event_id' referencing the id column of the events table. 
+One event to zero to many invoices, linked by foriegn key 'event_id' referencing the id column of the events table.
+**Attending** <br>
+One attending to zero to many invoices, linked by foriegn key 'attending_id' referencing the id column of the attending table.
+
+As explained previously, these foreign key relationships allow for further bidirectional interactivity between the tables and their data using the `relationship` and `back_populates`. 
 
 Below are some basic visual examples displaying the relationships of post and event paths, starting with the user. 
 
@@ -459,14 +476,15 @@ Below are some basic visual examples displaying the relationships of post and ev
 
 <img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" height="20%"/> 
 
-#### Initial Draft ERD 
+### Initial Draft ERD 
 Submitted on the 12th of July for approval.
 ![Draft ERD image](DOCS/music_socialmedia.drawio.png)
 
 ### Final ERD
-
+Finished on the 23rd of July after the code was completed.
 ![Final ERD image](DOCS/userhierachydiagram.jpg)
 
+The changes made from the draft ERD to the final will be outlined in the next requirement. 
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
