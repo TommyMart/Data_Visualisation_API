@@ -450,19 +450,19 @@ A user can create zero to many posts, comments likes, or events, they can attend
 **One and only One** relationship means that the object can only belong to one other object. For example, a comment on a post can only be made by one user, there is no way two users can create a single comment. 
 
 **Users** <br>
-One user to zero to many posts, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
-One user to zero to many comments, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
-One user to zero to many likes, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
-One user to zero to many events, linked by foriegn key 'event_admin_id' referencing the id column of the users table. <br>
-One user to zero to many attending, linked by foriegn key 'attending_id' referencing the id column of the users table. <br>
+- One user to zero to many posts, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
+- One user to zero to many comments, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
+- One user to zero to many likes, linked by foriegn key 'user_id' referencing the id column of the users table. <br>
+- One user to zero to many events, linked by foriegn key 'event_admin_id' referencing the id column of the users table. <br>
+- One user to zero to many attending, linked by foriegn key 'attending_id' referencing the id column of the users table. <br>
 **Posts** <br>
-One post to zero to many comments, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
-One post to zero to many likes, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
+- One post to zero to many comments, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
+- One post to zero to many likes, linked by foriegn key 'post_id' referencing the id column of the posts table. <br>
 **Events** <br>
-One event to zero to many attending, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
-One event to zero to many invoices, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
+- One event to zero to many attending, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
+- One event to zero to many invoices, linked by foriegn key 'event_id' referencing the id column of the events table. <br>
 **Attending** <br>
-One attending to zero to many invoices, linked by foriegn key 'attending_id' referencing the id column of the attending table.<br>
+- One attending to zero to many invoices, linked by foriegn key 'attending_id' referencing the id column of the attending table.<br>
 
 As explained previously, these foreign key relationships allow for further bidirectional interactivity between the tables and their data using the `relationship` and `back_populates`. 
 
