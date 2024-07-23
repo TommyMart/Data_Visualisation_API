@@ -431,14 +431,25 @@ Here are a few of the more common SQLAlchemy methods, most of which are used in 
 
 **Normalisation Definition** - Database normalisation is a database design principle for organising data in an organised and consistent way. It helps you avoid redundancy and maintain the integrity of the database. It also helps to eliminate undesirable characteristics associated with insertion, deletion, and updating (Chris 2022).
 
+The example below is of an unnormalised table. This is because for each ticket purchase entry for a specific event, the title, descripiton, date, time and ticket price will remain constant, making it redundant data. This can be avoided making implenting database normalisation and using different tables for the event details, those attending the event and payable invoice data, which is visiable in this apps final ERD. This app's database design uses normalisation successfully to avoid redundancy and maintain the integrity of the database.
+
+#### Example of an unnormalised Events Table.
+![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
+
 **Relationship Examples**
 
 <img src="DOCS/erd-symbols.jpg" alt="ERD reltionships diagram" width="70%"/> 
 (Entity Relationship Diagram 2021)
 
-For the ERD of this app the only relationships used are 'one and only one' and 'zero to many'. 
+The only relationships used in this app thus far are 'one and only one' and 'zero to many'. 
 
-A user can create zero to many posts, comments or events, while they can like many posts and attend many events, though, each of these models can only belong to the one user. 
+A user can create zero to many posts, comments likes, or events, they can attend zero to many events, and therefore, have zero to many invoices. Though, each of these models can only belong to one and only one user, and an invoice can only belong to one event attendee. This relationship may change in the future to implement a joint payment method and/or joint event administration, but at this stage of the build there's only one paying attendee and event creator. 
+
+**Zero to Many** relationship means that the one object on the many side can exist even if the other side is zero. An example of this is if a factory can create zero to many products, the factory can exist if no products are being made but no products can be made without a factory. Another example, relative to this app, is no attendees can attend an event that does not exist. 
+
+**One and only One** relationship means that the object can only belong to one other object. For example, a comment on a post can only be made by one user, there is no way two users can create a single comment. 
+
+Below are some basic visual examples displaying the relationships of post and event paths, starting with the user. 
 
 ***ERD User Posts Hierachy***
 
@@ -448,16 +459,16 @@ A user can create zero to many posts, comments or events, while they can like ma
 
 <img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" height="20%"/> 
 
-Talk in database terms, normalisation, relations - one to many etc, 
-
 #### Initial Draft ERD 
 Submitted on the 12th of July for approval.
 ![Draft ERD image](DOCS/music_socialmedia.drawio.png)
 
-<br>
+### Final ERD
 
-#### Example of an unnormalised Events Table.
-![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
+![Final ERD image](DOCS/userhierachydiagram.jpg)
+
+
+Talk in database terms, normalisation, relations - one to many etc, 
 
 ---
 
@@ -481,6 +492,8 @@ For example, if a post is deleted, the comments and likes directly related to th
 - dob - Date requires valid date format written as dd/mm/yyyy only.
 - is_admin - Boolean, t = True, f = false, default = f. 
 
+If `is_admin` == True, then that user is authorised to delete data entries from all tables within the database. 
+
 The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model, and vice versa, when responding to a request when listed in the model's schema. 
 
 ```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```<br>
@@ -497,7 +510,7 @@ The lists shown in this example can be viewed by clicking on the arrow pointing 
 
 ERD Changes 
 
-It was decided to remove the address attribute from the users table that was present in the initial draft ERD, this was decided because there is no valid reasoning for having the address since all communication and ticketing is to be done electronically. This aligns with the app's stance of sustainability and taking the green opion where possible. 
+It was decided to remove the address attribute from the users table that was present in the initial draft ERD, this was decided because there is no valid reasoning for having the address since all communication and ticketing is to be done electronically. This aligns with the app's stance of sustainability and taking the green option where ever possible. 
 
 ### Posts
 
@@ -622,7 +635,6 @@ When an event attendee data is deleted from the database, so is the invoice mode
 ERD Changes
 
 It was decided to add a seat section attribute so that a seating limit fucntion could be assigned to each sub section - General Admission, Section C, Section B, Section A and VIP. A time stamp was also added to limit confusing should there be any around the purchasing of tickets and events selling out.  
-
 
 ### Invoices
 
