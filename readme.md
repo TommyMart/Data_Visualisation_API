@@ -440,13 +440,13 @@ For the ERD of this app the only relationships used are 'one and only one' and '
 
 A user can create zero to many posts, comments or events, while they can like many posts and attend many events, though, each of these models can only belong to the one user. 
 
-***ERD Posts Hierachy***
+***ERD User Posts Hierachy***
 
 <img src="DOCS/hierarchy1.png" alt="Hierachy user/post ERD" width="50%"/> 
 
-***ERD Events Hierachy***
+***ERD User Events Hierachy***
 
-<img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" height="30%"/> 
+<img src="DOCS/event_hierarchy.png" alt="Hierachy user/post ERD" height="20%"/> 
 
 Talk in database terms, normalisation, relations - one to many etc, 
 
@@ -465,7 +465,7 @@ Submitted on the 12th of July for approval.
 
 ***Delete on Cascade***: 'When we create a foreign key using this option, it deletes the referencing rows in the child table when the referenced row is deleted in the parent table which has a primary key (Babu 2019).' 
 
-For example, if a post is deleted, the comments and likes on that post are deletd too. As there's not point keeping the comment data if the post it is commenting on it deleted from the database. 
+For example, if a post is deleted, the comments and likes directly related to that post are deletd too. There's not point in keeping the comment and like data if the post the comment is on has been permanently deleted from the database. 
 
 ***back_populates***: is an argument that builds a bidirectional relationship between the two models. It allows for navigation in both ways between the related objects. 
 
@@ -481,7 +481,8 @@ For example, if a post is deleted, the comments and likes on that post are delet
 - dob - Date requires valid date format written as dd/mm/yyyy only.
 - is_admin - Boolean, t = True, f = false, default = f. 
 
-The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model, and vice versa, when responding to a request when listed in the model's schema. <br>
+The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model, and vice versa, when responding to a request when listed in the model's schema. 
+
 ```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```<br>
 ```comments = db.relationship("Comment", back_populates="user", cascade="all, delete")```<br>
 ```likes = db.relationship("Like", back_populates="user", cascade="all, delete")```<br>
@@ -493,6 +494,10 @@ Since a user can have zero or many posts, comments, likes, events or attending, 
 <img src="DOCS/fetch_a_user.png" alt="Fetch a user" height="70%"/> 
 
 The lists shown in this example can be viewed by clicking on the arrow pointing to the right, this will display any current data the user has created or updated. This data could be used on a user homepage to inform them of their recent actions. 
+
+ERD Changes 
+
+It was decided to remove the address attribute from the users table that was present in the initial draft ERD, this was decided because there is no valid reasoning for having the address since all communication and ticketing is to be done electronically. This aligns with the app's stance of sustainability and taking the green opion where possible. 
 
 ### Posts
 
@@ -512,9 +517,14 @@ Foriegn Keys
 Relationships 
 
 When a post is deleted the comments and likes of that specific post are deleted too because `cascade="all, delete`. There is a relationship between the posts model and the user, comments and likes models, this is so a post can be displayed with information regarding who made the post, and the comments and likes associated with that post. A post can have zero to many comments and likes but only one creator (user). 
+
 ```user = db.relationship("User", back_populates="posts")``` <br>
 ```comments = db.relationship("Comment", back_populates="post", cascade="all, delete")``` <br>
 ```likes = db.relationship("Like", back_populates="post", cascade="all, delete")``` <br>
+
+ERD Changes 
+
+It was decided to add a 'location' attribute to the posts table. This is so users do not have to include this information in their post content, it is also beneficial to the app as it promotes travel and markets different geographic locations. The foreign key relationship between the posts and the events tables was not implemented because a URL, similarly to Facebook, was decided to be a better alternative because users are already familiar with this user experience process. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
 ### Comments
 
@@ -532,8 +542,13 @@ Foriegn Keys
 Relationships 
 
 For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. Since a user cannot like a comment at this stage of the build process, there is no current reltionship, moving forward this is a functionality the app will implement. 
+
 ```user = db.relationship("User", back_populates="comments")``` <br>
 ```post = db.relationship("Post", back_populates="comments")``` <br>
+
+ERD Changes 
+
+It was decided to not implement the likes relationship on the comment model to gain more user input. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
 ### Likes
 
@@ -548,9 +563,13 @@ Foriegn Keys
 
 Relationships 
 
-For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. 
+For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. <br>
 ```user = db.relationship("User", back_populates="comments")``` <br>
 ```post = db.relationship("Post", back_populates="comments")``` <br>
+
+ERD Changes 
+
+As previously discussed, it was decided to remove the ability for a user to like a comment to increase user input. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
 ### Events
 
@@ -574,6 +593,10 @@ When an event is deleted from the database, so are the attending and invoice mod
 ```attending = db.relationship("Attending", back_populates="event", cascade="all, delete")``` <br>
 ```invoice = db.relationship("Invoice", back_populates="event", cascade="all, delete")``` <br>
 
+ERD Changes 
+
+As previously discussed, it was decided to remove the ability for a user to make a post with a related event. This functionality may need further UX testing and will be discussed and decided on moving forward. 
+
 ### Attending
 
 <img src="DOCS/attending_table.png" alt="Attending PSQL table" width="100%"/> 
@@ -596,13 +619,18 @@ When an event attendee data is deleted from the database, so is the invoice mode
 ```event = db.relationship("Event", back_populates="attending")``` <br>
 ```invoice = db.relationship("Invoice", back_populates="attending", cascade="all, delete")``` <br>
 
+ERD Changes
+
+It was decided to add a seat section attribute so that a seating limit fucntion could be assigned to each sub section - General Admission, Section C, Section B, Section A and VIP. A time stamp was also added to limit confusing should there be any around the purchasing of tickets and events selling out.  
+
+
 ### Invoices
 
 <img src="DOCS/invoices_table.png" alt="Invoices PSQL table" height="80%"/> 
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
 - total_cost - Float datatype with a default value of 0.00.
-- timestamp - - Date format automatically populated by the datetime library.
+- timestamp - Date format automatically populated by the datetime library.
 
 Foriegn Keys
 
@@ -611,13 +639,17 @@ Foriegn Keys
 
 Relationships
 
-For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. 
+For a relationship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. 
 
 ```event = db.relationship("Event", back_populates="invoice")``` <br>
 ```attending = db.relationship("Attending", back_populates="invoice")``` <br>
 
 SQLAlchemy terms - back populates, cascade
 Reasoning behind any changes to the ERD
+
+ERD Changes
+
+No changes to the invoice ERD model were made. 
 
 ---
 
