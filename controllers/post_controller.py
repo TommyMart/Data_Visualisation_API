@@ -63,21 +63,24 @@ def new_post():
     """
     Create a new post and add it to the database.
     """
-    body_data = post_schema.load(
-        request.get_json())  # Load and validate request data
-    post = Post(
-        title=body_data.get("title"),
-        content=body_data.get("content"),
-        date=datetime.now(),
-        location=body_data.get("location"),
-        image_url=body_data.get("image_url"),
-        user_id=get_jwt_identity()  # Get the user ID from the JWT token
-    )
-    db.session.add(post)  # Add the new post to the session
-    db.session.commit()  # Commit changes to the database
-    # Return the created post with status code 201
-    return post_schema.dump(post), 201
-
+    try:
+        body_data = post_schema.load(
+            request.get_json())  # Load and validate request data
+        post = Post(
+            title=body_data.get("title"),
+            content=body_data.get("content"),
+            date=datetime.now(),
+            location=body_data.get("location"),
+            image_url=body_data.get("image_url"),
+            user_id=get_jwt_identity()  # Get the user ID from the JWT token
+        )
+        db.session.add(post)  # Add the new post to the session
+        db.session.commit()  # Commit changes to the database
+        # Return the created post with status code 201
+        return post_schema.dump(post), 201
+    except Exception as e:
+        # Handle unexpected errors
+        return {"error": str(e)}, 500
 # Route to delete a post by post_id
 
 

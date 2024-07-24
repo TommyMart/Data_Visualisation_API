@@ -23,7 +23,30 @@ The chosen code style guide for the applicaton is [Pep 8](https://peps.python.or
 
 ---
 
-***API Functionality Testing ***
+***App Installation***
+
+The app requires python version 3.8 or higher to be in installed, if you want to check which version of Python you have installed please open your terminal and run the following command python3 --version.
+
+If you do not have Python 3 installed, that's fine, but please download it from the [Official Python Website](https://www.python.org/downloads/) before proceeding. Please follow the same procedure if you have any other version of Python installed - such as version 2.
+
+If you have Python 3.8 or higher installed, please continue.
+
+- Clone the app via the [GitHub repository](https://github.com/TommyMart/Event_communication-ticketing_API). If you need further guidence please visit this GitHub help [link](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository). 
+- Then, ensure you are in the root 'Event_communication-ticketing_API' directory. 
+- Create a virtual environment by running these commands in your terminal window:
+    - `python3 -m venv .venv`
+    - then `source .venv/bin/activate`
+    - you should now see (.venv) at the start of your terminal name
+- Install the app's requirements by running this command in your terminal window:
+    - `pip install -r requirements.txt`
+- Add your own JWT_SECRET_KEY and DATABASE_URL to .env.sample and remove the .sample from the filename if you wish to use that file as your .env. 
+- Create the tables by running command: `flask db create`
+- Run the app via Flask by running the commend: `flask run`
+    - if that didn't work please try: `python3 -m flask run`
+
+The app is now active and the routes can be tested in Insomnia or any other API route testing software. 
+
+***API Functionality Testing***
 
 For easy testing of the app's functionality, please firstly create and seed the tables in the database. This will allow the tables to be created and populated so that queries can be ran. To achieve this please enter the following code into your terminal window:
 
@@ -33,12 +56,14 @@ For easy testing of the app's functionality, please firstly create and seed the 
 - Seed the tables - `flask db seed`
     - If successful, `Tables seeded`, will be printed to the terminal window. 
 
-If you have created and seeded the tables but would like delete all the data in the app's database please enter the following code into your terminal window. 
+If you have created and seeded the tables but would like to delete all the data in the app's database, please enter the following code into your terminal window. 
 
-- Drop the tables - `flask db drop`
+- Drop the existing tables - `flask db drop`
     - If successful, `Tables dropped`, will be printed to the terminal window. 
 
-If you would like to start a fresh app database, with no pre seeded data, please create the tables but do not seed them. 
+If you would like to start a fresh app database, with no pre seeded data, please create the tables but do not seed them before continuing.  
+
+To test all the endpoint routes in [Insomnia](https://insomnia.rest/), please download the JSON file - Insomnia_routes.json in the root directory and import the file into the Insomnia UI. 
 
 ---
 
@@ -1131,7 +1156,7 @@ Payload & Response: <br>
 
 ## Reference List
 
-LLM disclosure: ChatGPT4 was used while writing this readme.md file for grammar and punctuation. Prompting such 'Please improve grammar and punctuation by rewriting this content using mostly my words:' was used. The data was checked for hallucinations and provided with content written  firslty by myself. 
+LLM disclosure: ChatGPT4 was used while writing this readme.md file for grammar and punctuation. Prompting such 'Please improve grammar and punctuation by rewriting this content using mostly my words:' was used. The data was checked for hallucinations and provided with content written initialy by myself. 
 
 - Abba, IV 2022, What is an ORM – The Meaning of Object Relational Mapping Database Tools, freeCodeCamp.org.
 - Babu, R 2019, DELETE - CASCADE and UPDATE CASCADE in SQL Server foreign key, SQL Shack - articles about database auditing, server performance, data recovery, and more, viewed 22 July 2024, <https://www.sqlshack.com/delete-cascade-and-update-cascade-in-sql-server-foreign-key/#:~:text=DELETE%20CASCADE%3A%20When%20we%20create>.

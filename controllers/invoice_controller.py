@@ -171,7 +171,7 @@ def delete_invoice(event_id, attending_id, invoice_id):
         # check whether the user is an admin
         is_admin = authorise_as_admin()
         # if the user is not an admin they cannot delete an invoice
-        if not is_admin():
+        if not is_admin:
             # return error message to client and status code
             return {"error": "User unorthorised to perform this request"}, 403
         # delete invoice data
@@ -224,7 +224,7 @@ def update_invoice(invoice_id, event_id, attending_id):
         # check whether the user is an admin
         is_admin = authorise_as_admin()
         # if the user is not an admin they cannot update the invoice
-        if not is_admin():
+        if not is_admin:
             # return error message to client and status code
             return {"error": "User unorthorised to perform this request"}, 403
         # update the invoice data or keep the same if no data is passed
