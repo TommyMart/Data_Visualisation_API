@@ -11,40 +11,44 @@ from models.event import Event, event_schema, events_schema
 from controllers.attending_controller import attending_bp
 from utils import authorise_as_admin
 
+# Events Blueprint
 events_bp = Blueprint("events", __name__, url_prefix="/events")
+# Register the attending_bp blueprint to the events_bp
 events_bp.register_blueprint(attending_bp)
 
-# /events/ - GET - fetch all events
+# /events/ - GET - Fetch all events
 @events_bp.route("/")
+# Protect the route with JWT
 @jwt_required()
+# Define the function to fetch all events
 def get_all_events():
-    # get all records from the events table ordered by date in descending order
+    # Get all records from the events table ordered by date in descending order
     stmt = db.select(Event).order_by(Event.date.desc())
-    # retrieves the query results as individual 'Event' objects
+    # Retrieves the query results as individual 'Event' objects
     events = db.session.scalars(stmt)
-    # serialises the list of "Event" objects into JSON so that it can be returned
+    # Serialises the list of "Event" objects into JSON so that it can be returned
     # to client 
-    return events_schema.dump(events)
+    return events_schema.dump(events), 200
 
-# /events/<int:event_id> - GET - fetch single event
+# /events/<int:event_id> - GET - Fetch single event
 @events_bp.route("/<int:event_id>")
 @jwt_required()
 def get_single_event(event_id):
-    # select a single interation of the Event Model from the DB, filter the data to 
-    # find an entry where the event_id sent in the payload matches an id in the DB
+    # Select a single interation of the Event Model from the DB, filter the data to 
+    # Find an entry where the event_id sent in the payload matches an id in the DB
     stmt = db.select(Event).filter_by(id=event_id)
-    # retrieve the row where the ids match
+    # Retrieve the row where the ids match
     event = db.session.scalar(stmt)
-    # if event object exists
+    # If event object exists
     if event:
-        # serialise into JSON and return to client
-        return event_schema.dump(event)
-    # if does not exist
+        # Serialise into JSON and return to client
+        return event_schema.dump(event), 200
+    # If does not exist
     else:
-        # return message and error status code
+        # Return message and error status code
         return {"error": f"Event with id {event_id} not found"}, 404
     
-# event/search/<string:event_title> - GET - fetch event/s by partial event_title
+# event/search/<string:event_title> - GET - Fetch event/s by partial event_title
 @events_bp.route("/search/<string:event_title>")
 @jwt_required()
 def search_event_by_name(event_title):
@@ -53,21 +57,27 @@ def search_event_by_name(event_title):
 
     # Perform a case-insensitive search using ilike (case-insensitive LIKE)
     stmt = db.select(Event).filter(Event.title.ilike(like_pattern))
+    # Retrieve all matching events
     events = db.session.scalars(stmt).all()
-
+    # If events are found
     if events:
-        return events_schema.dump(events)
+        # Return the serialised data
+        return events_schema.dump(events), 200
+    # If no events are found
     else:
+        # Return an error message and status code 404
         return {"error": f"No events found matching '{event_title}'"}, 404
 
 
-# /events/ - POST - create a new event
+# /events/ - POST - Create a new event
 @events_bp.route("/", methods=["POST"])
+# Protect the route with JWT
 @jwt_required()
+# Define the function to create a new event
 def create_event():
-    # get data from payload 
+    # Get data from payload 
     body_data = event_schema.load(request.get_json(), partial=True)
-    # create new Event Model instance
+    # Create new Event Model instance and populate with data
     event = Event(
         title = body_data.get("title"),
         description = body_data.get("description"),
@@ -75,19 +85,23 @@ def create_event():
         ticket_price = body_data.get("ticket_price"),
         event_admin_id = get_jwt_identity()
     )
-
+    # Add and commit to DB
     db.session.add(event)
     db.session.commit()
+    # Return the serialised data
+    return event_schema.dump(event), 201
 
-    return event_schema.dump(event)
-
-# /events/<int:event_id> - DELETE - delete an event
+# /events/<int:event_id> - DELETE - Delete an event
 @events_bp.route("/<int:event_id>", methods=["DELETE"])
+# Protect the route with JWT
 @jwt_required()
+# Define the function to delete an event
 def delete_event(event_id):
+    # Select the event with the correct id
     stmt = db.select(Event).filter_by(id=event_id)
+    # Retrieve the event
     event = db.session.scalar(stmt)
-
+    # If event exists
     if event:
         # check whether the user is an admin 
         is_admin = authorise_as_admin()
@@ -96,32 +110,41 @@ def delete_event(event_id):
             return {"error": "User unorthorised to perform this request"}, 403
         db.session.delete(event)
         db.session.commit()
-        return {"message": f"Event '{event.title}' deleted successfully"}
+        # Return a success message
+        return {"message": f"Event '{event.title}' deleted successfully"}, 201
+    # If event does not exist
     else:
+        # Return an error message and status code 404
         return {"error": f"Event with id {event_id} not found"}, 404
     
 # /events/<int:event_id> - PUT or PATCH - update an event data
 @events_bp.route("/<int:event_id>", methods=["PUT", "PATCH"])
+# Protect the route with JWT
 @jwt_required()
+# Define the function to update an event
 def update_event(event_id):
     body_data = event_schema.load(request.get_json())
-
+    # Select the event with the correct id
     stmt = db.select(Event).filter_by(id=event_id)
+    # Retrieve the event
     event = db.session.scalar(stmt)
-
+    # If event exists
     if event:
-        # if the user is not the owner of the post
+        # If the user is not create the event != event_admin_id
         if str(event.event_admin_id) != get_jwt_identity():
+            # Return an error message and status code 403
             return {"error": "Only the creator of a post can update it"}, 403
+        # Update the event data or leave as is if not provided
         event.title = body_data.get("title") or event.title
         event.description = body_data.get("description") or event.description
         event.date = body_data.get("date") or event.date
         event.ticket_price = body_data.get("ticket_price") or event.ticket_price
-        # session already added so just need to commit
+        # Session already added so just need to commit
         db.session.commit()
-
-        return event_schema.dump(event)
-
+        # Return the updated event data
+        return event_schema.dump(event), 201
+    # If event does not exist
     else:
-        return {"error": f"Event {event_id} not found"}
+        # Return an error message and status code 404
+        return {"error": f"Event {event_id} not found"}, 404
     

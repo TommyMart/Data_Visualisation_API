@@ -54,27 +54,39 @@ class UserSchema(ma.Schema):
     attending = fields.List(fields.Nested("AttendingSchema", exclude=["user"]))
 
     # VALIDATION
-    
+    # name column - string data value and cannot be null
     name = fields.String(required=True, validate=And(
+        # name must be between 3 and 50 characters long
         Length(min=3, max=50, error="Title must be 3 and 50 characters long"),
+        # name must contain alphanumeric characters only
         Regexp(r"^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
         ))
+    # user_name column - string data value and cannot be null
     user_name = fields.String(required=True, validate=And(
+        # user name must be between 3 and 50 characters long
         Length(min=3, max=50, error="User name must be 3 and 50 characters long"),
+        # user name must contain alphanumeric characters only
         Regexp(r"^[A-Za-z0-9 ]+$", error="User name must contain alphanumeric characters only")
         ))
+    # email column - string data value, cannot be null and must be unique
     email = fields.String(required=True, validate=And(
+        # email must be between 5 and 120 characters long
         Length(min=5, max=120, error="Email must be 5 and 120 characters long"),
+        # email must contain alphanumeric characters only
         Regexp(r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,4}$", error="Invalid email format. Email must contain alphanumeric characters only")
         ))
+    # dob column - string data value
     date = fields.String(validate=
+        # date must be written as dd/mm/yyyy only
         Regexp(r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must written as dd/mm/yyyy only")
         )
-
+    # password column - string data value and cannot be null, must be at 
+    # least 8 characters long, have at least one letter and one number
     password = fields.String(required=True, validate=Regexp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", error="Password must be at least 8 characters long, have at least one letter and one number"))
 
-    # Payload includes Posts and Comments dictionaries 
+    # Meta class to define the fields to be included in the schema 
     class Meta:
+        # fields to be included in the schema
         fields = ("id", "name", "user_name", "email", "dob", "password", "is_admin", "posts", "comments", "likes", "events", "attending")
 
 

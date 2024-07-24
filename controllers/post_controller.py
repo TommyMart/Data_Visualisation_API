@@ -22,6 +22,7 @@ posts_bp.register_blueprint(likes_bp)
 
 # /cards/ - GET - fetch all posts
 @posts_bp.route("/")
+@jwt_required()
 def get_all_posts():
     # like SELECT * FROM posts and order in descending order
     # most recent first by date
@@ -31,6 +32,7 @@ def get_all_posts():
 
 # /posts/<id> - GET - fetch a single post, using a dynamic route 
 @posts_bp.route("/<int:post_id>")
+@jwt_required()
 def get_single_post(post_id):
     stmt = db.select(Post).filter_by(id=post_id)
     post = db.session.scalar(stmt)
@@ -128,11 +130,3 @@ def update_post(post_id):
         # return an error 
         return {"error": f"Post with id {post_id} not found"}
     
-# def authorise_as_admin():
-#     # get the users id from get_jwt_identity()
-#     user_id = get_jwt_identity()
-#     # fetch the user from the DB
-#     stmt = db.select(User).filter_by(id=user_id)
-#     user = db.session.scalar(stmt)
-#     # check whether the user is an admin or not
-#     return user.is_admin

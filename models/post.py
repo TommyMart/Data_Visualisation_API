@@ -7,17 +7,23 @@ from marshmallow.validate import Length, And, Regexp
 from init import db, ma
 
 
-# TABLE
+# Table model for the posts table in the DB
 class Post(db.Model):
-    # Table Name
+    # name of the table
     __tablename__ = "posts"
 
     # Table Attributes
+    # id column - integer data value and primary key of "posts" table
     id = db.Column(db.Integer, primary_key=True)
+    # title column - string data value and cannot be null
     title = db.Column(db.String, nullable=False)
+    # content column - string data value
     content = db.Column(db.String)
+    # date column - date data value
     date = db.Column(db.Date)
+    # location column - string data value
     location = db.Column(db.String)
+    # image_url column - string data value
     image_url = db.Column(db.String)
 
     # Foreign Keys
@@ -37,66 +43,53 @@ class Post(db.Model):
     comments = db.relationship("Comment", back_populates="post", cascade="all, delete")
     likes = db.relationship("Like", back_populates="post", cascade="all, delete")
 
-# payload will look like below
-    # { 
-    #     id: 1,
-    #     title: Post 1,
-    #     content: "Post content",
-    #     date: "...",
-    #     user_id: 1,
-    #     user: {
-    #         id: 1,
-    #         name: "User 1",
-    #         email: "user1@email.com"
-    # },
-    #     comments: [
-    #       {
-    #           id: 1,
-    #           comment: "comment 1"
-    #       },
-    #       {
-    #           id: 2,
-    #           comment: "comment 2"
-    #       }
-    #       ]
-    # }
-
-# SCHEMA
+# schema instance from marshmallow - convert db objects to python objects
 class PostSchema(ma.Schema):
 
     # marshmallow does not know how to serialise/deserialise nested objects
     # such as the user object so we must tell it that user is a nested field
-    # it has the same object as the UserSchema model, we only need name and id
-    # to populate who the post is by and link to user profile via users.id
-    # a post only has a single user so it is not fields.List
+    # and it has the same object as the UserSchema model
+
+    # A post can have only one user (nested object)
     user = fields.Nested("UserSchema", only=["id", "name", "email"])
-    # A single card can have multiple comments so is a list
-    # We don't need the card information again because we on the post
-    
+    # A single post can have multiple comments (list)
     comments = fields.List(fields.Nested("CommentSchema", exclude=["post"]))
+    # A single post can have multiple likes (list)
     likes = fields.List(fields.Nested("LikeSchema", exclude=["post"]))
 
     # Validation
+    # title column - string data value and cannot be null
     title = fields.String(required=True, validate=And(
+        # title must be at least 3 characters long
         Length(min=3, error="Title must be at least 3 characters long"),
+        # title must contain alphanumeric characters only
         Regexp("^[A-Za-z0-9 ]+$", error="Title must contain alphanumeric characters only")
         ))
+    # content column - string data value
     content = fields.String(validate=And(
+        # content must be less than 400 characters long
         Length(max=400, error="Post content must be less than 400 characters long"),
+        # content must contain alphanumeric characters only
         Regexp("^[A-Za-z0-9 ]+$", error="Post content must contain alphanumeric characters only")
     ))
+    # date column - date data value
     location = fields.String(validate=And(
+        # location must be between 3 and 100 characters long
         Length(min=3, max=100, error="Location must be between 3 and 100 characters long"),
+        # location must contain alpha characters only
         Regexp("^[A-Za-z ]+$", error="Location must contain alpha characters only")
         ))
+    # image_url column - string data value
     image_url = fields.String(validate=And(
+        # image_url must be between 5 and 150 characters long
         Length(min=5, max=150, error="URL must be between 5 and 150 characters long"),
+        # image_url must be a valid URL
         Regexp("https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}", error="Please enter a valid URL")
     ))
 
-
+    # Meta class to define the fields to be returned
     class Meta:
-        
+        # fields to be included in the schema
         fields = ( "id", "title", "content", "image_url", "date", "location", "user", "comments", "likes" )
         # Marshmallow keeps the order when . dump
         ordered =  True

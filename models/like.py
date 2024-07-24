@@ -31,15 +31,18 @@ class Like(db.Model):
     # A post can now have a comments field
     # comment = db.relationship("Comment", back_populates="likes")
 
+# Create a schema for the likes model
 class LikeSchema(ma.Schema):
+    # Only one user can like a post, so it is a single object
     user = fields.Nested("UserSchema", only=["name", "email"])
-    # prevent looping by excluding likes because we're already on the 
-    # likes
+    # Only one post can be liked, so it is a single object
     post = fields.Nested("PostSchema", only=["title", "id"])
 
-    # define a schema - structure of the DB
+    # Meta class to define the fields to be returned
     class Meta:
         fields = ("id", "user", "post")
 
+# create an instance of the schema
 like_schema =  LikeSchema()
+# create an instance of the schema for multiple likes
 likes_schema = LikeSchema(many=True)
