@@ -23,6 +23,25 @@ The chosen code style guide for the applicaton is [Pep 8](https://peps.python.or
 
 ---
 
+***API Functionality Testing ***
+
+For easy testing of the app's functionality, please firstly create and seed the tables in the database. This will allow the tables to be created and populated so that queries can be ran. To achieve this please enter the following code into your terminal window:
+
+- Create the tables - `flask db create`
+    - If successful, `Tables created`, will be printed to the terminal window. 
+
+- Seed the tables - `flask db seed`
+    - If successful, `Tables seeded`, will be printed to the terminal window. 
+
+If you have created and seeded the tables but would like delete all the data in the app's database please enter the following code into your terminal window. 
+
+- Drop the tables - `flask db drop`
+    - If successful, `Tables dropped`, will be printed to the terminal window. 
+
+If you would like to start a fresh app database, with no pre seeded data, please create the tables but do not seed them. 
+
+---
+
 ### R1. Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
 
 This application addresses several key issues related to event management and social interactions around events. The primary problem it solves is providing a secure and efficient platform for users to manage event access, ticketing, and communication with friends.
@@ -152,7 +171,7 @@ Completed readme requirements 6 and 7, started working on in-code comments and e
 
 * Wednesday the 24th of July '24 update
 
-Completed the in-code commenting and formatting to pep8 styl guidelines, continued working on error handling and started on testing. 
+Completed the in-code commenting and formatting to pep8 style guidelines, continued working on error handling and started on testing. 
 
 <img src="DOCS/trello_24:7.png" alt="Trello 24th July" width="60%"/>
 
@@ -311,7 +330,7 @@ While using an ORM tool the same query can be written like this:
 -	SQLObject
 -	SQLAlchemy
 
-The Object Relational Mapping system or ORM used for this application is SQLAlchemy. 
+The Object Relational Mapping system or ORM used for this application is SQLAlchemy. For a further definition of SQLAlchemy, please refer back to Requirement 3.
 
 <img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="70%"/>
 
@@ -584,7 +603,7 @@ For example, if a post is deleted, the comments and likes directly related to th
 
 If `is_admin` == True, then that user is authorised to delete data entries from all tables within the database. 
 
-The code below builds the relationship between the child models of the users model, it determines that the variables below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model, and vice versa, when responding to a request when listed in the model's schema. 
+The code below builds the relationship between the child models of the users model, it determines that the objects below can only belong to one user but many instances of these models can belong to a user. It also instructs the database to delete the rows of a child model when the relating user primary key is deleted, this is executed by the `cascade="all, delete"`. The `back_populates` allows multiple instances of data in related child models to be accessed by the parent model, and vice versa, when responding to a request when listed in the model's schema. 
 
 ```posts = db.relationship("Post", back_populates="user", cascade="all, delete")```<br>
 ```comments = db.relationship("Comment", back_populates="user", cascade="all, delete")```<br>
@@ -643,7 +662,7 @@ Foriegn Keys
 - post_id - Integer that references the id column of the posts table. NOT NULL. 
 
 Relationships 
-
+ 
 For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. Since a user cannot like a comment at this stage of the build process, there is no current reltionship, moving forward this is a functionality the app will implement. 
 
 ```user = db.relationship("User", back_populates="comments")``` <br>

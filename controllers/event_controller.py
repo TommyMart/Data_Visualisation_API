@@ -130,7 +130,8 @@ def delete_event(event_id):
         # Return an error message and status code 404
         return {"error": f"Event with id {event_id} not found"}, 404
 
-# /events/<int:event_id> - PUT or PATCH - Update an event
+# PUT or PATCH - Update an event
+# /events/<int:event_id> 
 
 
 @events_bp.route("/<int:event_id>", methods=["PUT", "PATCH"])

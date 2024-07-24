@@ -11,12 +11,13 @@ from models.comment import Comment, comment_schema, comments_schema
 from models.post import Post
 from utils import authorise_as_admin
 
-# A comment cannot exist without a post, it belongs to a post, so we register the comments_bp Blueprint to posts_bp (posts blueprint), and therefore it will take on its "/posts" url_prefix, so we don't need /posts in the URL.
+
 # /<int:post_id>/comments
 comments_bp = Blueprint("comments", __name__,
                         url_prefix="/<int:post_id>/comments")
 
-# No need to create a fetch all comments route because it would have no purpose, we only want all the comments linked to one post, which we get when fetching posts.
+# No need to create a fetch all comments route because it would have no purpose, 
+# we only want all the comments linked to one post, which we get when fetching posts.
 
 # GET - Fetch a specific comment on a post
 # /<int:post_id>/comments/<int:comment_id>
