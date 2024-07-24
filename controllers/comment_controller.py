@@ -8,143 +8,162 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 # Imports from local files
 from init import db
 from models.comment import Comment, comment_schema, comments_schema
-from models.post import Post 
+from models.post import Post
 from utils import authorise_as_admin
 
-# a comment cannot exist without a card, it belongs to a card, so can
-# register Blueprint to posts_bp (posts blueprint), and therefore it will
-# take on its "/posts" url_prefix, so we don't need /posts.
+# A comment cannot exist without a post, it belongs to a post, so we register the comments_bp Blueprint to posts_bp (posts blueprint), and therefore it will take on its "/posts" url_prefix, so we don't need /posts in the URL.
 # /<int:post_id>/comments
-comments_bp = Blueprint("comments", __name__, url_prefix="/<int:post_id>/comments")
+comments_bp = Blueprint("comments", __name__,
+                        url_prefix="/<int:post_id>/comments")
 
-# no need to create a fetch all comments route because it would have no purpose,
-# we only want all the comments linked to one post, which we get when fetching posts,
-# which we get when fetching a Post. 
+# No need to create a fetch all comments route because it would have no purpose, we only want all the comments linked to one post, which we get when fetching posts.
 
-# post/<int:post_id>/comments - GET - fetch all comments on a post
+# GET - Fetch a specific comment on a post
+# /<int:post_id>/comments/<int:comment_id>
+
+
 @comments_bp.route("/<int:comment_id>")
+# Protect the route with JWT
 @jwt_required()
-def fetch_single_comments(post_id, comment_id):
-
-    event_exists = db.session.query(Post.id).filter_by(id=post_id).scalar() is not None
-    
-    if not event_exists:
+# Define the function to fetch a specific comment
+def fetch_single_comment(post_id, comment_id):
+    # Check if the post exists
+    post_exists = db.session.query(Post.id).filter_by(
+        id=post_id).scalar() is not None
+    # If post does not exist
+    if not post_exists:
+        # Return error message to client and status code
         return {"error": f"Post with id '{post_id}' does not exist."}, 404
-    
-    # fetch the post with the correct id - post_id (passed in url)
-    stmt = db.select(Comment).filter_by(id=comment_id)
-    comment = db.session.scalar(stmt)
 
-    if comment: 
-        
-        return comment_schema.dump(comment)
-    
+    # Find the comment in the DB with the id = comment_id
+    stmt = db.select(Comment).filter_by(id=comment_id)
+    # Fetch the comment from the DB with correct id
+    comment = db.session.scalar(stmt)
+    # If comment exists
+    if comment:
+        # Return the comment data and status code
+        return comment_schema.dump(comment), 200
+    # If comment does not exist
     else:
+        # Return error message to client and status code
         return {"error": f"Comment with id {comment_id} not found"}, 404
 
+# GET - Fetch all comments on a post
+# /<int:post_id>/comments
 
-# post/<int:post_id>/comments - GET - fetch all comments on a post
+
 @comments_bp.route("/")
+# Protect the route with JWT
 @jwt_required()
+# Define the function to fetch all comments on a post
 def fetch_comments(post_id):
-
-    event_exists = db.session.query(Post.id).filter_by(id=post_id).scalar() is not None
-    
-    if not event_exists:
+    # Check if the post exists
+    post_exists = db.session.query(Post.id).filter_by(
+        id=post_id).scalar() is not None
+    # If post does not exist
+    if not post_exists:
+        # Return error message to client and status code
         return {"error": f"Post with id '{post_id}' does not exist."}, 404
-    
-    # fetch the post with the correct id - post_id (passed in url)
-    stmt = db.select(Post).filter_by(id=post_id)
-    post = db.session.scalars(stmt)
 
-    if post: 
-        stmt = db.select(Comment).order_by(Comment.id.asc())
-        users = db.session.scalars(stmt)
-        return comments_schema.dump(users)
-    
-    else:
-        return {"error": f"Post with id {post_id} not found"}, 404
+    # Fetch all comments linked to the post
+    stmt = db.select(Comment).filter_by(
+        post_id=post_id).order_by(Comment.id.asc())
+    comments = db.session.scalars(stmt)
+    # Return the comments and status code
+    return comments_schema.dump(comments), 200
 
-# Create comment route on a Post
+# POST - Create a comment on a post
+# /<int:post_id>/comments
+
+
 @comments_bp.route("/", methods=["POST"])
+# Protect the route with JWT
 @jwt_required()
+# Define the function to create a comment
 def create_comment(post_id):
-    # get the comment object from the payload
+    # Get the comment object from the payload
     body_data = comment_schema.load(request.get_json())
-    # fetch the post with the correct id - post_id (passed in url)
+    # Fetch the post with the correct id - post_id (passed in URL)
     stmt = db.select(Post).filter_by(id=post_id)
+    # Get the post
     post = db.session.scalar(stmt)
-    # if card exists
+    # If post exists
     if post:
         # Create an instance of the Comment model
         comment = Comment(
-            content = body_data.get("content"),
-            timestamp = datetime.now(),
-            # already passed post_id
-            post = post,
-            # use get_jwt_identity to get the logged in user.id
-            user_id = get_jwt_identity()
+            content=body_data.get("content"),
+            timestamp=datetime.now(),
+            post=post,
+            user_id=get_jwt_identity()
         )
         # Add and commit the session
         db.session.add(comment)
         db.session.commit()
-        # return the created commit 
+        # Return the created comment and status code
         return comment_schema.dump(comment), 201
-    #else:
+    # If post does not exist
     else:
-        # return an error that the post_id does not exist
+        # Return an error message to the client and status code
         return {"error": f"Post with id {post_id} not found"}, 404
 
-# Delete Comment - /posts/post_id/comments/comment_id
-# only need comment_id because the rest of the route is taken care of
-# in the posts_bp and comments_bp Blueprint url prefixes
+# DELETE - Delete a comment
+# /<int:post_id>/comments/<int:comment_id>
+
+
 @comments_bp.route("/<int:comment_id>", methods=["DELETE"])
+# Protect the route with JWT
 @jwt_required()
+# Define the function to delete a comment
 def delete_comment(post_id, comment_id):
-    # fetch the comment from the DB
+    # Find the comment from the DB
     stmt = db.select(Comment).filter_by(id=comment_id)
+    # Get the comment
     comment = db.session.scalar(stmt)
-    # if comment exists
+    # If comment exists
     if comment:
-        # check whether the user is an admin 
+        # Check whether the user is an admin
         is_admin = authorise_as_admin()
-        # if the user is not the owner of the post
+        # If the user is not the owner of the post
         if not is_admin and str(comment.user_id) != get_jwt_identity():
-            return {"error": "User unorthorised to perform this request"}, 403
-        # delete comment
+            return {"error": "User unauthorized to perform this request"}, 403
+        # Delete the comment
         db.session.delete(comment)
+        # Commit the session
         db.session.commit()
-        # return a message
-        return {"message": f"Comment '{comment.content}' deleted successfully"}
-    # else
+        # Return a success message to the client and status code
+        return {"message": f"Comment '{comment.content}' deleted successfully"}, 200
+    # If comment does not exist
     else:
-        # return error saying comment does not exist
+        # Return an error message to the client and status code
         return {"error": f"Comment with id {comment_id} not found"}, 404
 
-# Update comment - /posts/post_id/comments/comment_id
+# PUT/PATCH - Update a comment
+# /<int:post_id>/comments/<int:comment_id> -
+
+
 @comments_bp.route("/<int:comment_id>", methods=["PUT", "PATCH"])
+# Protect the route with JWT
 @jwt_required()
+# Define the function to update a comment
 def update_comment(post_id, comment_id):
-    # get the values from the payload
+    # Get the values from the payload
     body_data = comment_schema.load(request.get_json())
-    # find the comment in the DB with the id = comment_id
+    # Find the comment in the DB with the id = comment_id
     stmt = db.select(Comment).filter_by(id=comment_id)
-    # fetch the comment from the DB with correct id
+    # Fetch the comment from the DB with correct id
     comment = db.session.scalar(stmt)
-    # if comment exists
+    # If comment exists
     if comment:
-        # if the user is not the owner of the post
+        # If the user is not the owner of the post
         if str(comment.user_id) != get_jwt_identity():
             return {"error": "Only the user account holder can update it"}, 403
-        # update the fields
-        # only field we can update - with what ever the user has sent in payload
-        # if data in the content payload, update, if not, leave as is
+        # Update the fields
         comment.content = body_data.get("content") or comment.content
-        # commit (already fetched so don't need to add)
+        # Commit the session
         db.session.commit()
-        # return a response to the client 
-        return comment_schema.dump(comment)
-    # else
+        # Return the updated comment data and status code
+        return comment_schema.dump(comment), 200
+    # If comment does not exist
     else:
-        # return error saying comment does not exist
-        return {"error": f"Comment id with {comment_id} not found"}, 404
+        # Return error message to client and status code
+        return {"error": f"Comment with id {comment_id} not found"}, 404

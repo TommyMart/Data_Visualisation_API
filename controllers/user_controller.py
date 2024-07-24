@@ -13,110 +13,120 @@ from init import bcrypt, db
 from models.user import User, user_schema, users_schema, UserSchema
 from utils import authorise_as_admin
 
-# url_prefix = "/user" so routes do not need to include it
+# Create a Blueprint for user-related routes
 user_bp = Blueprint("user", __name__, url_prefix="/user")
 
-# user/ - GET - fetch all users
-@user_bp.route("/")
-@jwt_required()
+# Route to fetch all users
+
+
+@user_bp.route("/", methods=["GET"])
+@jwt_required()  # Protect the route with JWT authentication
 def get_users():
-    stmt = db.select(User).order_by(User.id.asc())
-    users = db.session.scalars(stmt)
-    return users_schema.dump(users)
+    """
+    Fetch all users from the database.
+    """
+    stmt = db.select(User).order_by(
+        User.id.asc())  # Prepare SQL query to fetch all users
+    users = db.session.scalars(stmt)  # Execute the query
+    # Return the users with status code 200
+    return users_schema.dump(users), 200
 
-# user/<int:user_id> - GET - fetch single user
-@user_bp.route("/<int:user_id>")
-@jwt_required()
+# Route to fetch a single user by user_id
+
+
+@user_bp.route("/<int:user_id>", methods=["GET"])
+@jwt_required()  # Protect the route with JWT authentication
 def get_user(user_id):
-    stmt = db.select(User).filter_by(id=user_id)
-    post = db.session.scalar(stmt)
-    if post:
-        return user_schema.dump(post)
-    else:
-        return {"error": f"Post with id {user_id} not found"}, 404
-    
-# # user/search/<string:user_name> - GET - fetch user by user_name
-# @user_bp.route("/search/<string:user_name>")
-# @jwt_required()
-# def search_user_by_name(user_name):
-#     stmt = db.select(User).filter_by(user_name=user_name)
-#     user = db.session.scalar(stmt)
-#     if user:
-#         return user_schema.dump(user)
-#     else:
-#         return {"error": f"User with user_name '{user_name}' not found"}, 404
-    
-# user/search/<string:user_name> - GET - fetch user/s by partial user_name
-@user_bp.route("/search/<string:user_name>")
-@jwt_required()
-def search_user_by_name(user_name):
-    # Construct the LIKE pattern for partial matching
-    like_pattern = f"%{user_name}%"
-
-    # Perform a case-insensitive search using ilike (case-insensitive LIKE)
-    stmt = db.select(User).filter(User.user_name.ilike(like_pattern))
-    users = db.session.scalars(stmt).all()
-
-    if users:
-        return users_schema.dump(users)
-    else:
-        return {"error": f"No users found matching '{user_name}'"}, 404
-    
-# user/<int:user_id> - PUT or PATCH - update user
-@user_bp.route("/<int:user_id>", methods=["PUT", "PATCH"])
-@jwt_required()
-def update_user(user_id):
-    # get the fields from the body of request
-    body_data = UserSchema().load(request.get_json(), partial=True)
-    password = body_data.get("password")
-    # fetch user from the DB
-    stmt = db.select(User).filter_by(id=user_id)
-    user = db.session.scalar(stmt)
-    # if user exists
+    """
+    Fetch a single user by user_id from the database.
+    """
+    stmt = db.select(User).filter_by(
+        id=user_id)  # Prepare SQL query to fetch user by ID
+    user = db.session.scalar(stmt)  # Execute the query
     if user:
-        if str(user.id) != get_jwt_identity():
+        # Return the user with status code 200
+        return user_schema.dump(user), 200
+    else:
+        # Return error if user not found
+        return {"error": f"User with id {user_id} not found"}, 404
+
+# Route to search users by partial user_name
+
+
+@user_bp.route("/search/<string:user_name>", methods=["GET"])
+@jwt_required()  # Protect the route with JWT authentication
+def search_user_by_name(user_name):
+    """
+    Search for users by partial user_name.
+    """
+    like_pattern = f"%{
+        user_name}%"  # Construct LIKE pattern for partial matching
+    # Prepare SQL query with case-insensitive LIKE
+    stmt = db.select(User).filter(User.user_name.ilike(like_pattern))
+    # Execute the query and fetch all matching users
+    users = db.session.scalars(stmt).all()
+    if users:
+        # Return the users with status code 200
+        return users_schema.dump(users), 200
+    else:
+        # Return error if no users found
+        return {"error": f"No users found matching '{user_name}'"}, 404
+
+# Route to update a user
+
+
+@user_bp.route("/<int:user_id>", methods=["PUT", "PATCH"])
+@jwt_required()  # Protect the route with JWT authentication
+def update_user(user_id):
+    """
+    Update a user's details.
+    """
+    body_data = UserSchema().load(
+        request.get_json(), partial=True)  # Load and validate request data
+    # Get the password from the request data
+    password = body_data.get("password")
+    # Prepare SQL query to fetch user by ID
+    stmt = db.select(User).filter_by(id=user_id)
+    user = db.session.scalar(stmt)  # Execute the query
+    if user:
+        if str(user.id) != get_jwt_identity():  # Ensure the user is authorized to make the update
+            # Return forbidden error if unauthorized
             return {"error": "Only the creator of a post can update it"}, 403
-        # update the fields
+        # Update user fields if present
         user.name = body_data.get("name") or user.name
         user.user_name = body_data.get("user_name") or user.user_name
-        # if password included in body data
         if password:
-            # hash new password using bcrypt
-            user.password = bcrypt.generate_password_hash(password).decode("utf-8")
-
-        # commit to DB
-        db.session.commit()
-        # return a response
+            user.password = bcrypt.generate_password_hash(
+                password).decode("utf-8")  # Hash and update password
+        db.session.commit()  # Commit changes to the database
+        # Return updated user with status code 200
         return user_schema.dump(user), 200
-    # else
     else:
-        # return an error
+        # Return error if user does not exist
         return {"error": "User does not exist"}, 404
 
+# Route to delete a user
 
 
-# user/<int:user_id> - DELETE - delete user
 @user_bp.route("/<int:user_id>", methods=["DELETE"])
-@jwt_required()
+@jwt_required()  # Protect the route with JWT authentication
 def delete_user(user_id):
-    # only admins can delete users
-    is_admin = authorise_as_admin()
-    if not is_admin:
-        # if not admin return error and forbidden status
-        return {"error": f"User is not authorised to perform this action"}, 403
-    # fetch user from DB
-    stmt = db.select(User).filter_by(id=user_id)
-    user = db.session.scalar(stmt)
-
+    """
+    Delete a user from the database.
+    """
+    stmt = db.select(User).filter_by(
+        id=user_id)  # Prepare SQL query to fetch user by ID
+    user = db.session.scalar(stmt)  # Execute the query
     if user:
-        # check whether the user is an admin 
-        is_admin = authorise_as_admin()
-        # if the user is not the owner of the post
+        is_admin = authorise_as_admin()  # Check if the current user is an admin
+        # Ensure the user is authorized to delete the user
         if not is_admin and str(user.id) != get_jwt_identity():
-            return {"error": "User unorthorised to perform this request"}, 403
-        db.session.delete(user)
-        db.session.commit()
+            # Return forbidden error if unauthorized
+            return {"error": "User unauthorized to perform this request"}, 403
+        db.session.delete(user)  # Delete the user
+        db.session.commit()  # Commit changes to the database
+        # Return success message with status code 200
         return {"message": f"User '{user.name}' deleted successfully"}, 200
-    
     else:
-        return {"error": "User with id '{user_id}' not found"}
+        # Return error if user not found
+        return {"error": f"User with id '{user_id}' not found"}, 404

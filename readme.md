@@ -17,6 +17,12 @@ The main tech-stack used for this application includes:
  
 ---
 
+### Code Style Guide
+
+The chosen code style guide for the applicaton is [Pep 8](https://peps.python.org/pep-0008/). This was executed based of the guidelines above and then finally formatted using the VS Code autopep8 [extension](https://pypi.org/project/autopep8/). 
+
+---
+
 ### R1. Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
 
 This application addresses several key issues related to event management and social interactions around events. The primary problem it solves is providing a secure and efficient platform for users to manage event access, ticketing, and communication with friends.

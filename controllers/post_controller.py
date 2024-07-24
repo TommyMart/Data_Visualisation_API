@@ -1,4 +1,3 @@
-
 # Built-in Python Libraries
 from datetime import datetime
 
@@ -14,125 +13,125 @@ from models.post import Post, post_schema, posts_schema
 from models.user import User
 from utils import authorise_as_admin
 
-
+# Create a Blueprint for post-related routes
 posts_bp = Blueprint("posts", __name__, url_prefix="/posts")
-# Register the comments blueprint to the posts blueprint 
+
+# Register the comments and likes blueprints with the posts blueprint
 posts_bp.register_blueprint(comments_bp)
 posts_bp.register_blueprint(likes_bp)
 
-# /cards/ - GET - fetch all posts
-@posts_bp.route("/")
+# Route to fetch all posts
+
+
+@posts_bp.route("/", methods=["GET"])
+@jwt_required()  # Protect the route with JWT authentication
 def get_all_posts():
-    # like SELECT * FROM posts and order in descending order
-    # most recent first by date
-    stmt = db.select(Post).order_by(Post.date.desc())
-    posts = db.session.scalars(stmt)
-    return posts_schema.dump(posts)
+    """
+    Fetch all posts from the database, ordered by date in descending order.
+    """
+    stmt = db.select(Post).order_by(
+        Post.date.desc())  # Prepare SQL query to fetch all posts
+    posts = db.session.scalars(stmt)  # Execute the query
+    # Return the posts with status code 200
+    return posts_schema.dump(posts), 200
 
-# /posts/<id> - GET - fetch a single post, using a dynamic route 
-@posts_bp.route("/<int:post_id>")
+# Route to fetch a single post by post_id
+
+
+@posts_bp.route("/<int:post_id>", methods=["GET"])
+@jwt_required()  # Protect the route with JWT authentication
 def get_single_post(post_id):
-    stmt = db.select(Post).filter_by(id=post_id)
-    post = db.session.scalar(stmt)
+    """
+    Fetch a single post by post_id from the database.
+    """
+    stmt = db.select(Post).filter_by(
+        id=post_id)  # Prepare SQL query to fetch post by ID
+    post = db.session.scalar(stmt)  # Execute the query
     if post:
-        return post_schema.dump(post)
+        # Return the post with status code 200
+        return post_schema.dump(post), 200
     else:
+        # Return error if post not found
         return {"error": f"Post with id {post_id} not found"}, 404
-    
-# /posts - POST a new post
+
+# Route to create a new post
+
+
 @posts_bp.route("/", methods=["POST"])
-# jwt_required decorator ensures a valid token is passed when creating 
-# a new post
-@jwt_required()
+@jwt_required()  # Protect the route with JWT authentication
 def new_post():
-    
-    # get the data from th body of the request
-    # .load converts json to python if want validation to work
-    body_data = post_schema.load(request.get_json())
-    # create a new Post model instance
-    # new post = Post model instance
+    """
+    Create a new post and add it to the database.
+    """
+    body_data = post_schema.load(
+        request.get_json())  # Load and validate request data
     post = Post(
-        title = body_data.get("title"),
-        content = body_data.get("content"),
-        date = datetime.now(),
-        location = body_data.get("location"),
-        image_url = body_data.get("image_url"),
-        # get the user identity from the jwt token
-        user_id = get_jwt_identity()
+        title=body_data.get("title"),
+        content=body_data.get("content"),
+        date=datetime.now(),
+        location=body_data.get("location"),
+        image_url=body_data.get("image_url"),
+        user_id=get_jwt_identity()  # Get the user ID from the JWT token
     )
-    # add and commit to DB
-    db.session.add(post)
-    db.session.commit()
-    # respond
-    # convert python to json
-    return post_schema.dump(post)
+    db.session.add(post)  # Add the new post to the session
+    db.session.commit()  # Commit changes to the database
+    # Return the created post with status code 201
+    return post_schema.dump(post), 201
 
-# /posts/<id> - DELETE a post, dynamic post_id
+# Route to delete a post by post_id
+
+
 @posts_bp.route("/<int:post_id>", methods=["DELETE"])
-@jwt_required()
+@jwt_required()  # Protect the route with JWT authentication
 def delete_post(post_id):
-    # fetch the post from DB
-    stmt = db.select(Post).filter_by(id=post_id)
-    post = db.session.scalar(stmt)
-    # if post exists
+    """
+    Delete a post from the database.
+    """
+    stmt = db.select(Post).filter_by(
+        id=post_id)  # Prepare SQL query to fetch post by ID
+    post = db.session.scalar(stmt)  # Execute the query
     if post:
-        # check whether the user is an admin 
-        is_admin = authorise_as_admin()
-        # if the user is not the owner of the post
+        is_admin = authorise_as_admin()  # Check if the current user is an admin
+        # Ensure user is authorized to delete the post
         if not is_admin and str(post.user_id) != get_jwt_identity():
-            return {"error": "User unorthorised to perform this request"}, 403
-        # delete the post
-        db.session.delete(post)
-        db.session.commit()
-        return {"message": f"Post '{post.title}' deleted successfully"}
-
-    # else 
+            # Return forbidden error if unauthorized
+            return {"error": "User unauthorized to perform this request"}, 403
+        db.session.delete(post)  # Delete the post
+        db.session.commit()  # Commit changes to the database
+        # Return success message with status code 200
+        return {"message": f"Post '{post.title}' deleted successfully"}, 200
     else:
-        # return error message
+        # Return error if post not found
         return {"error": f"Post with id {post_id} not found"}, 404
-        
-# /posts/<post_id> - PUT or PATCH, update a post
-@posts_bp.route("/<int:post_id>", methods=["PUT", "PATCH"])
-# user has to be logged in to update a post
-@jwt_required()
-def update_post(post_id):
-    # fetch the data from the body of the request
-    # if partical field is in payload then implement validation requirements
-    # if not, do not
-    body_data = post_schema.load(request.get_json(), partial=True)
-    # get the card from the DB, post_id is id passed in route
-    stmt = db.select(Post).filter_by(id=post_id)
-    post = db.session.scalar(stmt)
 
-    
-    # if a card exists 
+# Route to update a post by post_id
+
+
+@posts_bp.route("/<int:post_id>", methods=["PUT", "PATCH"])
+@jwt_required()  # Protect the route with JWT authentication
+def update_post(post_id):
+    """
+    Update a post's details.
+    """
+    body_data = post_schema.load(
+        request.get_json(), partial=True)  # Load and validate request data
+    # Prepare SQL query to fetch post by ID
+    stmt = db.select(Post).filter_by(id=post_id)
+    post = db.session.scalar(stmt)  # Execute the query
     if post:
-        # if the user is not the owner of the post
+        # Ensure the user is authorized to update the post
         if str(post.user_id) != get_jwt_identity():
+            # Return forbidden error if unauthorized
             return {"error": "Only the creator of a post can update it"}, 403
-        # update the fields as required
-        # if the frontend has provided a title in payload,
-        # update the title, if not, leave title as is
+        # Update the post fields as provided in the request
         post.title = body_data.get("title") or post.title
         post.content = body_data.get("content") or post.content
         post.date = body_data.get("date") or post.date
         post.location = body_data.get("location") or post.location
         post.image_url = body_data.get("image_url") or post.image_url
-        # commit to the DB, don't need to add because already added to
-        # session
-        db.session.commit()
-        # return response
-        return post_schema.dump(post)
-    #else
+        db.session.commit()  # Commit changes to the database
+        # Return the updated post with status code 200
+        return post_schema.dump(post), 200
     else:
-        # return an error 
-        return {"error": f"Post with id {post_id} not found"}
-    
-# def authorise_as_admin():
-#     # get the users id from get_jwt_identity()
-#     user_id = get_jwt_identity()
-#     # fetch the user from the DB
-#     stmt = db.select(User).filter_by(id=user_id)
-#     user = db.session.scalar(stmt)
-#     # check whether the user is an admin or not
-#     return user.is_admin
+        # Return error if post not found
+        return {"error": f"Post with id {post_id} not found"}, 404
