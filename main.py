@@ -13,6 +13,7 @@ from init import db, ma, bcrypt, jwt
 # Application factories, can create multiple instances of the app
 # for reasons such as testing or running multiple versions of the app
 
+
 def create_app():
     app = Flask(__name__)
 
@@ -20,10 +21,10 @@ def create_app():
     # you get from marshmallow
     app.json.sort_keys = False
     # Connection string or DB URI - Universal Resource Indicator
-    # Get private DB URI and JWT strings from .env file using os 
+    # Get private DB URI and JWT strings from .env file using os
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 
-    # Secret key, JWT token 
+    # Secret key, JWT token
     app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
 
     # Initialise with this instance of application
@@ -38,14 +39,14 @@ def create_app():
     def validation_error(err):
         return {"error": err.messages}, 400
 
-    # Register blueprints into the main app instance so we can use their 
+    # Register blueprints into the main app instance so we can use their
     # different entities using the 'register_blueprint' method
     from controllers.cli_controller import db_commands
     app.register_blueprint(db_commands)
     # Import the blueprints
     from controllers.auth_controller import auth_bp
     app.register_blueprint(auth_bp)
-    
+
     from controllers.post_controller import posts_bp
     app.register_blueprint(posts_bp)
 

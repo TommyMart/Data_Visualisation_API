@@ -1,14 +1,15 @@
-
 # Built-in Python Libraries
-# 
+
 # External Libraries
-from flask_jwt_extended import get_jwt_identity 
+from flask_jwt_extended import get_jwt_identity
 
 # Imports from local files
 from init import db
 from models.user import User
 
 # Define a function to check if the user is an admin
+
+
 def authorise_as_admin():
     # get the users id from get_jwt_identity()
     user_id = get_jwt_identity()
