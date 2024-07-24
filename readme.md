@@ -146,9 +146,16 @@ Completed readme requirements 3, 5 and 8, added error handling card to the Trell
 
 * Tuesday the 23rd of July '24 update
 
-Completed readme requirements 6 and 7, starting working on the comments and error handling cards. 
+Completed readme requirements 6 and 7, started working on in-code comments and error handling. 
 
 <img src="DOCS/trello_23:7.png" alt="Trello 23rd July" width="60%"/>
+
+* Wednesday the 24th of July '24 update
+
+Completed the in-code commenting and formatting to pep8 styl guidelines, continued working on error handling and started on testing. 
+
+<img src="DOCS/trello_24:7.png" alt="Trello 24th July" width="60%"/>
+
 
 ---
 
@@ -1102,6 +1109,13 @@ Description: Delete invoice data from the database by id. Only an admin can perf
 Payload & Response: <br>
 <img src="DOCS/delete_invoice.png" alt="Delete Invoice" width="70%"/> 
 
+
 ## Reference List
 
 LLM disclosure: ChatGPT4 was used while writing this readme.md file for grammar and punctuation. Prompting such 'Please improve grammar and punctuation by rewriting this content using mostly my words:' was used. The data was checked for hallucinations and provided with content written  firslty by myself. 
+
+- Abba, IV 2022, What is an ORM – The Meaning of Object Relational Mapping Database Tools, freeCodeCamp.org.
+- Arsenault, C 2017, The Pros and Cons of 8 Popular Databases - KeyCDN, KeyCDN.
+- Babu, R 2019, DELETE - CASCADE and UPDATE CASCADE in SQL Server foreign key, SQL Shack - articles about database auditing, server performance, data recovery, and more, viewed 22 July 2024, <https://www.sqlshack.com/delete-cascade-and-update-cascade-in-sql-server-foreign-key/#:~:text=DELETE%20CASCADE%3A%20When%20we%20create>.
+- Chris, K 2022, Database Normalization – Normal Forms 1nf 2nf 3nf Table Examples, freeCodeCamp.org.Entity Relationship Diagram Examples Online Free to Download 2021, gitmind.com.
+- Features - SQLAlchemy n.d., www.sqlalchemy.org.
