@@ -12,13 +12,15 @@ from init import bcrypt, db
 from models.user import User, user_schema, UserSchema
 
 # Define the blueprint named "auth"
-# Routes have the same "auth" prefix, so we can include a url_prefix 
+# Routes have the same "auth" prefix, so we can include a url_prefix
 # to cover all routes within the "auth" blueprint
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 # Create the auth/register route
 # POST method because a user is adding data to the database
-# Route: http://localhost:8080/auth/register, Methods: POST
+# Route: http://localhost:8080/auth/register
+
+
 @auth_bp.route("/register", methods=["POST"])
 def register_user():
     """
@@ -43,7 +45,8 @@ def register_user():
         # Hash the password if the user entered a password
         if password:
             # Add the hashed password to the user instance
-            user.password = bcrypt.generate_password_hash(password).decode("utf-8")
+            user.password = bcrypt.generate_password_hash(
+                password).decode("utf-8")
 
         # Add and commit the new user instance to the database
         db.session.add(user)
@@ -61,8 +64,10 @@ def register_user():
             # Handle unique violation error
             return {"error": "Email address already in use"}, 409
 
-# Route: http://localhost:8080/auth/login, Methods: POST
 # POST method because data is being sent in the request from the client
+# Route: http://localhost:8080/auth/login
+
+
 @auth_bp.route("/login", methods=["POST"])
 def login_user():
     """
@@ -79,7 +84,8 @@ def login_user():
     if user and bcrypt.check_password_hash(user.password, body_data.get("password")):
         # Create a JWT token
         # Identity is the id of the user, which must be converted to a string
-        token = create_access_token(identity=str(user.id), expires_delta=timedelta(days=1))
+        token = create_access_token(identity=str(
+            user.id), expires_delta=timedelta(days=1))
 
         # Respond back to the frontend with the user's email, admin status, and token
         return {"email": user.email, "is_admin": user.is_admin, "token": token}

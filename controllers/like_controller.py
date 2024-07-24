@@ -8,92 +8,78 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 # Imports from local files
 from init import db
 from models.like import Like, like_schema, likes_schema
-from models.post import Post 
+from models.post import Post
 from utils import authorise_as_admin
 
-# a like cannot exist without a post, it belongs to a post, so we can
-# register Blueprint to posts_bp (posts blueprint), and therefore it will
-# take on its "/posts" url_prefix, so we don't need to include "/posts".
-# /<int:post_id>/likes
+# Blueprint for like-related routes, registered under the posts blueprint
 likes_bp = Blueprint("likes", __name__, url_prefix="/<int:post_id>/likes")
 
-# no need to create a fetch all likes route because it would have no purpose,
-# we only want all the likes linked to one post, which we get when fetching posts.
+# Route to fetch all likes on a post
 
-# post/<int:post_id>/likes - GET - Fetch all likes on a post
-@likes_bp.route("/")
-# Protect the route with JWT
-@jwt_required()
-# Define the function to fetch all likes on a post
+
+@likes_bp.route("/", methods=["GET"])
+@jwt_required()  # Protect the route with JWT authentication
 def fetch_all_likes_on_post(post_id):
-    # fetch the post from the DB
-    stmt = db.select(Like).filter_by(post_id=post_id)
-    # Get all likes linked to the post
-    likes = db.session.scalars(stmt)
-    # If likes exist
-    if likes: 
-        # Return the likes
+    """
+    Fetch all likes associated with a specific post.
+    """
+    stmt = db.select(Like).filter_by(
+        post_id=post_id)  # Prepare SQL query to fetch likes by post ID
+    likes = db.session.scalars(stmt)  # Execute the query
+    if likes:
+        # Return the likes with status code 200
         return likes_schema.dump(likes), 200
-    # If likes do not exist
     else:
-        # Return an error message and status code
+        # Return error if post not found
         return {"error": f"Post with id {post_id} not found"}, 404
 
-# post/<int:post_id>/likes - POST - Create like route
+# Route to create a like on a post
+
+
 @likes_bp.route("/", methods=["POST"])
-# Protect the route with JWT
-@jwt_required()
-# Define the function to create a like
-def create_comment(post_id):
-    # Fetch the post from the DB
-    stmt = db.select(Post).filter_by(id=post_id)
-    # Get the post
-    post = db.session.scalar(stmt)
-    # If card exists
+@jwt_required()  # Protect the route with JWT authentication
+def create_like(post_id):
+    """
+    Create a new like associated with a specific post.
+    """
+    stmt = db.select(Post).filter_by(
+        id=post_id)  # Prepare SQL query to fetch post by ID
+    post = db.session.scalar(stmt)  # Execute the query
     if post:
-        # Create an instance of the Like model
         like = Like(
-            # Already passed post_id
-            post = post,
-            # Use get_jwt_identity to get the logged in user.id
-            user_id = get_jwt_identity()
+            post=post,  # Associate the like with the post
+            user_id=get_jwt_identity()  # Get the user ID from the JWT token
         )
-        # Add and commit the session
-        db.session.add(like)
-        db.session.commit()
-        # Return the created commit 
+        db.session.add(like)  # Add the new like to the session
+        db.session.commit()  # Commit changes to the database
+        # Return the created like with status code 201
         return like_schema.dump(like), 201
-    # Else:
     else:
-        # Return an error that the post_id does not exist
+        # Return error if post not found
         return {"error": f"Post with id {post_id} not found"}, 404
 
-# Delete Like - /posts/post_id/likes/like_id
-# only need like_id because the rest of the route is taken care of
-# in the posts_bp and likes_bp Blueprint url prefixes
-@likes_bp.route("/<int:like_id>", methods=["DELETE"])
-# Protect the route with JWT
-@jwt_required()
-# Define the function to delete a like
-def delete_like(post_id, like_id):
-    # fetch the like from the DB
-    stmt = db.select(Like).filter_by(id=like_id)
-    like = db.session.scalar(stmt)
-    # if like exists
-    if like:
-        # check whether the user is an admin 
-        is_admin = authorise_as_admin()
-        # if the user is not the owner of the post
-        if not is_admin and str(like.user_id) != get_jwt_identity():
-            return {"error": "User unorthorised to perform this request"}, 403
-        # delete like
-        db.session.delete(like)
-        # commit the session
-        db.session.commit()
-        # return a message
-        return {"message": f"Like '{like.id}' deleted successfully"}
-    # else
-    else:
-        # return error saying comment does not exist
-        return {"error": f"Comment with id {like_id} not found"}, 404
+# Route to delete a like by like_id
 
+
+@likes_bp.route("/<int:like_id>", methods=["DELETE"])
+@jwt_required()  # Protect the route with JWT authentication
+def delete_like(post_id, like_id):
+    """
+    Delete a like associated with a specific post.
+    """
+    stmt = db.select(Like).filter_by(
+        id=like_id)  # Prepare SQL query to fetch like by ID
+    like = db.session.scalar(stmt)  # Execute the query
+    if like:
+        is_admin = authorise_as_admin()  # Check if the current user is an admin
+        # Ensure user is authorized to delete the like
+        if not is_admin and str(like.user_id) != get_jwt_identity():
+            # Return forbidden error if unauthorized
+            return {"error": "User unauthorized to perform this request"}, 403
+        db.session.delete(like)  # Delete the like
+        db.session.commit()  # Commit changes to the database
+        # Return success message with status code 200
+        return {"message": f"Like '{like.id}' deleted successfully"}, 200
+    else:
+        # Return error if like not found
+        return {"error": f"Like with id {like_id} not found"}, 404

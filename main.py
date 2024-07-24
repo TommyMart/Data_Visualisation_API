@@ -1,11 +1,13 @@
 # Create the app
 
+# Built-in Python Libraries
 import os
 
+# External Libraries
 from flask import Flask
 from marshmallow.exceptions import ValidationError
 
-# Importing objects from init.py
+# Imports from local files
 from init import db, ma, bcrypt, jwt
 
 # Application factories, can create multiple instances of the app
@@ -30,18 +32,20 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
 
+    # Error handling
+    # If a validation error occurs, return the error message and status code
     @app.errorhandler(ValidationError)
     def validation_error(err):
         return {"error": err.messages}, 400
 
-    # register blueprints into the main app instance so we can use their 
+    # Register blueprints into the main app instance so we can use their 
     # different entities using the 'register_blueprint' method
     from controllers.cli_controller import db_commands
     app.register_blueprint(db_commands)
-
+    # Import the blueprints
     from controllers.auth_controller import auth_bp
     app.register_blueprint(auth_bp)
-
+    
     from controllers.post_controller import posts_bp
     app.register_blueprint(posts_bp)
 
