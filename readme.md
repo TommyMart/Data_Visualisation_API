@@ -25,10 +25,10 @@ This application addresses several key issues related to event management and so
 
 Based on feedback from friends, online reviews, and my own experience, the event ticketing platforms in Australia fall short of customer expectations. Here are the ratings for two of the largest ticket providers in the country:
 
-**Ticketek Review** <br>
+**Ticketek Reviews** <br>
 <img src="DOCS/ticketek_review.png" alt="Ticketek review 1 star" width="70%"/> <br>
 
-**Eventbrite Review** <br>
+**Eventbrite Reviews** <br>
 <img src="DOCS/Eventbrite_review.png" alt="Eventbrite review 1 star" width="70%"/> <br>
 
 Their user experience (UX) and user interface (UI) are outdated and challenging for some users. This application aims to address these fundamental issues, offering all users a smooth and enjoyable experience from purchasing tickets, arranging flights and accomodation, to organising the entire event. This app has you covered.
@@ -71,13 +71,16 @@ Solution: Users can create, view, update, and delete data they have created, wit
 **Seating Section and Ticket Limits:**
 
 Problem: Users need to choose specific seating sections and ensure ticket limits are enforced.<br>
-Solution: The app provides different seating sections (General Admission, Section C, B, A, VIP) and enforces limits on ticket sales per section. A CLI function allows checking the total tickets sold for an event.
+Solution: The app provides different seating sections (General Admission, Section C, B, A, VIP) and enforces limits on ticket sales per section. A CLI function allows checking the total tickets sold for an event. A MAX_TICKETS_PER_USER function has also been implemented, to limit the total number of tickets that can be purchased per transaction, which can be easily updated. This function discourages ticket scalping for sold out events. The next stage of the app build process will include a MAX_TICKETS_PER_EMAIL function, which is currently a work in progress. 
 
 **Total Tickets Sold** <br>
 <img src="DOCS/cli_event_tickets.png" alt="Total event tickets sold CLI" width="40%"/> <br>
 
 **Seating Section Limitations** <br>
-<img src="DOCS/seat_section_soldout.png" alt="Soldout seating section" width="70%"/> <br>
+<img src="DOCS/seat_section_soldout.png" alt="Soldout seating section error" width="70%"/> <br>
+
+**MAX_TICKETS_PER_USER function** <br>
+<img src="DOCS/max_tickets.png" alt="Maximum tickets error" width="70%"/> <br>
 
 This comprehensive application effectively addresses the needs of users looking to manage events, communicate with friends, and handle ticketing in a secure and user-friendly manner. Furthermore, not all functionalities mentioned in the above solutions will be implemented in the initial API route design due on the 28th of July. These include the AI suggestions, seat number selection, dynamic total cost invoices, and private messaging.
 
@@ -156,7 +159,7 @@ Flask is a lightweight WSGI web application framework for Python, designed to en
 ### Marshmallow
 <img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
 
-Marshmallow is a framework-agnostic library for serializing and deserializing complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
+Marshmallow is a framework-agnostic library for serialising and deserialising complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
 
 ### SQLAlchemy 
 <img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="30%"/>
@@ -538,7 +541,7 @@ The Attending data is stored separately from the events and users tables. This e
 
 **Invoice Data:**
 
-The Invoice data is stored separately from the events and attending tables. This ensures that every time a user attends an event and receives an invoice, the attending and event data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the event or attending information is needed, it can be accessed via the event_id foreign key, or the attendees information who recieved the invoice can be accessed via the attending_id foreign key.
+The Invoice data is stored separately from the events and attending tables. This ensures that every time a user attends an event and receives an invoice, the attending and event data does not need to be included in the entry because it remains constant, thus avoiding data redundancy. If the event or attending information is needed, it can be accessed via the event_id foreign key, or the attendees information who recieved the invoice can be accessed via the attendee_id foreign key.
 
 <img src="DOCS/invoices_table.png" alt="Invoicess psql table" width="50%"/> 
 

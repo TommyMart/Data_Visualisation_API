@@ -155,11 +155,11 @@ def update_invoice(invoice_id, event_id, attending_id):
     invoice = db.session.scalar(stmt)
 
     if invoice:
-        # if the user is not the owner of the post
+        
         # check whether the user is an admin 
         is_admin = authorise_as_admin()
-        # if the user is not the owner of the post
-        if not is_admin and str(invoice.attendee_id) != get_jwt_identity():
+        # if the user is not an admin they cannot update the invoice
+        if not is_admin():
             return {"error": "User unorthorised to perform this request"}, 403
         
         invoice.total_cost = body_data.get("total_cost") or invoice.total_cost

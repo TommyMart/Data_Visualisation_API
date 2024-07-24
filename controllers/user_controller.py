@@ -74,6 +74,8 @@ def update_user(user_id):
     user = db.session.scalar(stmt)
     # if user exists
     if user:
+        if str(user.id) != get_jwt_identity():
+            return {"error": "Only the creator of a post can update it"}, 403
         # update the fields
         user.name = body_data.get("name") or user.name
         user.user_name = body_data.get("user_name") or user.user_name
@@ -107,6 +109,11 @@ def delete_user(user_id):
     user = db.session.scalar(stmt)
 
     if user:
+        # check whether the user is an admin 
+        is_admin = authorise_as_admin()
+        # if the user is not the owner of the post
+        if not is_admin and str(user.id) != get_jwt_identity():
+            return {"error": "User unorthorised to perform this request"}, 403
         db.session.delete(user)
         db.session.commit()
         return {"message": f"User '{user.name}' deleted successfully"}, 200

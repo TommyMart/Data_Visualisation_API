@@ -25,6 +25,12 @@ comments_bp = Blueprint("comments", __name__, url_prefix="/<int:post_id>/comment
 @comments_bp.route("/<int:comment_id>")
 @jwt_required()
 def fetch_single_comments(post_id, comment_id):
+
+    event_exists = db.session.query(Post.id).filter_by(id=post_id).scalar() is not None
+    
+    if not event_exists:
+        return {"error": f"Post with id '{post_id}' does not exist."}, 404
+    
     # fetch the post with the correct id - post_id (passed in url)
     stmt = db.select(Comment).filter_by(id=comment_id)
     comment = db.session.scalar(stmt)
@@ -41,6 +47,12 @@ def fetch_single_comments(post_id, comment_id):
 @comments_bp.route("/")
 @jwt_required()
 def fetch_comments(post_id):
+
+    event_exists = db.session.query(Post.id).filter_by(id=post_id).scalar() is not None
+    
+    if not event_exists:
+        return {"error": f"Post with id '{post_id}' does not exist."}, 404
+    
     # fetch the post with the correct id - post_id (passed in url)
     stmt = db.select(Post).filter_by(id=post_id)
     post = db.session.scalars(stmt)
@@ -123,7 +135,7 @@ def update_comment(post_id, comment_id):
     if comment:
         # if the user is not the owner of the post
         if str(comment.user_id) != get_jwt_identity():
-            return {"error": "Only the creator of a post can update it"}, 403
+            return {"error": "Only the user account holder can update it"}, 403
         # update the fields
         # only field we can update - with what ever the user has sent in payload
         # if data in the content payload, update, if not, leave as is
