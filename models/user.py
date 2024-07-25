@@ -97,9 +97,9 @@ class UserSchema(ma.Schema):
                 r"^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,4}$", error="Invalid email format")
         ))
         # Date of Birth column - String data type
-        date = fields.String(validate=# Date must be in dd/mm/yyyy format
+        dob = fields.String(validate=# DOB must be in dd/mm/yyyy format
                              Regexp(
-                                 r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="Date must be in dd/mm/yyyy format")
+                                 r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$", error="DOB must be in dd/mm/yyyy format")
                              )
         # Password column - String data type, cannot be null, must be at least 8 characters long,
         # include at least one letter and one number

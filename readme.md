@@ -225,38 +225,38 @@ Below describes the third party services, packages or dependencies that are used
 
 <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/flask-logo-icon.png" alt="Flask logo" width="30%"/>
 
-Flask is a lightweight WSGI web application framework for Python, designed to enable quick and easy development of web applications. It follows a simple, modular design that allows developers to choose the components they need, making it highly flexible and extensible. Flask supports extensions for adding functionality like form validation, authentication, and database integration. Its simplicity and ease of use make it an ideal choice for both beginners and experienced developers looking to build scalable and maintainable web applications.
+Flask is a lightweight WSGI web application framework for Python, designed to enable quick and easy development of web applications. It follows a simple, modular design that allows developers to choose the components they need, making it highly flexible and extensible. Flask supports extensions for adding functionality like form validation, authentication, and database integration. Its simplicity and ease of use make it an ideal choice for both beginners and experienced developers looking to build scalable and maintainable web applications (Flask 2010).
 
 ### Marshmallow
 <img src="https://avatars.githubusercontent.com/u/10334301?v=4" alt="Marshmallow logo" width="30%"/>
 
-Marshmallow is a framework-agnostic library for serialising and deserialising complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications.
+Marshmallow is a framework-agnostic library for serialising and deserialising complex data types, such as objects, into native Python datatypes. It simplifies data validation and transformation, enabling seamless conversion between Python objects and data formats like JSON. Marshmallow's flexibility and ease of use make it an invaluable tool for managing data in web APIs, database integrations, and other data-intensive applications (Flask-Marshmallow: Flask + marshmallow for beautiful APIs).
 
 ### SQLAlchemy 
 <img src="https://miro.medium.com/v2/resize:fit:1400/0*msfsws06ImMSJYop.jpg" alt="SQLAlchemy logo" width="30%"/>
 
-SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL. It allows for full control over SQL statements, supports complex queries, and facilitates the management of database schemas. By bridging the gap between Python objects and relational database tables, SQLAlchemy streamlines database interactions, making it easier to build and maintain scalable applications.
+SQLAlchemy is a comprehensive SQL toolkit and Object Relational Mapper (ORM) for Python, offering developers extensive power and flexibility with SQL. It allows for full control over SQL statements, supports complex queries, and facilitates the management of database schemas. By bridging the gap between Python objects and relational database tables, SQLAlchemy streamlines database interactions, making it easier to build and maintain scalable applications (Features - SQLAlchemy n.d.).
 
 ### bcrypt
 <img src="https://repository-images.githubusercontent.com/240517419/8d034080-4f50-11ea-95f2-1a9685536167" alt="Bcrypt logo" width="30%"/>
 
-Bcrypt is a cryptographic hash function designed to securely store passwords by transforming them into a fixed-length string using a one-way hash function, making it irreversible. It adds a random "salt" to each password to ensure unique hashes, and employs a "cost factor" to determine the number of iterations for hashing, enhancing security by making it computationally expensive to crack. Bcrypt is favored over faster algorithms like SHA256 for password storage due to its resistance to brute force and dictionary attacks.
+Bcrypt is a cryptographic hash function designed to securely store passwords by transforming them into a fixed-length string using a one-way hash function, making it irreversible. It adds a random "salt" to each password to ensure unique hashes, and employs a "cost factor" to determine the number of iterations for hashing, enhancing security by making it computationally expensive to crack. Bcrypt is favored over faster algorithms like SHA256 for password storage due to its resistance to brute force and dictionary attacks (bcrypt n.d.).
 
 ### Psycopg2-binary
 <img src="https://open-telemetry.github.io/opentelemetry-sqlcommenter/images/psycopg2-logo.png" alt="Psycopg2 logo" width="30%"/>
 
-Psycopg2-binary is a production-ready PostgreSQL adapter for Python, designed to facilitate the connection and interaction between Python applications and PostgreSQL databases. It provides efficient, high-performance database access, supporting advanced features like asynchronous communication and notification, COPY command support, and more. 
+Psycopg2-binary is a production-ready PostgreSQL adapter for Python, designed to facilitate the connection and interaction between Python applications and PostgreSQL databases. It provides efficient, high-performance database access, supporting advanced features like asynchronous communication and notification, COPY command support, and more (Gregorio n.d.). 
 
 #### Flask-JWT-Extended
 <img src="https://seeklogo.com/images/J/jwt-logo-11B708E375-seeklogo.com.png" alt="JWT Web Token logo" width="30%"/>
 
-JWT-Extended is a Flask extension that provides robust support for JSON Web Tokens (JWTs), enhancing security in Flask applications by allowing developers to create, manage, and validate JWTs easily. It includes features like token refreshing, complex access control, and various token storage options, making it versatile for handling authentication and authorization in modern web applications. JWT-Extended simplifies implementing secure user authentication workflows, ensuring sensitive information is safely transmitted between clients and servers.
+JWT-Extended is a Flask extension that provides robust support for JSON Web Tokens (JWTs), enhancing security in Flask applications by allowing developers to create, manage, and validate JWTs easily. It includes features like token refreshing, complex access control, and various token storage options, making it versatile for handling authentication and authorization in modern web applications. JWT-Extended simplifies implementing secure user authentication workflows, ensuring sensitive information is safely transmitted between clients and servers (Flask-JWT-Extended’s Documentation).
 
 ### python-dotenv
 
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHaNT3Fi8RMNUpPDk-Zddeo2FTvDN3Sye5AA&s" alt=".Env logo" width="30%"/>
 
-Dotenv, or .env, is a simple module that loads environment variables from a .env file into a project's environment. This file typically contains key-value pairs, such as API keys, database URLs, and other configuration settings, allowing developers to manage sensitive information and configuration details separately from the codebase. By keeping these variables in a .env file, it enhances security and makes it easier to configure different environments (e.g., development, testing, production) without altering the code.
+Dotenv, or .env, is a simple module that loads environment variables from a .env file into a project's environment. This file typically contains key-value pairs, such as API keys, database URLs, and other configuration settings, allowing developers to manage sensitive information and configuration details separately from the codebase. By keeping these variables in a .env file, it enhances security and makes it easier to configure different environments (e.g., development, testing, production) without altering the code (Kumar n.d.).
 
 ### App third-party services not mentioned above
 
@@ -1173,6 +1173,13 @@ Payload & Response: <br>
 LLM disclosure: ChatGPT4 was used while writing this readme.md file for grammar and punctuation. Prompting such 'Please improve grammar and punctuation by rewriting this content using mostly my words:' was used. The data was checked for hallucinations and provided with content written initialy by myself. 
 
 - Abba, IV 2022, What is an ORM – The Meaning of Object Relational Mapping Database Tools, freeCodeCamp.org.
-- Babu, R 2019, DELETE - CASCADE and UPDATE CASCADE in SQL Server foreign key, SQL Shack - articles about database auditing, server performance, data recovery, and more, viewed 22 July 2024, <https://www.sqlshack.com/delete-cascade-and-update-cascade-in-sql-server-foreign-key/#:~:text=DELETE%20CASCADE%3A%20When%20we%20create>.
-- Chris, K 2022, Database Normalization – Normal Forms 1nf 2nf 3nf Table Examples, freeCodeCamp.org.Entity Relationship Diagram Examples Online Free to Download 2021, gitmind.com.
+- Babu, R 2019, DELETE CASCADE and UPDATE CASCADE in SQL Server foreign key, SQL Shack - articles about database auditing, server performance, data recovery, and more, viewed 22 July 2024, <https://www.sqlshack.com/delete-cascade-and-update-cascade-in-sql-server-foreign-key/#:~:text=DELETE%20CASCADE%3A%20When%20we%20create>.
+- bcrypt n.d., npm.
+- Chris, K 2022, Database Normalization – Normal Forms 1nf 2nf 3nf Table Examples, freeCodeCamp.org.
+- Entity Relationship Diagram Examples Online Free to Download 2021, gitmind.com.
 - Features - SQLAlchemy n.d., www.sqlalchemy.org.
+- Flask 2010, Welcome to Flask — Flask Documentation (3.0.x), flask.palletsprojects.com.
+- Flask-JWT-Extended’s Documentation — flask-jwt-extended 4.4.4 documentation n.d., flask-jwt-extended.readthedocs.io.
+- Flask-Marshmallow: Flask + marshmallow for beautiful APIs — Flask-Marshmallow 0.14.0 documentation n.d., flask-marshmallow.readthedocs.io.
+- Gregorio, FD n.d., psycopg2-binary: psycopg2 - Python-PostgreSQL Database Adapter, PyPI.
+- Kumar, S n.d., python-dotenv: Add .env support to your django/flask apps in development and deployments, PyPI.
