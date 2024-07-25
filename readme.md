@@ -69,7 +69,7 @@ If you would like to start a fresh app database, with no pre seeded data, please
 
 To test all the endpoint routes in [Insomnia](https://insomnia.rest/), please download the JSON file - Insomnia_routes.json in the root directory and import the file into the Insomnia UI. 
 
-Due to `@jwt_required()` on all routes besides registering and login, if a user is deleted, they will not be able to query the database. Please remember to not delete the user account that you are signed in with if you wish to perform more queries when testing. 
+Due to `@jwt_required()` on all routes besides register and login, if a user is deleted, they will not be able to query the database. Please remember to not delete the user account that you are signed in with if you wish to perform more queries when testing. 
 
 ---
 
@@ -205,6 +205,12 @@ Completed readme requirements 6 and 7, started working on in-code comments and e
 Completed the in-code commenting and formatting to pep8 style guidelines, continued working on error handling and started on testing. 
 
 <img src="DOCS/trello_24:7.png" alt="Trello 24th July" width="60%"/>
+
+* Thursday the 25th of July '24 update
+
+Completed the error handling for all routes and classes, completed testing all routes, and started working on the final readme edits and final testing of every route error path. 
+
+<img src="DOCS/trello_25:7.png" alt="Trello 25th July" width="60%"/>
 
 
 ---
