@@ -27,10 +27,14 @@ db_commands = Blueprint("db", __name__)
 @db_commands.cli.command("create")
 # Define the function to create the tables
 def create_tables():
-    # Create all the tables in the db
-    db.create_all()
-    # Print message to confirm tables were created
-    print("Tables created")
+    try:
+        # Create all the tables in the db
+        db.create_all()
+        # Print message to confirm tables were created
+        print("Tables created")
+    except Exception as e:
+        # Print error message if tables were not created
+        print(f"Error creating tables: {str(e)}")
 
 # CLI to drop all the tables in the db
 
@@ -38,10 +42,14 @@ def create_tables():
 @db_commands.cli.command("drop")
 # Define the function to drop the tables
 def drop_tables():
-    # Drop all the tables in the db
-    db.drop_all()
-    # Print message to confirm tables were dropped
-    print("Tables dropped")
+    try:
+        # Drop all the tables in the db
+        db.drop_all()
+        # Print message to confirm tables were dropped
+        print("Tables dropped")
+    except Exception as e:
+        # Print error message if tables were not dropped
+        print(f"Error dropping tables: {str(e)}")
 
 # CLI to count all tickets sold to an event
 # To call this CLI command please write 'flask db total_count <int:event_id>'
@@ -66,7 +74,8 @@ def count_attending(event_id):
         click.echo(f"Total tickets sold for Event ID {
                    event_id}: {total_tickets_sold}")
     except Exception as e:
-        click.echo(f"Error: {str(e)}")
+        # Print error message if total tickets sold could not be counted
+        print(f"Error counting total tickets sold: {str(e)}")
 
 # CLI to seed all the tables in the db
 
@@ -74,155 +83,161 @@ def count_attending(event_id):
 @db_commands.cli.command("seed")
 # Define the function to seed the tables
 def seed_tables():
-    # Create a list of user instances including one admin user that
-    # will be added to the users table
-    users = [
-        User(
-            name="Admin",
-            user_name="Admina",
-            email="admin@email.com",
-            # Hash the password using bcrypt
-            password=bcrypt.generate_password_hash("Abc12345").decode("utf-8"),
-            # One admin user to test admin functionality
-            is_admin=True
-        ),
-        User(
-            name="Tom Martin",
-            user_name="Tommy",
-            email="tom@email.com",
-            # Hash the password using bcrypt
-            password=bcrypt.generate_password_hash("Abc12345").decode("utf-8")
-        )
-    ]
-    # Add users to session
-    db.session.add_all(users)
+    try:
+        # Create a list of user instances including one admin user that
+        # will be added to the users table
+        users = [
+            User(
+                name="Admin",
+                user_name="Admina",
+                email="admin@email.com",
+                # Hash the password using bcrypt
+                password=bcrypt.generate_password_hash(
+                    "Abc12345").decode("utf-8"),
+                # One admin user to test admin functionality
+                is_admin=True
+            ),
+            User(
+                name="Tom Martin",
+                user_name="Tommy",
+                email="tom@email.com",
+                # Hash the password using bcrypt
+                password=bcrypt.generate_password_hash(
+                    "Abc12345").decode("utf-8")
+            )
+        ]
+        # Add users to session
+        db.session.add_all(users)
 
-    # Create post data to seed tables for testing
-    # Create a list of post instances that will be added to
-    # the posts table
-    posts = [
-        Post(
-            title="post 1",
-            content="this is post 1",
-            date=date.today(),
-            location="Adelaide",
-            user=users[0]  # user_id 1, users index 0
-        ),
-        Post(
-            title="post 2",
-            content="this is post 2",
-            date=date.today(),
-            location="Sydney",
-            user=users[1]  # user_id 2, users index 1
-        )
-    ]
-    # Add posts to session
-    db.session.add_all(posts)
+        # Create post data to seed tables for testing
+        # Create a list of post instances that will be added to
+        # the posts table
+        posts = [
+            Post(
+                title="post 1",
+                content="this is post 1",
+                date=date.today(),
+                location="Adelaide",
+                user=users[0]  # user_id 1, users index 0
+            ),
+            Post(
+                title="post 2",
+                content="this is post 2",
+                date=date.today(),
+                location="Sydney",
+                user=users[1]  # user_id 2, users index 1
+            )
+        ]
+        # Add posts to session
+        db.session.add_all(posts)
 
-    # Create comment data to seed tables for testing
-    # Create a list of comment instances that will be added to the
-    # comments table
-    comments = [
-        Comment(
-            content="comment 1",
-            timestamp=datetime.now(),
-            user=users[1],
-            post=posts[0]
-        ),
-        Comment(
-            content="comment 2",
-            timestamp=datetime.now(),
-            user=users[0],
-            post=posts[1]
-        ),
-        Comment(
-            content="comment 3",
-            timestamp=datetime.now(),
-            user=users[1],
-            post=posts[1]
-        )
-    ]
-    # Add comments to session
-    db.session.add_all(comments)
+        # Create comment data to seed tables for testing
+        # Create a list of comment instances that will be added to the
+        # comments table
+        comments = [
+            Comment(
+                content="comment 1",
+                timestamp=datetime.now(),
+                user=users[1],
+                post=posts[0]
+            ),
+            Comment(
+                content="comment 2",
+                timestamp=datetime.now(),
+                user=users[0],
+                post=posts[1]
+            ),
+            Comment(
+                content="comment 3",
+                timestamp=datetime.now(),
+                user=users[1],
+                post=posts[1]
+            )
+        ]
+        # Add comments to session
+        db.session.add_all(comments)
 
-    # Create like data to seed tables for testing
-    # Create a list of like instances that will be added to the likes table
-    likes = [
-        Like(
-            user=users[1],
-            post=posts[0]
-        ),
-        Like(
-            user=users[0],
-            post=posts[1]
-        )
-    ]
-    # Add likes to session
-    db.session.add_all(likes)
+        # Create like data to seed tables for testing
+        # Create a list of like instances that will be added to the likes table
+        likes = [
+            Like(
+                user=users[1],
+                post=posts[0]
+            ),
+            Like(
+                user=users[0],
+                post=posts[1]
+            )
+        ]
+        # Add likes to session
+        db.session.add_all(likes)
 
-    # Create event data to seed tables for testing
-    # Create a list of event instances that will be added to the
-    # events table
-    events = [
-        Event(
-            title="Event 1",
-            description="This is event 1",
-            date="01/02/2024",
-            event_admin_id=1,
-            user=users[0]
-        ),
-        Event(
-            title="Event 2",
-            description="This is event 2",
-            date="01/02/2024",
-            event_admin_id=2,
-            user=users[1]
-        )
-    ]
-    # Add events to session
-    db.session.add_all(events)
+        # Create event data to seed tables for testing
+        # Create a list of event instances that will be added to the
+        # events table
+        events = [
+            Event(
+                title="Event 1",
+                description="This is event 1",
+                date="01/02/2024",
+                event_admin_id=1,
+                user=users[0]
+            ),
+            Event(
+                title="Event 2",
+                description="This is event 2",
+                date="01/02/2024",
+                event_admin_id=2,
+                user=users[1]
+            )
+        ]
+        # Add events to session
+        db.session.add_all(events)
 
-    # Create attending data to seed tables for testing
-    # Create a list of attending instances that will be added to the
-    # attending table
-    attending = [
-        Attending(
-            total_tickets=2,
-            timestamp=datetime.now(),
-            event_id=1,
-            attending_id=1
-        ),
-        Attending(
-            total_tickets=2,
-            timestamp=datetime.now(),
-            event_id=2,
-            attending_id=2
-        )
-    ]
-    # Add attending to session
-    db.session.add_all(attending)
+        # Create attending data to seed tables for testing
+        # Create a list of attending instances that will be added to the
+        # attending table
+        attending = [
+            Attending(
+                total_tickets=2,
+                timestamp=datetime.now(),
+                event_id=1,
+                attending_id=1
+            ),
+            Attending(
+                total_tickets=2,
+                timestamp=datetime.now(),
+                event_id=2,
+                attending_id=2
+            )
+        ]
+        # Add attending to session
+        db.session.add_all(attending)
 
-    # Create invoice data to seed tables for testing
-    # Create a list of invoice instances that will be added to the invoice table
-    invoice = [
-        Invoice(
-            total_cost=12.00,
-            event_id=1,
-            timestamp=datetime.now(),
-            attendee_id=1
-        ),
-        Invoice(
-            total_cost=12.00,
-            event_id=2,
-            timestamp=datetime.now(),
-            attendee_id=2
-        )
-    ]
-    # Add invoice to session
-    db.session.add_all(invoice)
+        # Create invoice data to seed tables for testing
+        # Create a list of invoice instances that will be added to the invoice table
+        invoice = [
+            Invoice(
+                total_cost=12.00,
+                event_id=1,
+                timestamp=datetime.now(),
+                attendee_id=1
+            ),
+            Invoice(
+                total_cost=12.00,
+                event_id=2,
+                timestamp=datetime.now(),
+                attendee_id=2
+            )
+        ]
+        # Add invoice to session
+        db.session.add_all(invoice)
 
-    # Commit all seeded data to session
-    db.session.commit()
+        # Commit all seeded data to session
+        db.session.commit()
 
-    # Print tables seeded so we know the tables were seeded correctly
-    print("Tables seeded")
+        # Print tables seeded so we know the tables were seeded correctly
+        print("Tables seeded")
+    except Exception as e:
+        # Print error message if tables were not seeded
+        print(f"Error seeding tables: {str(e)}")
