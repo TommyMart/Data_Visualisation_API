@@ -208,7 +208,9 @@ Completed the in-code commenting and formatting to pep8 style guidelines, contin
 
 * Thursday the 25th of July '24 update
 
-Completed the error handling for all routes and classes, completed testing all routes, and started working on the final readme edits and final testing of every route error path. 
+Completed unknown error handling for all routes and classes, completed testing all routes, completed readme edits and requirement 2. 
+
+***API Assignment Complete!***
 
 <img src="DOCS/trello_25:7.png" alt="Trello 25th July" width="60%"/>
 

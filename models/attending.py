@@ -5,7 +5,7 @@ from marshmallow.exceptions import ValidationError
 
 # Imports from local files
 from init import db, ma
-from models.user import User
+
 
 # Constants
 # Define valid seat sections

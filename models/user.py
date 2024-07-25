@@ -4,7 +4,6 @@ from marshmallow.validate import Regexp, Length, And
 
 # Imports from local files
 from init import db, ma
-from models.like import Like
 
 
 # Create model class extended from the SQLAlchemy model class

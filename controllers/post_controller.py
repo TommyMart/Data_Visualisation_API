@@ -10,7 +10,6 @@ from init import db
 from controllers.comment_controller import comments_bp
 from controllers.like_controller import likes_bp
 from models.post import Post, post_schema, posts_schema
-from models.user import User
 from utils import authorise_as_admin
 
 # Create a Blueprint for post-related routes

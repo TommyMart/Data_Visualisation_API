@@ -18,7 +18,7 @@ attending_bp = Blueprint("attending", __name__,
 # Register the invoice blueprint within the attending blueprint
 attending_bp.register_blueprint(invoice_bp)
 
-# No need to fetch all attending all events, only fetch all attending 
+# No need to fetch all attending all events, only fetch all attending
 # a specific event
 
 # GET - Fetch all attendees for a specific event
@@ -39,7 +39,7 @@ def fetch_event_attending(event_id):
     if not event_exists:
         return {"error": f"Event with id '{event_id}' does not exist."}, 404
 
-    # Query to select attendees for the event, ordered by timestamp in 
+    # Query to select attendees for the event, ordered by timestamp in
     # descending order
     stmt = db.select(Attending).filter_by(
         event_id=event_id).order_by(Attending.timestamp.desc())

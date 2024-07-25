@@ -1,5 +1,4 @@
 # Built-in Python Libraries
-from datetime import datetime
 
 # External Libraries
 from flask import Blueprint, request

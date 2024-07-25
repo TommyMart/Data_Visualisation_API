@@ -1,9 +1,8 @@
 # External Libraries
-from marshmallow import fields
+from marshmallow import fields, validate
 
 # Imports from local files
 from init import db, ma
-from marshmallow.validate import Regexp, And
 
 # Table model class for the invoices table in the DB
 
@@ -55,13 +54,9 @@ class InvoiceSchema(ma.Schema):
         attending = fields.Nested("AttendingSchema", only=[
                                 "seat_section", "total_tickets", "user"])
         
-        # Validation
-        # Ticket price column - Float data type
-        total_cost = fields.Float(validate=And(
-            # Total cost must be greater than or equal to 0.00
-            Regexp(r"^[0-9]\d*(\.\d+)?$", 
-                   error="Total cost must be a positive number")
-        ))
+        # Total cost column - Float data type with a default value of 0.00
+        total_cost = fields.Float(validate=validate.Range(min=0.0,
+                                                            error="Total cost must be a positive number"))
 
         # Meta class to define the fields to be included in the schema
         class Meta:

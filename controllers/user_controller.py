@@ -3,7 +3,6 @@ from datetime import timedelta
 
 # External Libraries
 from flask import Blueprint, request
-from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from psycopg2 import errorcodes
 from flask_jwt_extended import create_access_token
