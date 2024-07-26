@@ -25,30 +25,51 @@ The chosen code style guide for the applicaton is [Pep 8](https://peps.python.or
 
 ***App Installation***
 
-The app requires python version 3.8 or higher to be in installed, if you want to check which version of Python you have installed please open your terminal and run the following command `python3 --version`.
+The app requires python version 3.8 or higher and PostgreSQL to be in installed, if you want to check which version of Python you have installed please open your terminal and run the following command `python3 --version`, and similarly, `psql --version` to check if you have the latter installed.
 
-If you do not have Python 3 installed, that's fine, but please download it from the [Official Python Website](https://www.python.org/downloads/) before proceeding. Please follow the same procedure if you have any other version of Python installed - such as version 2.
+If you do not have Python 3 or PostgreSQL installed, that's fine, but please download it from the [Official Python Website](https://www.python.org/downloads/) or (Official PostreSQL Website)[https://www.postgresql.org/download/] before proceeding. Please follow the same procedure if you have any other version of Python installed - such as version 2.
 
-If you have Python 3.8 or higher installed, please continue.
+That that you have Python 3.8 or higher, and PostgreSQL installed, please continue.
 
-- Clone the app via the [GitHub repository](https://github.com/TommyMart/Event_communication-ticketing_API). If you need further guidence please visit this GitHub help [link](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository). 
+### Unix-based Systems (macOS, Linux):
+
+- Firstly, please navigate to the directory you'd like the file to live. 
+- Clone the app via the [GitHub repository](https://github.com/TommyMart/Event_communication-ticketing_API). Alternatively, just copy one of these commands:
+    - Via SSH Key: `git clone git@github.com:TommyMart/Event_communication-ticketing_API.git`
+    - Via HTTPS: `git clone https://github.com/TommyMart/Event_communication-ticketing_APIgit`
+If you need further guidence, please visit this GitHub help [link](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository). 
 - Then, ensure you are in the root 'Event_communication-ticketing_API' directory. 
+    - `cd Event_communication-ticketing_API`
 - Create a virtual environment by running these commands in your terminal window:
     - `python3 -m venv .venv`
     - Then `source .venv/bin/activate`
     - You should now see (.venv) at the start of your terminal name
 - Install the app's requirements by running this command in your terminal window:
     - `pip install -r requirements.txt`
-- Add your own JWT_SECRET_KEY and DATABASE_URL to .env.sample and remove the .sample from the filename if you wish to use that file as your .env. 
-- Create the tables by running command: `flask db create`
-- Run the app via Flask by running the command: `flask run`
-    - If that didn't work please try: `python3 -m flask run`
-    - The server will run on the stock port 8080, unless otherwise assigned in the .flaskenv file. 
+- Now, let's create a PostgreSQL database and authorise a main user. If you run into any issues, likely around the first command, please refer to the [PostgreSQL server-start documentation](https://www.postgresql.org/docs/current/server-start.html)
+    - Begin PostgreSQL by running this command:
+        - `psql`
+        - `CREATE DATABASE <the_name_of_your_db>;`
+        - `CREATE USER <username> WITH PASSWORD '<password>';`
+        - `GRANT ALL PRIVILEGES ON DATABASE <the_name_of_your_db> TO <username>;`
+        - `GRANT ALL ON SCHEMA public TO <username>;`
+        - `\q`
+- Add your own JWT_SECRET_KEY and DATABASE_URL to .env.sample and remove the .sample from the filename if you wish to use that file as your .env. Please add your own username, password and database name to the corresponding strings below (do not include the <>).
+    - `DATABASE_URL=postgresql+psycopg2://<username>:<password>@localhost/<the_name_of_your_database>`
+    - `JWT_SECRET_KEY=your_jwt_secret_key`
+        - You can learn more about secret keys [here](https://docs.python.org/3/library/secrets.html). 
+- Now, create the tables in the database by running: `flask db create`
+- If you wish to seed the database with some data, please refer to the next API functionality testing section. Continue if you want to proceed with all empty tables. 
+- Run the app via Flask by running: `flask run`
+        - If that didn't work please try: `python3 -m flask run`
+        - The server will run on the stock port 8080, unless otherwise assigned in the .flaskenv file. 
 
 The app is now active and the routes can be tested in Insomnia or any other API route testing software. Debug is active so the app will be updated live when changes are made to the code. 
 
 Your terminal window should now look something like this:
 <img src="DOCS/flask_server.png" alt="Ticketek review 1 star" width="100%"/> <br>
+
+Feel free to change the port the app is running on in the .flaskenv file. 
 
 ***API Functionality Testing***
 
