@@ -31,7 +31,7 @@ If you do not have Python 3 or PostgreSQL installed, that's fine, but please dow
 
 That that you have Python 3.8 or higher, and PostgreSQL installed, please continue.
 
-### Unix-based Systems (macOS, Linux):
+***Unix-based Systems (macOS, Linux):***
 
 - Firstly, please navigate to the directory you'd like the file to live. 
 - Clone the app via the [GitHub repository](https://github.com/TommyMart/Event_communication-ticketing_API). Alternatively, just copy one of these commands:
@@ -98,7 +98,7 @@ Due to `@jwt_required()` on all routes besides register and login, if a user is 
 
 This application addresses several key issues related to event management and social interactions around events. The primary problem it solves is providing a secure and efficient platform for users to manage event access, ticketing, and communication with friends.
 
-### Problem and Solution Overview:
+**Problem and Solution Overview:**
 
 Based on feedback from friends, online reviews, and my own experience, the event ticketing platforms in Australia fall short of customer expectations. Here are the ratings for two of the largest ticket providers in the country:
 
@@ -171,31 +171,31 @@ For this project tasks were allocated and tracked using Atlassian's project mana
 
 Public link to the applications [Trello Board](https://trello.com/invite/b/MSNeGTDP/ATTIbcf6438a9f232f88791835689a108779C4AF2FEE/event-ticketing-api).
 
-* Friday the 12th of July '24 update
+* **Friday** the 12th of July '24 update
 
 Initiated board and populated all cards with required functionality.
 
 <img src="DOCS/trello_day1.png" alt="Trello day 1" width="60%"/>
 
-* Monday the 15th of July '24 update
+* **Monday** the 15th of July '24 update
 
 Completed readme requirements 1 and 2, plus models and route controllers for Users, Posts and Comments. 
 
 <img src="DOCS/trello_15:7.png" alt="Trello 15th July" width="60%"/>
 
-* Tuesday the 16th of July '24 update
+* **Tuesday** the 16th of July '24 update
 
 Completed the models and route controllers for Events, Attendees and Ivoices. 
 
 <img src="DOCS/trello_16:7.png" alt="Trello 16th July" width="60%"/>
 
-* Wednesday the 17th of July '24 update
+* **Wednesday** the 17th of July '24 update
 
 Completed the models and route controllers for likes. Completed validation and started on Authorisation.  
 
 <img src="DOCS/trello_17:7.png" alt="Trello 17th July" width="60%"/>
 
-* Thursday the 18th of July '24 update
+* **Thursday** the 18th of July '24 update
 
 Today marks the mid-point of the assignment timeline, so I assessed the importance of the tasks and what would be most beneficial for the assignment and overall learning outcome. Since the code was fresh in my mind, I decided that the most efficient and beneficial approach was to finish the validation and authorisation tasks before tackling the README requirements due today. This decision was approved because I have completed more than 60% of the assignment at the half-way point and wanted to continue working on the code until it functions as desired. This was a good decision because I struggle to move on to a new task if the current task is not completed to a satisfactory standard, which can then be detrimental to the new task.
 
@@ -203,31 +203,31 @@ I, therefore, changed the due dates of README requirements 4 and 5 to the 23rd o
 
 <img src="DOCS/trello_18:7.png" alt="Trello 17th July" width="60%"/>
 
-* Saturday the 20th of July '24 update
+* **Saturday** the 20th of July '24 update
 
 After a Zoom meeting with my lecturer Simon in the morning, I created a new 'search' card on the Trello board. This card required implementing a search function that allows clients to search for either a user_name or event_name via the URL. The search needed to support partial matches and return a list of results if there were multiple matches. I completed this functionality shortly after and moved the card to the newly renamed 'completed' column. Additionally, I marked readme requirement 4 as completed and created a new card for readme requirement 8, which had been overlooked during the initial project management phase.
 
 <img src="DOCS/trello_20:7.png" alt="Trello 20th July" width="60%"/>
 
-* Monday the 22nd of July '24 update
+* **Monday** the 22nd of July '24 update
 
 Completed readme requirements 3, 5 and 8, added error handling card to the Trello board. 
 
 <img src="DOCS/trello_22:7.png" alt="Trello 22nd July" width="60%"/>
 
-* Tuesday the 23rd of July '24 update
+* **Tuesday** the 23rd of July '24 update
 
 Completed readme requirements 6 and 7, started working on in-code comments and error handling. 
 
 <img src="DOCS/trello_23:7.png" alt="Trello 23rd July" width="60%"/>
 
-* Wednesday the 24th of July '24 update
+* **Wednesday** the 24th of July '24 update
 
 Completed the in-code commenting and formatting to pep8 style guidelines, continued working on error handling and started on testing. 
 
 <img src="DOCS/trello_24:7.png" alt="Trello 24th July" width="60%"/>
 
-* Thursday the 25th of July '24 update
+* **Thursday** the 25th of July '24 update
 
 Completed unknown error handling for all routes and classes, completed testing all routes, completed readme edits and requirement 2. 
 
@@ -281,31 +281,31 @@ Dotenv, or .env, is a simple module that loads environment variables from a .env
 
 ### App third-party services not mentioned above
 
-* blinker
+* **blinker**
     - Blinker is a Python library that provides a fast, simple, and flexible way to create signal/event handling systems, allowing different parts of an application to communicate with each other through signals.
-* click
+* **click**
     - Click is a Python package used to create command-line interfaces (CLI) with minimal code, providing functionality for handling arguments, options, and commands in a user-friendly way.
-* Flask-Bcrypt
+* **Flask-Bcrypt**
     -  Flask-Bcrypt is a Flask extension that provides bcrypt hashing utilities for hashing passwords, making it easier to implement secure password storage in Flask applications.
-* flask-marshmallow
+* **flask-marshmallow**
     - Flask-Marshmallow provides a thin integration layer for Flask and Marshmallow, enhancing Marshmallow with additional features tailored for Flask applications.
-* Flask-SQLAlchemy
+* **Flask-SQLAlchemy**
     - Flask-SQLAlchemy is an extension that simplifies the integration of SQLAlchemy into Flask applications, making database interactions more straightforward.
-* itsdangerous
+* **itsdangerous**
     - itsdangerous is a Python library that provides various helpers to pass data to untrusted environments in a safe way, most notably used for creating and validating secure signed tokens.
-* Jinja2
+* **Jinja2**
     - Jinja2 is a fast, extensible templating engine for Python, designed to generate HTML, XML, and other markup formats by combining static templates with dynamic data.
-* MarkupSafe
+*** MarkupSafe**
     - MarkupSafe is a Python library used to safely handle and render text in web applications by escaping characters that could introduce security vulnerabilities, such as cross-site scripting (XSS) attacks. It ensures that any text marked as safe remains unchanged while potentially dangerous characters are properly escaped.
-* marshmallow-sqlalchemy
+* **marshmallow-sqlalchemy**
     - Marshmallow-SQLAlchemy integrates Marshmallow's serialization and deserialization capabilities with SQLAlchemy, facilitating the conversion of SQLAlchemy models to and from Python datatypes.
-* packaging
+* **packaging**
     - Packaging is a Python library that provides utilities for working with Python package metadata, including version parsing, dependency resolution, and other tasks related to managing Python package distributions.
-* PyJWT
+* **PyJWT**
     - PyJWT is a Python library used for encoding and decoding JSON Web Tokens (JWT), which are commonly used for securely transmitting information between parties as a JSON object.
-* typing_extensions
+* **typing_extensions**
     - typing_extensions is a Python library that provides backports of new type hinting features introduced in recent versions of Python, allowing developers to use these features in older versions of the language.
-* Werkzeug
+* **Werkzeug**
     - Werkzeug is a comprehensive WSGI (Web Server Gateway Interface) utility library for Python that provides a range of tools to build web applications, including request and response handling, URL routing, and debugging support. It is a core component of the Flask web framework.
 
 ---
@@ -692,11 +692,11 @@ It was decided to remove the address attribute from the users table that was pre
 - location - String of alphanumeric characters between 3 and 100 long.
 - image_url - String in URL format between 5 and 150 characters long.
 
-Foriegn Keys
+**Foriegn Keys**
 
 - user_id - Integer that references the id column of the users table. NOT NULL. 
 
-Relationships 
+**Relationships** 
 
 When a post is deleted the comments and likes of that specific post are deleted too because `cascade="all, delete`. There is a relationship between the posts model and the user, comments and likes models, this is so a post can be displayed with information regarding who made the post, and the comments and likes associated with that post. A post can have zero to many comments and likes but only one creator (user). 
 
@@ -704,7 +704,7 @@ When a post is deleted the comments and likes of that specific post are deleted 
 ```comments = db.relationship("Comment", back_populates="post", cascade="all, delete")``` <br>
 ```likes = db.relationship("Like", back_populates="post", cascade="all, delete")``` <br>
 
-ERD Changes 
+**ERD Changes** 
 
 It was decided to add a 'location' attribute to the posts table. This is so users do not have to include this information in their post content, it is also beneficial to the app as it promotes travel and markets different geographic locations. The foreign key relationship between the posts and the events tables was not implemented because a URL, similarly to Facebook, was decided to be a better alternative because users are already familiar with this user experience process. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
@@ -716,19 +716,19 @@ It was decided to add a 'location' attribute to the posts table. This is so user
 - content - String of alphanumeric characters less than 400 long and NOT NULL.
 - timestamp - Date format automatically populated by the datetime library.
 
-Foriegn Keys
+**Foriegn Keys**
 
 - user_id - Integer that references the id column of the users table. NOT NULL. 
 - post_id - Integer that references the id column of the posts table. NOT NULL. 
 
-Relationships 
+**Relationships **
  
 For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. Since a user cannot like a comment at this stage of the build process, there is no current reltionship, moving forward this is a functionality the app will implement. 
 
 ```user = db.relationship("User", back_populates="comments")``` <br>
 ```post = db.relationship("Post", back_populates="comments")``` <br>
 
-ERD Changes 
+**ERD Changes** 
 
 It was decided to not implement the likes relationship on the comment model to gain more user input. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
@@ -738,18 +738,18 @@ It was decided to not implement the likes relationship on the comment model to g
 
 - id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
 
-Foriegn Keys
+**Foriegn Keys**
 
 - user_id - Integer that references the id column of the users table. NOT NULL. 
 - post_id - Integer that references the id column of the posts table. NOT NULL. 
 
-Relationships 
+**Relationships** 
 
 For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. <br>
 ```user = db.relationship("User", back_populates="comments")``` <br>
 ```post = db.relationship("Post", back_populates="comments")``` <br>
 
-ERD Changes 
+**ERD Changes** 
 
 As previously discussed, it was decided to remove the ability for a user to like a comment to increase user input. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
@@ -763,11 +763,11 @@ As previously discussed, it was decided to remove the ability for a user to like
 - date - Date must written as dd/mm/yyyy only.
 - ticket_price - String of alphanumeric characters between 3 and 50 long and NOT NULL.
 
-Foreign Keys
+**Foreign Keys**
 
 - event_admin_id - - Integer that references the id column of the users table. NOT NULL.
 
-Relationships
+**Relationships**
 
 When an event is deleted from the database, so are the attending and invoice model data for that event. An automatic refund function will be implemented in the next phase of the build process if the event is cancelled (deleted) before the event has taken place. The event model has a bidirectional relationship with the user, attending and invoice models. This is useful when the client wants to know what seats are available while using the events route for example. 
 
@@ -775,7 +775,7 @@ When an event is deleted from the database, so are the attending and invoice mod
 ```attending = db.relationship("Attending", back_populates="event", cascade="all, delete")``` <br>
 ```invoice = db.relationship("Invoice", back_populates="event", cascade="all, delete")``` <br>
 
-ERD Changes 
+**ERD Changes** 
 
 As previously discussed, it was decided to remove the ability for a user to make a post with a related event. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
@@ -788,12 +788,12 @@ As previously discussed, it was decided to remove the ability for a user to make
 - seat_section - String OneOf VALID_SEAT_SECTIONS if < count input limit, default = General Admission.
 - timestamp - - Date format automatically populated by the datetime library.
 
-Foriegn Keys
+**Foriegn Keys**
 
 - event_id - Integer that references the id column of the events table. NOT NULL. 
 - attending_id - Integer that references the id column of the users table. NOT NULL. 
 
-Relationships
+**Relationships**
 
 When an event attendee data is deleted from the database, so is the invoice model data for that attendee. The attendee model has a bidirectional relationship with the user, event and invoice models. This is useful when the client wants to read the event ticket price while on the attending route for example. 
 
@@ -801,7 +801,7 @@ When an event attendee data is deleted from the database, so is the invoice mode
 ```event = db.relationship("Event", back_populates="attending")``` <br>
 ```invoice = db.relationship("Invoice", back_populates="attending", cascade="all, delete")``` <br>
 
-ERD Changes
+**ERD Changes**
 
 It was decided to add a seat section attribute so that a seating limit fucntion could be assigned to each sub section - General Admission, Section C, Section B, Section A and VIP. A time stamp was also added to limit confusing should there be any around the purchasing of tickets and events selling out.  
 
@@ -813,12 +813,12 @@ It was decided to add a seat section attribute so that a seating limit fucntion 
 - total_cost - Float datatype with a default value of 0.00.
 - timestamp - Date format automatically populated by the datetime library.
 
-Foriegn Keys
+**Foriegn Keys**
 
 - event_id - Integer that references the id column of the events table. NOT NULL. 
 - attending_id - Integer that references the id column of the users table. NOT NULL. 
 
-Relationships
+**Relationships**
 
 For a relationship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. 
 
@@ -828,7 +828,7 @@ For a relationship between two models to exist, both models need the relationshi
 SQLAlchemy terms - back populates, cascade
 Reasoning behind any changes to the ERD
 
-ERD Changes
+**ERD Changes**
 
 No changes to the invoice ERD model were made. 
 
