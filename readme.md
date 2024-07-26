@@ -1,8 +1,8 @@
 # T2A2: API Webserver
 
-## Work in Progress
-
 ## Event Ticketing & Communication RESTful API Application
+
+Link to Github Repo [here](https://github.com/TommyMart/Event_communication-ticketing_API).
 
 The main tech-stack used for this application includes:
 
