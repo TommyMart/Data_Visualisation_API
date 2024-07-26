@@ -34,7 +34,7 @@ That that you have Python 3.8 or higher, and PostgreSQL installed, please contin
 ***Unix-based Systems (macOS, Linux):***
 
 - Firstly, please navigate to the directory you'd like the file to live. 
-- Clone the app via the [GitHub repository](https://github.com/TommyMart/Event_communication-ticketing_API). Alternatively, just copy one of these commands:
+- Clone the app via the [GitHub repository](https://github.com/TommyMart/Event_communication-ticketing_API). Alternatively, just copy **one** of these commands:
     - Via SSH Key: `git clone git@github.com:TommyMart/Event_communication-ticketing_API.git`
     - Via HTTPS: `git clone https://github.com/TommyMart/Event_communication-ticketing_APIgit`
 If you need further guidence, please visit this GitHub help [link](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository). 
@@ -46,14 +46,13 @@ If you need further guidence, please visit this GitHub help [link](https://docs.
     - You should now see (.venv) at the start of your terminal name
 - Install the app's requirements by running this command in your terminal window:
     - `pip install -r requirements.txt`
-- Now, let's create a PostgreSQL database and authorise a main user. If you run into any issues, likely around the first command, please refer to the [PostgreSQL server-start documentation](https://www.postgresql.org/docs/current/server-start.html)
-    - Begin PostgreSQL by running this command:
-        - `psql`
-        - `CREATE DATABASE <the_name_of_your_db>;`
-        - `CREATE USER <username> WITH PASSWORD '<password>';`
-        - `GRANT ALL PRIVILEGES ON DATABASE <the_name_of_your_db> TO <username>;`
-        - `GRANT ALL ON SCHEMA public TO <username>;`
-        - `\q`
+- Now, let's create a PostgreSQL database and authorise a main user. If you run into any issues, likely around the first command, please refer to the [PostgreSQL server-start documentation](https://www.postgresql.org/docs/current/server-start.html).
+    - `psql`
+    - `CREATE DATABASE <the_name_of_your_db>;`
+    - `CREATE USER <username> WITH PASSWORD '<password>';`
+    - `GRANT ALL PRIVILEGES ON DATABASE <the_name_of_your_db> TO <username>;`
+    - `GRANT ALL ON SCHEMA public TO <username>;`
+    - `\q`
 - Add your own JWT_SECRET_KEY and DATABASE_URL to .env.sample and remove the .sample from the filename if you wish to use that file as your .env. Please add your own username, password and database name to the corresponding strings below (do not include the <>).
     - `DATABASE_URL=postgresql+psycopg2://<username>:<password>@localhost/<the_name_of_your_database>`
     - `JWT_SECRET_KEY=your_jwt_secret_key`
