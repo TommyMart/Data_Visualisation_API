@@ -164,7 +164,7 @@ This comprehensive application effectively addresses the needs of users looking 
 
 ### R2. Describe the way tasks are allocated and tracked in your project.
 
-For this project tasks were allocated and tracked using Atlassian's project management tool 'Trello'. 
+For this project tasks were allocated and tracked using Atlassian's project management tool 'Trello'. To decrease the overall size of this readme file, it was decided to not include screenshots of each card's description. Instead, these are avaialble via the public Trello board link below. 
 
 <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Trello_logo.svg/1280px-Trello_logo.svg.png" alt="Trello Logo" width="30%"/>
 
@@ -421,12 +421,14 @@ And put in a way relating to our API application, SQLAlchemy is the layer that i
 
 **Now** let’s look at how the apps code uses the features, purpose and functionalities of SQLAlchemy. 
 
-For this application SQLAlchemy was assigned to 'db', `db = SQLAlchemy()`, and therfore for the code examples every time we see 'db' we are accessing the SQLAlchemy library features. For further understanding of the SQLAlchemy methods used in the following code, such as commit, select, session, filter_by etc. please refer to the end of this answer for a brief explanation. 
+For this application, SQLAlchemy is assigned to 'db' with `db = SQLAlchemy()`. Therefore, in the code examples, every time we see 'db', we are accessing SQLAlchemy library features. For further understanding of the SQLAlchemy methods used in the following code, such as `commit`, `select`, `session`, `filter_by`, etc., please refer to the end of this answer for a brief explanation.
 
-**Models** - when creating a table we use an SQLAlchemy class called ‘Model’, `class User(db.Model):`, creates a model class named ‘users’, that represents a table in the database. 
+**Models** <br>
+When creating a table, we use an SQLAlchemy class called `Model`. For example, `class User(db.Model)`: creates a model class named `User` that represents a table in the database.
 
 
-Table Names - we can then assign a name to the Model class, or table, using `__tablename__ = "users"`, that sets the name to ‘users.
+**Table Names** <br>
+We can then assign a name to the `Model` class, or table, using `__tablename__ = "users"`, that sets the name to ‘users.
 
 **Columns** – we then create the table columns, or attributes, assigning them individual datatypes and constraints. Examples of the datatypes used in the app are:
 -	String
@@ -443,47 +445,49 @@ And examples of the constraints used in the app are:
 -	Nullable
 
 `id = db.Column(db.Integer, primary_key=True)`
-Where ‘id’ is a column of the table, with a datatype of integer and is the primary key of the table. 
+Here ‘id’ is a column of the table, with a datatype of integer and is the primary key of the table. 
 `user_id = db.Column(db.Integer, db.ForeignKey('users.id')`
-Where 'name' is a column of a table, with a datatype of integer, and is a foriegn key of the 'id' attribute from the users table.
+In this example, 'user_id' is a column with a data type of integer and is a foreign key referencing the 'id' attribute from the users table.
 `name = db.Column(db.String, nullable=False)`
-Where ‘name’ is a column of the table, with a datatype of string and cannot be null. 
+Here ‘name’ is a column of the table, with a datatype of string and cannot be null. 
 
-**Relationships** - define how different tables or models relate to each other. 
+**Relationships** <br>
+Relationships define how different tables or models relate to each other. For example:
 
 `‘posts = db.relationship("Post", back_populates="user", cascade="all, delete")’`
 
 Let’s break this code down…
--	`db.relationship` is a function that defines that there is a relationship.
+-	`db.relationship` is a function that defines a relationship.
 -	`”Post”` is the name of the related model.
 -	`back_populates=”user”` - specifies the attribute on the related model that points back to the current model. This indicates that the ‘Post’ model has an attribute ‘user’ that points back to the ‘User’ model.
--	` cascade="all, delete"` - determines that all related objects are deleted when the parent object is deleted. For example, when a user is deleted so are the users posts and comments. 
+-	` cascade="all, delete"` determines that all related objects are deleted when the parent object is deleted. For example, when a user is deleted so are the user's posts and comments. 
 
-This code connects the Post model and the user field, a user can make multiple posts, but a post can only be created by one user. 
+This code connects the `Post` model and the `User` model, indicating that a user can create multiple posts, but a post can only be created by one user.
 
 **Database Interaction**
 
-- Determine what data to fetch using `db.select(User).filter_by(id=user_id)`, which selects a User based on the id from the URL path.
-- Execute Statement: Execute the statement and retrieve the selected data, storing it in a variable such as user - `user = db.session.scalar(stmt)`. The scalar method executes a query that returns a single result, while scalars can return multiple results.
+- Determine what data to fetch: `db.select(User).filter_by(id=user_id)`. This selects a User based on the id from the URL path.
+- Execute Statement: `user = db.session.scalar(stmt)`. The scalar method executes a query that returns a single result, while `scalars` can return multiple results.
 - Check and Return Data:
-    - If the data is found, serialize it and return it to the client in JSON format - `return user_schema.dump(user)`.
-    - If the data is not found, return an error message and status code to the client in JSON format - `return {"error": f"User with id {user_id} not found"}, 404`.
+    - If the data is found, serialise it and return it to the client in JSON format: `return user_schema.dump(user)`.
+    - If the data is not found, return an error message and status code to the client in JSON format: `return {"error": f"User with id {user_id} not found"}, 404`.
 
 **Adding to Session and Commiting**
 
-- `db.session.delete(user)`: This command finds the user object for deletion. The user object is a row in the database that the user is trying to delete. SQLAlchemy keeps track of this in its session.
+- To delete a user: `db.session.delete(user)`. This command finds the user object for deletion. The user object is a row in the database that the user is trying to delete. SQLAlchemy keeps track of this in its session.
 
-- `db.session.commit()`: This command commits the current transaction, which includes any pending changes such as the deletion found by db.session.delete(user). When this is called, SQLAlchemy sends the appropriate SQL DELETE statement to the database to remove the record and finalises the database transaction.
+- `db.session.commit()`. This command commits the current transaction, which includes any pending changes such as the deletion found by `db.session.delete(user)`. When this is called, SQLAlchemy sends the appropriate SQL DELETE statement to the database to remove the record and finalises the database transaction.
 
 **Checking if id Exists**
 
 `event_exists = db.session.query(Event.id).filter_by(id=event_id).scalar() is not None` is used to check if a specific event exists in the database:
 
-`db.session.query(Event.id)`: This creates a query object to select the id column from the Event table. <br>
-`.filter_by(id=event_id)`: This filters the query to only include rows where the id matches the event_id passed in the URL path.<br>
-`.scalar()`: This executes the query and returns a single value (the first column of the first row) from the result set, or None if no rows match the filter. If it were `.scalars`, this would return all the rows of the result set, or None if no rows match the filter. <br>
-`is not None`: This checks if the result of scalar() `is not None`. If the result `is not None`, it means an event with the specified id exists, and the rest of the function can run. If `is not None` is false, then the event with the specified id does not exist and it's probable an error message would be thrown. <br>
-Putting it all together, this line of code checks whether an event with the specified `event_id` exists in the database and stores True or False as event_exists. <br>
+`db.session.query(Event.id)` creates a query object to select the `id` column from the Event table. <br>
+`.filter_by(id=event_id)` filters the query to only include rows where the `id` matches the `event_id` passed in the URL path.<br>
+`.scalar()` executes the query and returns a single value (the first column of the first row) from the result set, or `None` if no rows match the filter. If it were `.scalars`, this would return all the rows of the result set, or `None` if no rows match the filter. <br>
+`is not None` checks if the result of `scalar()` is not `None`. If the result is not `None`, it means an event with the specified id exists, and the rest of the function can run. If `is not None` is false, then the event with the specified id does not exist and it's probable an error message would be thrown. <br>
+
+Putting it all together, this line of code checks whether an event with the specified `event_id` exists in the database and stores `True` or `False` as `event_exists`. <br>
 
 ---
 
@@ -580,7 +584,7 @@ The example below is of an unnormalised table. This is because for each ticket p
 #### Example of an unnormalised Events Table.
 ![Unnormalised Events table](DOCS/Unnormalised_events_table.png)
 
-If you can imagine the database table for the example table above... For every time a ticket is sold for event, say, Movie A, Movie A's - title, description, date and ticket price will be included in each entry. The database entry would look something like this:
+If you can imagine the database table for the example table above... For every time a ticket is sold for event, Movie A - title, description, date and ticket price will be included in each entry. The database entry would look something like this:
 
 Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 2 | $30 <br>
 Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 1 | $15 <br>
@@ -589,12 +593,12 @@ Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 2 | $
 Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 3 | $45 <br>
 Movie A | This is a description of Movie A | 01/01/2023 | 120 mins | $15 | 1 | $15 <br>
 
-As you can see there is a lot of redundant data, this can be avoided by implementing database normalisation during the design stage. What about if there was one column for Movie As id as a foreign key, lets say it's 1, plus the number of tickets and the total cost. 
+As you can see there is a lot of redundant data, this can be avoided by implementing database normalisation during the design stage. This can be achieved if there was one column for Movie As id as a foreign key, let's say id '1' for the first column, then the number of tickets and the total cost for the next two.
 
 1 | 2 | $30 <br>
 1 | 1 | $15
 
-Bit nicer right? And if the client needs the movie's data it can access this via the foriegn key 1. This example is independant of this app, this app further seperates number of tickets and total price due to further database normalisation measures. 
+As you can now see, there is no redundant data. And if the client needs the movie's data it can access it via the foriegn key, which is the primary key of the movie's table. This example is independant of this app, this app further seperates number of tickets and total price due to further database normalisation measures. 
 
 
 
@@ -652,7 +656,7 @@ For example, if a post is deleted, the comments and likes directly related to th
 
 <img src="DOCS/Users.png" alt="Users PSQL table" width="100%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- id - Integer created by Postgres per entry, Primary Key, and therefore is automatically NOT NULL. 
 - name - String of alphanumeric characters between 3 and 50 long and NOT NULL.
 - user_name - String of alphanumeric characters between 3 and 5 long and NOT NULL. 
 - password - String hashed by bcrypt, must be more than 8 characters and include a letter and number. 
@@ -670,21 +674,21 @@ The code below builds the relationship between the child models of the users mod
 ```events = db.relationship("Event", back_populates="user", cascade="all, delete")```<br>
 ```attending = db.relationship("Attending", back_populates="user", cascade="all, delete")```<br>
 <br>
-Since a user can have zero or many posts, comments, likes, events or attending, this schema passed each of these as lists of dictionaries, so that JSON can be used, when responding to a request. Here's an example so you're able to visualise what this looks like for this example for the rest of the models that are analysed for this requirement:
+Since a user can have zero or many posts, comments, likes, events or attending, this schema passed each of these as lists of dictionaries, so that JSON can be used, when responding to a request. Here's an example so you're able to visualise what this looks like for this example and for the rest of the models that are analysed for this requirement:
 
 <img src="DOCS/fetch_a_user.png" alt="Fetch a user" height="70%"/> 
 
-The lists shown in this example can be viewed by clicking on the arrow pointing to the right, this will display any current data the user has created or updated. This data could be used on a user homepage to inform them of their recent actions. 
+The lists shown in this example can be viewed by clicking on the arrow pointing to the right, this will display any current data the user has created or updated. This data could be used on a user homepage to inform a user of their recent actions. 
 
-ERD Changes 
+**ERD Changes** 
 
-It was decided to remove the address attribute from the users table that was present in the initial draft ERD, this was decided because there is no valid reasoning for having the address since all communication and ticketing is to be done electronically. This aligns with the app's stance of sustainability and taking the green option where ever possible. 
+It was decided to remove the address attribute from the users table that was present in the initial draft ERD, this was decided because there is no valid reasoning for storing a user's address, since all communication is to be done electronically. This aligns with the app's stance of sustainability and taking the green option where ever possible. 
 
 ### Posts
 
 <img src="DOCS/posts_table.png" alt="Posts PSQL table" width="100%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- id - Integer created by Postgres per entry, Primary Key, and therefore is automatically NOT NULL. 
 - title - String of alphanumeric characters that must be at least 3 long and NOT NULL.
 - content - String of alphanumeric characters less than 400 long.
 - date - Date format automatically populated by the datetime library.
@@ -697,7 +701,7 @@ It was decided to remove the address attribute from the users table that was pre
 
 **Relationships** 
 
-When a post is deleted the comments and likes of that specific post are deleted too because `cascade="all, delete`. There is a relationship between the posts model and the user, comments and likes models, this is so a post can be displayed with information regarding who made the post, and the comments and likes associated with that post. A post can have zero to many comments and likes but only one creator (user). 
+When a post is deleted the comments and likes of that specific post are deleted too, because of the `cascade="all, delete` command. There is a relationship between the posts model and the user, comments and likes models, this is so a post can be displayed with information regarding who made the post, and the comments and likes associated with that post. A post can have zero to many comments and likes but only one creator (user). 
 
 ```user = db.relationship("User", back_populates="posts")``` <br>
 ```comments = db.relationship("Comment", back_populates="post", cascade="all, delete")``` <br>
@@ -711,7 +715,7 @@ It was decided to add a 'location' attribute to the posts table. This is so user
 
 <img src="DOCS/comments_table.png" alt="Comments PSQL table" height="80%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- id - Integer created by Postgres per entry, Primary Key, and therefore is automatically NOT NULL. 
 - content - String of alphanumeric characters less than 400 long and NOT NULL.
 - timestamp - Date format automatically populated by the datetime library.
 
@@ -722,20 +726,20 @@ It was decided to add a 'location' attribute to the posts table. This is so user
 
 **Relationships **
  
-For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. Since a user cannot like a comment at this stage of the build process, there is no current reltionship, moving forward this is a functionality the app will implement. 
+For a relationship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. Since a user cannot like a comment at this stage of the build process, there is no current reltionship, moving forward this is a functionality the app will implement. 
 
 ```user = db.relationship("User", back_populates="comments")``` <br>
 ```post = db.relationship("Post", back_populates="comments")``` <br>
 
 **ERD Changes** 
 
-It was decided to not implement the likes relationship on the comment model to gain more user input. This functionality may need further UX testing and will be discussed and decided on moving forward. 
+It was decided to not implement the likes relationship on the comment model to gain more user content input. This functionality may need further UX testing and will be discussed and decided on moving forward. 
 
 ### Likes
 
 <img src="DOCS/likes_table.png" alt="Likes PSQL table" height="60%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- id - Integer created by Postgres per entry, Primary Key, and therefore is automatically NOT NULL. 
 
 **Foriegn Keys**
 
@@ -744,7 +748,7 @@ It was decided to not implement the likes relationship on the comment model to g
 
 **Relationships** 
 
-For a reltionship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. <br>
+For a relationship between two models to exist, both models need the relationship implemented, this allows for a bidirectional relationship seen in previous models. <br>
 ```user = db.relationship("User", back_populates="comments")``` <br>
 ```post = db.relationship("Post", back_populates="comments")``` <br>
 
@@ -756,7 +760,7 @@ As previously discussed, it was decided to remove the ability for a user to like
 
 <img src="DOCS/events_table.png" alt="Events PSQL table" width="100%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- id - Integer created by Postgres per entry, Primary Key, and therefore is automatically NOT NULL. 
 - title - String of alphanumeric characters between 3 and 50 long and NOT NULL.
 - description - String of alphanumeric characters between 3 and 50 long and NOT NULL.
 - date - Date must written as dd/mm/yyyy only.
@@ -782,7 +786,7 @@ As previously discussed, it was decided to remove the ability for a user to make
 
 <img src="DOCS/attending_table.png" alt="Attending PSQL table" width="100%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- id - Integer created by Postgres per entry, Primary Key, and therefore is automatically NOT NULL. 
 - total_tickets - Integer <= MAX_TICKETS_PER_USER, default = 1 ticket.
 - seat_section - String OneOf VALID_SEAT_SECTIONS if < count input limit, default = General Admission.
 - timestamp - - Date format automatically populated by the datetime library.
@@ -802,13 +806,13 @@ When an event attendee data is deleted from the database, so is the invoice mode
 
 **ERD Changes**
 
-It was decided to add a seat section attribute so that a seating limit fucntion could be assigned to each sub section - General Admission, Section C, Section B, Section A and VIP. A time stamp was also added to limit confusing should there be any around the purchasing of tickets and events selling out.  
+It was decided to add a seat section attribute so that a seating limit function could be assigned to each sub section - General Admission, Section C, Section B, Section A and VIP. A time stamp was also added to limit confusion should there be any around the purchasing of tickets and events selling out.  
 
 ### Invoices
 
 <img src="DOCS/invoices_table.png" alt="Invoices PSQL table" height="80%"/> 
 
-- id - Intger created by Postgres per entry, Primary Key, and therefore automatically NOT NULL. 
+- id - Integer created by Postgres per entry, Primary Key, and therefore is automatically NOT NULL. 
 - total_cost - Float datatype with a default value of 0.00.
 - timestamp - Date format automatically populated by the datetime library.
 
@@ -932,7 +936,7 @@ Method: PUT or PATCH <br>
 Authorisation: Creators JWT Token <br>
 Description: Update user data. Only the creator of the user account can perform this action. <br>
 Payload & Response: <br>
-<img src="DOCS/update_user.png" alt="Insomnia updaet user" width="70%"/> 
+<img src="DOCS/update_user.png" alt="Insomnia update user" width="70%"/> 
 
 ***Delete a User*** <br>
 URL Path: `http://localhost:8080/user/<int:user_id>` <br>

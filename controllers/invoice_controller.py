@@ -21,8 +21,7 @@ invoice_bp = Blueprint("invoices", __name__,
 
 
 @invoice_bp.route("/<int:invoice_id>", methods=["GET"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to fetch a specific invoice
 def fetch_specific_invoice(event_id, attending_id, invoice_id):
     try:
@@ -62,8 +61,7 @@ def fetch_specific_invoice(event_id, attending_id, invoice_id):
 
 
 @invoice_bp.route("/")
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to fetch all invoices for a specific event and attending ID
 def fetch_event_attending(event_id, attending_id):
     try:
@@ -105,8 +103,7 @@ def fetch_event_attending(event_id, attending_id):
 
 
 @invoice_bp.route("/", methods=["POST"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to create a new invoice
 def new_invoice(event_id, attending_id):
     try:
@@ -150,8 +147,7 @@ def new_invoice(event_id, attending_id):
 
 
 @invoice_bp.route("/<int:invoice_id>", methods=["DELETE"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to delete an invoice
 def delete_invoice(event_id, attending_id, invoice_id):
     try:
@@ -204,8 +200,7 @@ def delete_invoice(event_id, attending_id, invoice_id):
 
 
 @invoice_bp.route("/<int:invoice_id>", methods=["PUT", "PATCH"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to update an invoice
 def update_invoice(invoice_id, event_id, attending_id):
     try:
@@ -236,23 +231,23 @@ def update_invoice(invoice_id, event_id, attending_id):
         invoice = db.session.scalar(stmt)
         # If invoice exists
         if invoice:
-            # check whether the user is an admin
+            # Check whether the user is an admin
             is_admin = authorise_as_admin()
-            # if the user is not an admin they cannot update the invoice
+            # If the user is not an admin they cannot update the invoice
             if not is_admin:
-                # return error message to client and status code
+                # Return error message to client and status code
                 return {"error": "User unorthorised to perform this request"}, 403
-            # update the invoice data or keep the same if no data is passed
+            # Update the invoice data or keep the same if no data is passed
             invoice.total_cost = body_data.get(
                 "total_cost") or invoice.total_cost
             invoice.timestamp = body_data.get("timestamp") or invoice.timestamp
-            # session already added so just need to commit
+            # Session already added so just need to commit
             db.session.commit()
-            # return updated invoice data and status code
+            # Return updated invoice data and status code
             return invoice_schema.dump(invoice), 200
-        # if event, attending or invoice does not exist
+        # If event, attending or invoice does not exist
         else:
-            # return error message to client and status code
+            # Return error message to client and status code
             return {"error": f"Invoice with id '{invoice_id}' not found for event with id '{event_id}' and attending id '{attending_id}'"}, 404
     except Exception as e:
         # Handle unexpected errors

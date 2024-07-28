@@ -12,7 +12,7 @@ from models.post import Post
 from utils import authorise_as_admin
 
 
-# /<int:post_id>/comments
+# Create a Blueprint for comment-related routes
 comments_bp = Blueprint("comments", __name__,
                         url_prefix="/<int:post_id>/comments")
 
@@ -25,8 +25,7 @@ comments_bp = Blueprint("comments", __name__,
 
 
 @comments_bp.route("/<int:comment_id>")
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to fetch a specific comment
 def fetch_single_comment(post_id, comment_id):
     try:
@@ -59,8 +58,7 @@ def fetch_single_comment(post_id, comment_id):
 
 
 @comments_bp.route("/")
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to fetch all comments on a post
 def fetch_comments(post_id):
     try:
@@ -87,8 +85,7 @@ def fetch_comments(post_id):
 
 
 @comments_bp.route("/", methods=["POST"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to create a comment
 def create_comment(post_id):
     try:
@@ -125,8 +122,7 @@ def create_comment(post_id):
 
 
 @comments_bp.route("/<int:comment_id>", methods=["DELETE"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to delete a comment
 def delete_comment(post_id, comment_id):
     try:
@@ -160,8 +156,7 @@ def delete_comment(post_id, comment_id):
 
 
 @comments_bp.route("/<int:comment_id>", methods=["PUT", "PATCH"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to update a comment
 def update_comment(post_id, comment_id):
     try:

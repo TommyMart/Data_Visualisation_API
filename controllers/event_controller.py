@@ -20,16 +20,17 @@ events_bp.register_blueprint(attending_bp)
 
 
 @events_bp.route("/")
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to fetch all events
 def get_all_events():
     try:
-        # Get all records from the events table ordered by date in descending order
+        # Get all records from the events table ordered by date in 
+        # descending order
         stmt = db.select(Event).order_by(Event.date.desc())
         # Retrieves the query results as individual 'Event' objects
         events = db.session.scalars(stmt)
-        # Serialises the list of "Event" objects into JSON so that it can be returned to client
+        # Serialises the list of "Event" objects into JSON so that it can be 
+        # returned to client
         return events_schema.dump(events), 200
     except Exception as e:
         # Handle unexpected errors
@@ -40,8 +41,7 @@ def get_all_events():
 
 
 @events_bp.route("/<int:event_id>")
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to fetch a single event
 def get_single_event(event_id):
     try:
@@ -66,8 +66,7 @@ def get_single_event(event_id):
 
 
 @events_bp.route("/search/<string:event_title>")
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to search for events by title
 def search_event_by_name(event_title):
     try:
@@ -94,8 +93,7 @@ def search_event_by_name(event_title):
 
 
 @events_bp.route("/", methods=["POST"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to create a new event
 def create_event():
     try:
@@ -123,8 +121,7 @@ def create_event():
 
 
 @events_bp.route("/<int:event_id>", methods=["DELETE"])
-# Protect the route with JWT
-@jwt_required()
+@jwt_required() # Protect the route with JWT
 # Define the function to delete an event
 def delete_event(event_id):
     try:
@@ -134,9 +131,9 @@ def delete_event(event_id):
         event = db.session.scalar(stmt)
         # If event exists
         if event:
-            # check whether the user is an admin
+            # Check whether the user is an admin
             is_admin = authorise_as_admin()
-            # if the user is not the owner of the post
+            # If the user is not the owner of the post
             if not is_admin and str(event.event_admin_id) != get_jwt_identity():
                 return {"error": "User unauthorized to perform this request"}, 403
             # Delete the event from the session
@@ -147,7 +144,7 @@ def delete_event(event_id):
             return {"message": f"Event '{event.title}' deleted successfully"}, 200
         # If event does not exist
         else:
-            # Return an error message and status code 404
+            # Return an error message and status code
             return {"error": f"Event with id {event_id} not found"}, 404
     except Exception as e:
         # Handle unexpected errors
@@ -188,7 +185,7 @@ def update_event(event_id):
             return event_schema.dump(event), 200
         # If event does not exist
         else:
-            # Return an error message and status code 404
+            # Return an error message and status code
             return {"error": f"Event {event_id} not found"}, 404
     except Exception as e:
         # Handle unexpected errors

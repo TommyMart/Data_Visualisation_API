@@ -50,7 +50,7 @@ def get_user(user_id):
             id=user_id)  # Prepare SQL query to fetch user by ID
         user = db.session.scalar(stmt)  # Execute the query
         if user:
-            # Return the user with status code 200
+            # Return the user with status code
             return user_schema.dump(user), 200
         else:
             # Return error if user not found
@@ -77,7 +77,7 @@ def search_user_by_name(user_name):
         # Execute the query and fetch all matching users
         users = db.session.scalars(stmt).all()
         if users:
-            # Return the users with status code 200
+            # Return the users with status code
             return users_schema.dump(users), 200
         else:
             # Return error if no users found
@@ -116,7 +116,7 @@ def update_user(user_id):
                 user.password = bcrypt.generate_password_hash(
                     password).decode("utf-8")  # Hash and update password
             db.session.commit()  # Commit changes to the database
-            # Return updated user with status code 200
+            # Return updated user with status code
             return user_schema.dump(user), 200
         else:
             # Return error if user does not exist
@@ -147,7 +147,7 @@ def delete_user(user_id):
                 return {"error": "User unauthorized to perform this request"}, 403
             db.session.delete(user)  # Delete the user
             db.session.commit()  # Commit changes to the database
-            # Return success message with status code 200
+            # Return success message with status code 
             return {"message": f"User '{user.name}' deleted successfully"}, 200
         else:
             # Return error if user not found

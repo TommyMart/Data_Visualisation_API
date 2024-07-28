@@ -29,7 +29,7 @@ def fetch_all_likes_on_post(post_id):
             post_id=post_id)  # Prepare SQL query to fetch likes by post ID
         likes = db.session.scalars(stmt)  # Execute the query
         if likes:
-            # Return the likes with status code 200
+            # Return the likes with status code 
             return likes_schema.dump(likes), 200
         else:
             # Return error if post not found
@@ -59,7 +59,7 @@ def create_like(post_id):
             )
             db.session.add(like)  # Add the new like to the session
             db.session.commit()  # Commit changes to the database
-            # Return the created like with status code 201
+            # Return the created like with status code 
             return like_schema.dump(like), 201
         else:
             # Return error if post not found
@@ -90,7 +90,7 @@ def delete_like(post_id, like_id):
                 return {"error": "User unauthorized to perform this request"}, 403
             db.session.delete(like)  # Delete the like
             db.session.commit()  # Commit changes to the database
-            # Return success message with status code 200
+            # Return success message with status code 
             return {"message": f"Like '{like.id}' deleted successfully"}, 200
         else:
             # Return error if like not found

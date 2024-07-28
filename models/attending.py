@@ -80,15 +80,14 @@ class AttendingSchema(ma.Schema):
         # allowed per user per event
         @validates("total_tickets")
         def validate_max_tickets(self, value):
-            """
-            Validate the total number of tickets to ensure it does not exceed the maximum 
-            allowed per user per event.
-            """
+            # Validate the total number of tickets to ensure it does not exceed the 
+            # maximum allowed per user per event.
             if value > MAX_TICKETS_PER_USER:
                 raise ValidationError(
                     f"Maximum {
                         MAX_TICKETS_PER_USER} tickets allowed per user per event"
                 )
+                # Validate the total number of tickets to ensure it is at least 1
             if value < 1:
                 # Ensure the number of tickets is at least 1
                 raise ValidationError("Please enter a valid number of tickets")
@@ -96,14 +95,14 @@ class AttendingSchema(ma.Schema):
         # Function to validate the number of tickets per seat section
         @validates("seat_section")
         def limit_general_admission(self, value):
-            """
-            Validate the number of General Admission tickets to ensure the limit is not exceeded.
-            """
+            # Validate the number of General Admission tickets to ensure the limit 
+            # is not exceeded.
             if value == VALID_SEAT_SECTIONS[0]:
                 count = db.session.scalar(
                     db.select(db.func.count()).select_from(Attending).filter_by(
                         seat_section=VALID_SEAT_SECTIONS[0])
                 )
+                # Ensure the number of General Admission tickets does not exceed the limit
                 if count > 5:
                     raise ValidationError(
                         "No more General Admission tickets available, please select a different seat section"
@@ -111,14 +110,14 @@ class AttendingSchema(ma.Schema):
 
         @validates("seat_section")
         def limit_section_A(self, value):
-            """
-            Validate the number of Section A tickets to ensure the limit is not exceeded.
-            """
+            # Validate the number of Section A tickets to ensure the limit 
+            # is not exceeded.
             if value == VALID_SEAT_SECTIONS[1]:
                 count = db.session.scalar(
                     db.select(db.func.count()).select_from(Attending).filter_by(
                         seat_section=VALID_SEAT_SECTIONS[1])
                 )
+                # Ensure the number of Section A tickets does not exceed the limit
                 if count > 5:
                     raise ValidationError(
                         "No more Section A tickets available, please select a different seat section"
@@ -126,14 +125,14 @@ class AttendingSchema(ma.Schema):
 
         @validates("seat_section")
         def limit_section_B(self, value):
-            """
-            Validate the number of Section B tickets to ensure the limit is not exceeded.
-            """
+            # Validate the number of Section B tickets to ensure the limit is not
+            # exceeded.
             if value == VALID_SEAT_SECTIONS[2]:
                 count = db.session.scalar(
                     db.select(db.func.count()).select_from(Attending).filter_by(
                         seat_section=VALID_SEAT_SECTIONS[2])
                 )
+                # Ensure the number of Section B tickets does not exceed the limit
                 if count > 5:
                     raise ValidationError(
                         "No more Section B tickets available, please select a different seat section"
@@ -141,14 +140,14 @@ class AttendingSchema(ma.Schema):
 
         @validates("seat_section")
         def limit_section_C(self, value):
-            """
-            Validate the number of Section C tickets to ensure the limit is not exceeded.
-            """
+            # Validate the number of Section C tickets to ensure the limit is 
+            # not exceeded.
             if value == VALID_SEAT_SECTIONS[3]:
                 count = db.session.scalar(
                     db.select(db.func.count()).select_from(Attending).filter_by(
                         seat_section=VALID_SEAT_SECTIONS[3])
                 )
+                # Ensure the number of Section C tickets does not exceed the limit
                 if count > 5:
                     raise ValidationError(
                         "No more Section C tickets available, please select a different seat section"
@@ -156,14 +155,14 @@ class AttendingSchema(ma.Schema):
 
         @validates("seat_section")
         def limit_vip(self, value):
-            """
-            Validate the number of VIP tickets to ensure the limit is not exceeded.
-            """
+            # Validate the number of VIP tickets to ensure the limit is 
+            # not exceeded.
             if value == VALID_SEAT_SECTIONS[4]:
                 count = db.session.scalar(
                     db.select(db.func.count()).select_from(Attending).filter_by(
                         seat_section=VALID_SEAT_SECTIONS[4])
                 )
+                # Ensure the number of VIP tickets does not exceed the limit
                 if count > 2:
                     raise ValidationError(
                         "No more VIP tickets available, please select a different seat section"

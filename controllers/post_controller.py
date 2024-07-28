@@ -33,7 +33,7 @@ def get_all_posts():
         stmt = db.select(Post).order_by(
             Post.date.desc())  # Prepare SQL query to fetch all posts
         posts = db.session.scalars(stmt)  # Execute the query
-        # Return the posts with status code 200
+        # Return the posts with status code 
         return posts_schema.dump(posts), 200
     except Exception as e:
         # Handle unexpected errors
@@ -54,7 +54,7 @@ def get_single_post(post_id):
             id=post_id)  # Prepare SQL query to fetch post by ID
         post = db.session.scalar(stmt)  # Execute the query
         if post:
-            # Return the post with status code 200
+            # Return the post with status code 
             return post_schema.dump(post), 200
         else:
             # Return error if post not found
@@ -87,7 +87,7 @@ def new_post():
             )
             db.session.add(post)  # Add the new post to the session
             db.session.commit()  # Commit changes to the database
-            # Return the created post with status code 201
+            # Return the created post with status code 
             return post_schema.dump(post), 201
         except Exception as e:
             # Handle unexpected errors
@@ -118,7 +118,7 @@ def delete_post(post_id):
                 return {"error": "User unauthorized to perform this request"}, 403
             db.session.delete(post)  # Delete the post
             db.session.commit()  # Commit changes to the database
-            # Return success message with status code 200
+            # Return success message with status code 
             return {"message": f"Post '{post.title}' deleted successfully"}, 200
         else:
             # Return error if post not found
@@ -155,7 +155,7 @@ def update_post(post_id):
             post.location = body_data.get("location") or post.location
             post.image_url = body_data.get("image_url") or post.image_url
             db.session.commit()  # Commit changes to the database
-            # Return the updated post with status code 200
+            # Return the updated post with status code 
             return post_schema.dump(post), 200
         else:
             # Return error if post not found
